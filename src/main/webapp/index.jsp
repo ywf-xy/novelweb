@@ -51,7 +51,7 @@
                 <c:if test="${user_reader.nick_name!=null}">
                     <dd >
                         <div>
-                            <span><img src="" alt="404"></span>
+                            <span><img src="${pageContext.request.contextPath}/static/user-photo/${user_reader.nick_name}/${user_reader.headimage}" alt="404" id="headimage"></span>
                             <a href="${pageContext.request.contextPath}/reader/getusermsg">欢迎！${user_reader.nick_name}</a>
                             <a href="${pageContext.request.contextPath}/loginAndRegist/loginout">注销</a>
                         </div>

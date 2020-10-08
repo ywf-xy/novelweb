@@ -12,4 +12,6 @@ public interface LoginAndRegistService {
 		public boolean AuthRegist (Author author);
 
 		public boolean ReaderRegist (Reader reader);
+
+		Reader getReaderMsgByName(String nick_name);
 }

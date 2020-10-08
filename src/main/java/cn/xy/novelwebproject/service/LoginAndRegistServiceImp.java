@@ -3,8 +3,11 @@ package cn.xy.novelwebproject.service;
 import cn.xy.novelwebproject.bean.Author;
 import cn.xy.novelwebproject.bean.Reader;
 import cn.xy.novelwebproject.dao.LoginAndRegistMapper;
+import cn.xy.novelwebproject.utils.JedisUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
 
 @Service("loginAndRegistService")
 public class LoginAndRegistServiceImp implements LoginAndRegistService {
@@ -43,5 +46,29 @@ public class LoginAndRegistServiceImp implements LoginAndRegistService {
 				}
 				System.out.println(flag);
 				return flag;
+		}
+
+		@Override
+		public Reader getReaderMsgByName(String nick_name) {
+				Jedis jedis = JedisUtils.getConnect();
+				String key = "reader:"+nick_name;
+				Reader reader = null;
+				try {
+						if (jedis.exists(key)) {
+								String value = jedis.get(key);
+								reader = new ObjectMapper().readValue(value, Reader.class);
+						} else {
+								reader = loginAndRegistMapper.selectByReaderKey(nick_name);
+
+								String json = new ObjectMapper().writeValueAsString(reader);
+								jedis.setex(key, 60 * 60, json);
+
+						}
+				} catch (Exception e) {
+						e.printStackTrace();
+				} finally {
+						JedisUtils.close(jedis);
+				}
+				return reader;
 		}
 }

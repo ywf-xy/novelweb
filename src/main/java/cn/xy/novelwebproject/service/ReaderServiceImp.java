@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
+import java.io.IOException;
+
 @Service
 public class ReaderServiceImp implements ReaderService {
 		@Autowired
@@ -40,12 +42,30 @@ public class ReaderServiceImp implements ReaderService {
 		}
 
 		@Override
-		public int SetUserHeadImg(String nick_name,String imgname) {
-				int i=0;
-				if ("".equals(nick_name)||"".equals(imgname)||nick_name==null||imgname==null){
-						i=-1;
+		public int SetUserHeadImg(String nick_name, String imgname) {
+				int i = 0;
+				String keu = "reader:" + nick_name;
+				if ("".equals(nick_name) || "".equals(imgname) || nick_name == null || imgname == null) {
+						i = -1;
+				} else {
+						i = readerMapper.SetUserHeadImg(imgname, nick_name);
+						Jedis jedis = JedisUtils.getConnect();
+						String value = jedis.get(keu);
+						try {
+								Reader reader = new ObjectMapper().readValue(value, Reader.class);
+								reader.setHeadimage(imgname);
+								int time = Math.toIntExact(jedis.ttl(keu));
+								if (time == -1) {
+										time = 60 * 60;
+								}
+								jedis.setex(keu, time, new ObjectMapper().writeValueAsString(reader));
+						} catch (IOException e) {
+								e.printStackTrace();
+						} finally {
+								JedisUtils.close(jedis);
+						}
 				}
-				i = readerMapper.SetUserHeadImg(imgname,nick_name);
+
 				return i;
 		}
 

@@ -18,10 +18,11 @@
         <result column="monthly_tickets" jdbcType="INTEGER" property="monthly_tickets"/>
         <result column="vip" jdbcType="INTEGER" property="vip"/>
         <result column="access" jdbcType="VARCHAR" property="access"/>
+        <result column="headimage" jdbcType="VARCHAR" property="headimage"/>
     </resultMap>
 
     <select id="selectByPrimaryKey" parameterType="String" resultMap="BaseResultMap">
-        SELECT readers.nick_name,readers.sex,readers.birthday,readers.intro,readers.address,readers.fans,readers.account_balance,readers.monthly_tickets,readers.vip,readers.access
+        SELECT readers.nick_name,readers.sex,readers.birthday,readers.intro,readers.address,readers.fans,readers.account_balance,readers.monthly_tickets,readers.vip,readers.access,readers.headimage
         from readers where nick_name = #{nick_name}
     </select>
 

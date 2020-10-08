@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: 33077
-  Date: 2020/7/25 0025
-  Time: 8:54
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -63,8 +57,8 @@
 						<c:if test="${user_reader.nick_name!=null}">
 								<dd>
 										<div>
-												<span><img src="" alt="404"></span>
-												<a href="">${user_reader.nick_name}</a>
+												<span><img src="${pageContext.request.contextPath}/static/user-photo/${user_reader.nick_name}/${user_reader.headimage}" alt="404" id="headimage"></span>
+												<a href="${pageContext.request.contextPath}/reader/getusermsg">欢迎！${user_reader.nick_name}</a>
 												<a href="${pageContext.request.contextPath}/loginAndRegist/loginout">注销</a>
 										</div>
 								</dd>

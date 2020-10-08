@@ -44,25 +44,15 @@ public class ReaderServiceImpTest extends BaseTest {
 				System.out.println(reader);
 		}
 		@Test
-		public void FingUserHeadImg(){
+		public void UpdateReaderMsg(){
 				String imgname = "sdadadaddad";
 				String username = "ywf";
 				Jedis jedis = JedisUtils.getConnect();
 				String key = "reader:"+username;
 				boolean flag =true;
-				//1 检查redis有没有用户数据
-				if(jedis.exists(key)){
-						//如果有值，查看用户头像o
-						//将redis用户信息转换为对象
-
-						//判断是否有头像信息，有返回，没有从数据库查
-
-
-				}
-				if (flag){
-						//从数据库查询用户头像信息
-
-				}
+				 //更新读者信息
+				int time = Math.toIntExact(jedis.ttl(key));
+				System.out.println(time);
 		}
 		@Test
 		public void SetUserHeadImg(){

@@ -76,6 +76,7 @@ public class LoginAndRegistController {
 		public Msg Readerlogin (Reader reader, HttpServletRequest request, HttpSession session) {
 				Msg msg = new Msg(true);
 				if (loginAndRegistService.ReaderLogin(reader)) {
+						reader = loginAndRegistService.getReaderMsgByName(reader.getNick_name());
 						session.setAttribute("user_reader", reader);
 						//System.out.println(referUrl);
 						msg.setMessage(referUrl);

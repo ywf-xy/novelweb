@@ -37,6 +37,7 @@ public class ReaderController {
 
 				//根据用户名从数据库中查用用户的所有信息
 				Reader reader = readerService.getReaderByName(nick_name);
+
 				request.setAttribute("readermsg", reader);
 				return "reader";
 		}
@@ -89,6 +90,11 @@ public class ReaderController {
 								if (code==-1){
 										msg.setFlag(false);
 										msg.setMessage("参数错误！请检查是否登录！");
+								}else if(code==0){
+										msg.setFlag(false);
+										msg.setMessage("上传失败！请稍后重试！");
+								}else{
+										request.getSession().setAttribute("user_reader",readerService.getReaderByName(username));
 								}
 						} catch (Exception e) {
 								e.printStackTrace();

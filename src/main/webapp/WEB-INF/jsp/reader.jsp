@@ -11,8 +11,8 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/base.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/reader.css"/>
 
-    <script src="${pageContext.request.contextPath}/static/js/jquery-3.4.1.js" ></script>
-    <script src="${pageContext.request.contextPath}/static/js/jquery-form.js" ></script>
+    <script src="${pageContext.request.contextPath}/static/js/jquery-3.4.1.js"></script>
+    <script src="${pageContext.request.contextPath}/static/js/jquery-form.js"></script>
     <script src="${pageContext.request.contextPath}/static/js/base.js" type="text/javascript"
             charset="UTF-8"></script>
     <script src="${pageContext.request.contextPath}/static/js/reader.js" type="text/javascript"
@@ -58,8 +58,8 @@
             <c:if test="${user_reader.nick_name!=null}">
                 <dd>
                     <div>
-                        <span><img src="" alt="404"></span>
-                        <a href="">${user_reader.nick_name}</a>
+                        <span><img src="${pageContext.request.contextPath}/static/user-photo/${user_reader.nick_name}/${user_reader.headimage}" alt="404" id="headimage"></span>
+                        <a href="${pageContext.request.contextPath}/reader/getusermsg">欢迎！${user_reader.nick_name}</a>
                         <a href="${pageContext.request.contextPath}/loginAndRegist/loginout">注销</a>
                     </div>
                 </dd>
@@ -109,9 +109,14 @@
                 <div class="group1_topbox">
                     <!--头像-->
                     <div class="user_picture">
-                        <a href="" class="user_picture_a"><img
-                                src="${pageContext.request.contextPath}/static/picture/default_user.png" alt=""
-                                class="user_img"/></a>
+                        <a href="" class="user_picture_a">
+                            <c:if test="${readermsg.headimage!=null}">
+                                <img src="${pageContext.request.contextPath}/static/user-photo/${readermsg.nick_name}/${readermsg.headimage}" alt="404"  class="user_img"/>
+                            </c:if>
+                            <c:if test="${readermsg.headimage==null}">
+                                <img src="${pageContext.request.contextPath}/static/picture/default_user.png" alt="404" class="user_img"/></a>
+                            </c:if>
+
                         <!--是否为vip-->
                         <a href=""></a>
                     </div>
@@ -253,12 +258,20 @@
                             </dl>
                         </div>
                         <div id="tabTarget2" style="display: none;">
-                            <img src="${pageContext.request.contextPath}/static/picture/default_user.png" alt="404"/>
+                            <c:if test="${readermsg.headimage!=null}">
+                                <img src="${pageContext.request.contextPath}/static/user-photo/${readermsg.nick_name}/${readermsg.headimage}"
+                                     alt="404"/>
+                            </c:if>
+                            <c:if test="${readermsg.headimage==null}">
+                                <img src="${pageContext.request.contextPath}/static/picture/default_user.png"
+                                     alt="404"/>
+                            </c:if>
                             <div class="attention_text">
                                 <p>支持jpg、gif、png格式图片，上传文件大小不超过10MB。</p>
                             </div>
                             <div>
-                                <form action="/wfRead/reader/imgupload" method="post" enctype="multipart/form-data" id="fileupform">
+                                <form action="/wfRead/reader/imgupload" method="post" enctype="multipart/form-data"
+                                      id="fileupform">
                                     <input type="file" class="fileup" name="imgfile" value="上传头像"/>
                                 </form>
 
@@ -275,7 +288,7 @@
                             </div>
                             <button class="img_sub" id="imgupload">上传</button>
                         </div>
-                        <div  id="tabTarget3" style="display: none;">
+                        <div id="tabTarget3" style="display: none;">
                             旧的密码：<input type="password" id="oldpwd"><span id="pwd_erro"></span><br>
                             新的密码：<input type="text" id="newpwd"><br>
                             确认密码：<input type="text" id="confirmpwd"><br>
