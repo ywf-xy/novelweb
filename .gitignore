@@ -1,0 +1,5 @@
+*.class
+/target
+/src/main/webapp/static/picture
+/src/main/webapp/static/txt
+/.idea

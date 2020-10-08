@@ -1,0 +1,299 @@
+a{
+    text-decoration:none;
+}
+ul{
+    padding-inline-start: 0px;
+    list-style: none;
+}
+dl dd{
+    margin-left: 0px;
+}
+h2{
+    font-size: 38px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+body{
+    background-color: #fff;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.Main{
+    width: 1360px;
+    margin: 0 auto;
+    overflow: hidden;
+    margin-bottom: 50px;
+}
+.Mina_left{
+    width: 933px;
+    float: left;
+    border: 1px solid #c5ddf5 ;
+    OVERFLOW: hidden;
+}
+.Mian_right{
+    width: 390px;
+    BORDER-RIGHT: #c1dbf8 1px solid;
+    PADDING-RIGHT: 5px;
+    BORDER-TOP: #c1dbf8 1px solid;
+    MARGIN-TOP: 5px;
+    margin-left: 8px;
+    DISPLAY: inline;
+    PADDING-LEFT: 13px;
+    BACKGROUND: #e6f4fe;
+    PADDING-BOTTOM: 9px;
+    OVERFLOW: hidden;
+    BORDER-LEFT: #c1dbf8 1px solid;
+    MARGIN-RIGHT: 2px;
+    PADDING-TOP: 9px;
+    BORDER-BOTTOM: #c1dbf8 1px solid;
+    float: right;
+    overflow: hidden;
+}
+#Mian_left_head{
+    width: 100%;
+    height: 51px;
+    float: left;
+    text-align: center;
+    background: url(../picture/top_bg.jpg)no-repeat center;
+    background-size:cover;
+}
+#Mian_left_body{
+    width: 100%;
+    float: left;
+}
+.book_list{
+    width: 100%;
+    float: left;
+}
+.book_list dl{
+    width: 448px;
+    height: 350px;
+    float: left;
+    padding-left: 18px;
+    padding-top: 15px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.book_list dl dt{
+    margin-bottom: 8px;
+}
+.book_list dl dt a{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 28px;
+    COLOR: #005782;
+    FONT-FAMILY: Microsoft YaHei,SimSun,Arial, Helvetica, sans-serif;
+}
+.book_list dl dd{
+    font-size:12px;
+}
+.book_list dl dd:nth-child(2){
+    float: left;
+    color: red;
+    overflow: hidden;
+    width: 245px;
+    height: 306px;
+    text-indent: 0px;
+}
+.book_list dl dd:nth-child(n+3){
+    FLOAT: right;
+    OVERFLOW: hidden;
+    WIDTH: 185px;
+    HEIGHT: 51px;
+}
+.book_list dl a img{
+    width: 245px;
+    height: 306px;
+}
+#fy{
+    BORDER-TOP: #ccc 1px dashed;
+    DISPLAY: inline;
+    FLOAT: left;
+    MARGIN: 8px 0px 8px 10px;
+    OVERFLOW: hidden;
+    WIDTH: 100%;
+    HEIGHT: 2px;
+}
+.page_nav{
+    width: 100%;
+    float: left;
+}
+.page_nav_content{
+    overflow: hidden;
+}
+.page_nav_list{
+    margin-left: 90.5px;
+    width: auto;
+    float: left;
+}
+.page_nav_list li{
+    display: inline-block;
+    padding: 2px 8px;
+    border: 1px solid #c5ddf5;
+}
+.page_nav_list li a{
+    cursor: pointer;
+}
+li .active_page{
+    color: #51ccff;
+}
+.page_opt{
+    float: left;
+    margin-left: 5px;
+    margin-bottom: 16px;
+    margin-top: 16px;
+    padding-top: 2px;
+}
+.current_page{
+    width: 50px;
+    text-align: center;
+}
+.all_page{
+    width: 50px;
+    text-align: center;
+}
+.rank_tittle{
+    background: url(../picture/rank_headbg.jpg) no-repeat center;
+    background-size:cover;
+    text-align: center;
+    OVERFLOW: hidden;
+    FONT-WEIGHT: bold;
+    LINE-HEIGHT: 30px;
+    HEIGHT: 30px;
+    color: white;
+    width: 390px;
+}
+.rank_list{
+    PADDING-RIGHT: 10px;
+    PADDING-LEFT: 10px;
+    FLOAT: left;
+
+    PADDING-BOTTOM: 10px;
+    OVERFLOW: hidden;
+    WIDTH: 343px;
+    PADDING-TOP: 10px;
+}
+.rank_list_ul li{
+    OVERFLOW: hidden;
+    WIDTH: 300px;
+    COLOR: #005782;
+    LINE-HEIGHT: 34px;
+    HEIGHT: 34px;
+    margin: 0 auto;
+    margin-top: 5px;
+}
+.rank_list_ul li a{
+    margin-left: 10px;
+    text-decoration: none;
+}
+.seq1{
+    background: url(../picture/sp1.gif);
+    MARGIN-TOP: 8px;
+    DISPLAY: block;
+    FLOAT: left;
+    OVERFLOW: hidden;
+    WIDTH: 14px;
+    MARGIN-RIGHT: 10px;
+    HEIGHT: 14px;
+    background-size: 14px;
+}
+.seq2{
+    background: url(../picture/2.gif);
+    MARGIN-TOP: 8px;
+    DISPLAY: block;
+    FLOAT: left;
+    OVERFLOW: hidden;
+    WIDTH: 14px;
+    MARGIN-RIGHT: 10px;
+    HEIGHT: 14px;
+    background-size: 14px;
+}
+.seq3{
+    background: url(../picture/3.gif);
+    MARGIN-TOP: 8px;
+    DISPLAY: block;
+    FLOAT: left;
+    OVERFLOW: hidden;
+    WIDTH: 14px;
+    MARGIN-RIGHT: 10px;
+    HEIGHT: 14px;
+    background-size: 14px;
+}
+.seq4{
+    background: url(../picture/4.gif);
+    MARGIN-TOP: 8px;
+    DISPLAY: block;
+    FLOAT: left;
+    OVERFLOW: hidden;
+    WIDTH: 14px;
+    MARGIN-RIGHT: 10px;
+    HEIGHT: 14px;
+    background-size: 14px;
+}
+.seq5{
+    background: url(../picture/5.gif);
+    MARGIN-TOP: 8px;
+    DISPLAY: block;
+    FLOAT: left;
+    OVERFLOW: hidden;
+    WIDTH: 14px;
+    MARGIN-RIGHT: 10px;
+    HEIGHT: 14px;
+    background-size: 14px;
+}
+.seq6{
+    background: url(../picture/6.gif);
+    MARGIN-TOP: 8px;
+    DISPLAY: block;
+    FLOAT: left;
+    OVERFLOW: hidden;
+    WIDTH: 14px;
+    MARGIN-RIGHT: 10px;
+    HEIGHT: 14px;
+    background-size: 14px;
+}
+.seq7{
+    background: url(../picture/7.gif);
+    MARGIN-TOP: 8px;
+    DISPLAY: block;
+    FLOAT: left;
+    OVERFLOW: hidden;
+    WIDTH: 14px;
+    MARGIN-RIGHT: 10px;
+    HEIGHT: 14px;
+    background-size: 14px;
+}
+.seq8{
+    background: url(../picture/8.gif);
+    MARGIN-TOP: 8px;
+    DISPLAY: block;
+    FLOAT: left;
+    OVERFLOW: hidden;
+    WIDTH: 14px;
+    MARGIN-RIGHT: 10px;
+    HEIGHT: 14px;
+    background-size: 14px;
+}
+.seq9{
+    background: url(../picture/9.gif);
+    MARGIN-TOP: 8px;
+    DISPLAY: block;
+    FLOAT: left;
+    OVERFLOW: hidden;
+    WIDTH: 14px;
+    MARGIN-RIGHT: 10px;
+    HEIGHT: 14px;
+    background-size: 14px;
+}
+.seq10{
+    background: url(../picture/10.gif);
+    MARGIN-TOP: 8px;
+    DISPLAY: block;
+    FLOAT: left;
+    OVERFLOW: hidden;
+    WIDTH: 14px;
+    MARGIN-RIGHT: 10px;
+    HEIGHT: 14px;
+    background-size: 14px;
+}

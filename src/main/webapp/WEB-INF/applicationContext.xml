@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mybatis="http://mybatis.org/schema/mybatis-spring" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:component-scan base-package="cn.xy.novelwebproject" use-default-filters="true">
+        <!--不扫描Controller  springmvc.xml中配置只扫描controller -->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="username" value="root"/><!--连接数据库用户名-->
+        <property name="password" value="123456"/><!--连接数据库密码-->
+        <property name="url" value="jdbc:mysql://localhost:3306/novelweb?characterEncoding=UTF-8&amp;useUnicode=true&amp;serverTimezone=UTC&amp;useSSL=false"/>
+        <!--连接数据库url-->
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/><!--数据库驱动名-->
+    </bean>
+
+    <!--  事务管理器 完成手动事务管理-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--配置mybatis-->
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="mapperLocations" value="classpath:cn/xy/novelwebproject/dao/*.xml"/>
+        <property name="configuration">
+            <bean class="org.apache.ibatis.session.Configuration">
+                <property name="mapUnderscoreToCamelCase" value="true"/>
+                <property name="aggressiveLazyLoading" value="false"/>
+                <property name="cacheEnabled" value="true"/>
+                <property name="lazyLoadingEnabled" value="true"/>
+            </bean>
+        </property>
+        <property name="plugins">
+            <array>
+
+            </array>
+        </property>
+    </bean>
+
+    <mybatis:scan base-package="cn.xy.novelwebproject.dao"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+</beans>

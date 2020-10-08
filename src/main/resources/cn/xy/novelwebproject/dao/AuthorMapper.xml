@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.xy.novelwebproject.dao.AuthorMapper">
+    <resultMap id="allAuth" type="cn.xy.novelwebproject.bean.Author">
+        <id property="nick_name" column="nick_name"/>
+        <result property="sex" column="sex"/>
+        <result property="subscriptions" column="subscriptions"/>
+        <result property="collections" column="collections"/>
+        <result property="concerns" column="concerns"/>
+        <result property="fans" column="fans"/>
+        <collection property="footmark" ofType="cn.xy.novelwebproject.bean.Footmarks">
+            <result property="user_name" column="user_name"/>
+            <result property="novle_name" column="novle_name"/>
+            <result property="visit_time" column="visit_time"/>
+        </collection>
+        <collection property="works" ofType="cn.xy.novelwebproject.bean.Novel">
+            <id property="book_name" column="book_name"/>
+            <result property="book_author" column="book_author"/>
+            <result property="book_state" column="book_state"/>
+            <result property="book_words" column="book_words"/>
+            <result property="book_intro" column="book_intro"/>
+            <result property="update_time" column="update_time"/>
+            <result property="monthly_tickets" column="monthly_tickets"/>
+            <result property="total_hits" column="total_hits"/>
+            <result property="monthly_hits" column="monthly_hits"/>
+            <result property="weekly_hits" column="weekly_hits"/>
+            <result property="daily_hits" column="daily_hits"/>
+            <result property="total_collections" column="total_collections"/>
+            <result property="monthly_collections" column="monthly_collections"/>
+            <result property="weekly_collections" column="weekly_collections"/>
+            <result property="daily_collections" column="daily_collections"/>
+            <result property="downloads" column="downloads"/>
+            <collection property="book_type" ofType="cn.xy.novelwebproject.bean.Noveltype">
+                <id property="id" column="id"/>
+                <result property="typename" column="typename"/>
+            </collection>
+            <collection property="comments" ofType="cn.xy.novelwebproject.bean.Comment">
+                <id property="id" column="cmid"/>
+                <result property="comment_title" column="comment_title"/>
+                <result property="comment_context" column="comment_context"/>
+                <result property="comment_author" column="comment_author"/>
+                <result property="comment_time" column="comment_time"/>
+                <result property="comment_url" column="comment_url"/>
+            </collection>
+            <collection property="book_catalog" ofType="cn.xy.novelwebproject.bean.Catalog">
+                <result property="novale_catalog" column="novale_catalog"/>
+                <result property="novel_name" column="clnovel_name"/>
+                <result property="updatetime" column="updatetime"/>
+            </collection>
+        </collection>
+    </resultMap>
+    <select id="getAllAuth" resultMap="allAuth">
+        SELECT au.nick_name,
+               au.sex,
+               au.subscriptions,
+               au.collections,
+               au.concerns,
+               au.fans,
+               nv.book_name,
+               nv.book_state,
+               fm.user_name,
+               fm.novle_name,
+               fm.visit_time,
+               nv.book_author,
+               nv.book_words,
+               nv.book_intro,
+               nv.update_time,
+               nv.monthly_tickets,
+               nv.total_hits,
+               nv.monthly_hits,
+               nv.weekly_hits,
+               nv.daily_hits,
+               nv.total_collections,
+               nv.monthly_collections,
+               nv.weekly_collections,
+               nv.daily_collections,
+               nv.downloads,
+               cl.novale_catalog,
+               cl.novel_name clnovel_name,
+               cl.updatetime,
+               cm.id         cmid,
+               cm.comment_title,
+               cm.comment_context,
+               cm.comment_author,
+               cm.comment_time,
+               cm.comment_url,
+               ntp.id,
+               ntp.typename
+        FROM author au
+                 LEFT OUTER JOIN
+             author_work_novel awn ON au.works = awn.novel_author
+                 LEFT OUTER JOIN
+             footmarks fm ON fm.user_name = au.footmark
+                 LEFT OUTER JOIN
+             novel nv ON awn.novel_name = nv.book_name
+                 LEFT OUTER JOIN
+             novel_type nt ON nv.book_name = nt.novel_name
+                 LEFT OUTER JOIN
+             noveltype ntp ON nt.type = ntp.typename
+                 LEFT OUTER JOIN
+             catalog cl ON nv.book_catalog = cl.novel_name
+                 LEFT OUTER JOIN
+             novel_comments nc ON nv.comments = nc.novel_name
+                 LEFT OUTER JOIN
+             usercomment cm ON nc.comment_id = cm.id
+    </select>
+    <resultMap id="selectAuthor_map" type="cn.xy.novelwebproject.bean.Author">
+        <id property="nick_name" column="nick_name"/>
+        <result property="sex" column="sex"/>
+        <result property="subscriptions" column="subscriptions"/>
+        <result property="collections" column="collections"/>
+        <result property="concerns" column="concerns"/>
+        <result property="fans" column="fans"/>
+        <result property="password" column="password"/>
+    </resultMap>
+    <select id="selectAuthor" resultMap="selectAuthor_map" parameterType="String">
+        <bind name="nname" value="'%'+_parameter+'%'"/>
+        SELECT a.nick_name,a.sex,a.subscriptions,a.collections,a.concerns,a.fans,a.password from author a
+        <where>
+            <if test="_parameter!=null || _parameter!=''">
+                nick_name LIKE #{nname}
+            </if>
+        </where>
+    </select>
+    <resultMap id="getAuthorWorks_map" type="cn.xy.novelwebproject.bean.Author">
+        <id property="nick_name" column="nick_name"/>
+        <collection property="works" ofType="cn.xy.novelwebproject.bean.Novel">
+            <id property="book_name" column="book_name"/>
+            <result column="book_words" jdbcType="INTEGER" property="book_words"/>
+            <result property="update_time" column="update_time"/>
+        </collection>
+    </resultMap>
+    <select id="getAuthorWorks" parameterType="String" resultMap="getAuthorWorks_map">
+        SELECT author.nick_name, novel.book_name, novel.book_words, novel.update_time
+        FROM author
+                 INNER JOIN novel ON novel.book_author = author.nick_name
+        WHERE author.nick_name = #{nick_name}
+    </select>
+</mapper>

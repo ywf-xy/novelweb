@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:mvn="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+<!--只扫描@Controller注解-->
+    <context:component-scan base-package="cn.xy.novelwebproject.controller"></context:component-scan>
+    <mvc:annotation-driven/>
+    <!--
+  配置视图解析器
+-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <mvc:view-controller path="/xuanhuan" view-name="xuanhuan" ></mvc:view-controller>
+    <mvc:view-controller path="/kehuan" view-name="kehuan" ></mvc:view-controller>
+    <mvc:view-controller path="/lishi" view-name="lishi" ></mvc:view-controller>
+    <mvc:view-controller path="/dushi" view-name="dushi" ></mvc:view-controller>
+    <mvc:view-controller path="/wuxia" view-name="wuxia" ></mvc:view-controller>
+    <mvc:view-controller path="/wangyou" view-name="wangyou" ></mvc:view-controller>
+    <mvc:view-controller path="/rank" view-name="rank" ></mvc:view-controller>
+    <mvc:view-controller path="/classification" view-name="classification" ></mvc:view-controller>
+    <mvc:view-controller path="/novel/book/*" view-name="book"></mvc:view-controller>
+    <mvc:view-controller path="/read/*/*" view-name="book_read"></mvc:view-controller>
+    <!--
+        DispatchServlet不拦截静态资源    http://localhost:8080/springmvc_05_i18n_war_exploded/static/js/jquery.min.js
+    -->
+    <mvc:resources mapping="/static/**" location="/static/" />
+
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <list>
+                <bean class="cn.xy.novelwebproject.converter.DateConverter"></bean>
+            </list>
+        </property>
+        <property name="formatters">
+            <list>
+                <bean class="cn.xy.novelwebproject.converter.DateFormatter"></bean>
+            </list>
+        </property>
+    </bean>
+    <mvc:annotation-driven conversion-service="conversionService" />
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 上传文件大小 -->
+        <property name="maxUploadSize" value="1024000000"/>
+        <!--文件编码格式-->
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+</beans>

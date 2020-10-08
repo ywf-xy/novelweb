@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xy.novelwebproject.dao.LoginAndRegistMapper">
+    <resultMap id="AuthLogin_map" type="cn.xy.novelwebproject.bean.Author">
+        <id property="nick_name" column="nick_name"></id>
+        <result property="password" column="password"></result>
+    </resultMap>
+    <select id="AuthLogin" resultMap="AuthLogin_map" parameterType="cn.xy.novelwebproject.bean.Author">
+        select nick_name,password from author where nick_name=#{nick_name} and password = #{password}
+    </select>
+
+    <resultMap id="ReaderLogin_map" type="cn.xy.novelwebproject.bean.Reader">
+        <id property="nick_name" column="nick_name"></id>
+        <result property="password" column="password"></result>
+    </resultMap>
+    <select id="ReaderLogin" parameterType="cn.xy.novelwebproject.bean.Author" resultMap="ReaderLogin_map">
+        select nick_name,password from readers where nick_name=#{nick_name} and password = #{password}
+    </select>
+
+    <insert id="AuthRegist" parameterType="cn.xy.novelwebproject.bean.Author" keyProperty="nick_name" useGeneratedKeys="true">
+            insert into author (nick_name,password) values (#{nick_name},#{password})
+    </insert>
+
+    <insert id="ReaderRegist" parameterType="cn.xy.novelwebproject.bean.Reader" keyProperty="nick_name" useGeneratedKeys="true">
+            insert into readers (nick_name,password) values (#{nick_name},#{password})
+    </insert>
+</mapper>

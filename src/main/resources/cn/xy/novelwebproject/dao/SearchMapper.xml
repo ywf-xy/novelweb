@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xy.novelwebproject.dao.SearchMapper">
+    <resultMap id="searchBookByAuth_map" type="cn.xy.novelwebproject.bean.Novel">
+        <id column="book_name" property="book_name"></id>
+        <result property="book_author" column="book_author"></result>
+        <result property="book_state" column="book_state"></result>
+        <result property="book_intro" column="book_intro"></result>
+    </resultMap>
+    <select id="searchBookByAuth" parameterType="String" resultMap="searchBookByAuth_map">
+        <bind name="nname" value="'%'+_parameter+'%'"/>
+        SELECT
+            novel.book_name,
+            novel.book_author,
+            novel.book_state,
+            novel.book_intro
+        FROM
+            author
+            INNER JOIN author_work_novel ON author_work_novel.novel_author = author.nick_name
+            INNER JOIN novel ON author_work_novel.novel_name = novel.book_name
+        <where>
+            <choose>
+                <when test="_parameter!=null || _parameter!=''">
+                    author.nick_name LIKE #{nname}
+                </when>
+                <otherwise>
+                    author.nick_name='1'
+                </otherwise>
+            </choose>
+        </where>
+
+    </select>
+
+    <resultMap id="searchBookByName_map" type="cn.xy.novelwebproject.bean.Novel">
+        <id column="book_name" property="book_name"></id>
+        <result property="book_author" column="book_author"></result>
+        <result property="book_intro" column="book_intro"></result>
+        <result property="book_state" column="book_state"></result>
+    </resultMap>
+    <select id="searchBookByName" resultMap="searchBookByName_map" parameterType="String">
+        <bind name="nname" value="'%'+_parameter+'%'"/>
+        select novel.book_name,novel.book_author,novel.book_intro,novel.book_state from novel
+        <where>
+            <choose>
+                <when test="_parameter!=null || _parameter!=''">
+                   novel.book_name LIKE #{nname}
+                </when>
+                <otherwise>
+                    book_name='1'
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+</mapper>

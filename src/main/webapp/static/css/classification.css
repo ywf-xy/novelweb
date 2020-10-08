@@ -1,0 +1,147 @@
+ul{
+    list-style: none;
+    padding-inline-start: 0px;
+}
+a{
+    text-decoration: none;
+    cursor: pointer;
+    color: black;
+}
+a:hover {
+    color: red;
+}
+dl{
+    margin: 0;
+}
+dd{
+    margin-inline-start: 0px;
+}
+.Main_1{
+    width: 1112px;
+    margin: 0 auto;
+    overflow: hidden;
+    margin-bottom: 30px;
+    margin-top: 80px;
+}
+.fllist{
+    border: 1px solid #f5d3c6;
+    padding: 11px 22px;
+    height: auto;
+    overflow: hidden;
+}
+.fllist-item{
+    width: 100%;
+    float: left;
+    line-height: 34px;
+    height: 34px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+.fllist-item dl{
+    width: 100%;
+    height: 34px;
+}
+.fllist-item dt{
+    float: left;
+    font-weight: bold;
+    color: #666;
+}
+.fllist-item dd{
+    width: auto;
+    float: left;
+    margin-right: 14px;
+}
+.fliter_result{
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+.fliter_result span{
+    float: left;
+    font-weight: bold;
+    color: #666;
+}
+.fliter_result{
+    width: 100%;
+    float: left;
+}
+.fb{
+    color: #ff6600;
+    font-weight: bold;
+}
+.searchlist{
+    margin-top: 10px;
+    border: 1px solid #f5d3c6;
+    padding-bottom: 10px;
+    overflow: hidden;
+}
+.alltable table{
+    width: 100%;
+    border-collapse: collapse;
+}
+.alltable thead td{
+    font-weight: bold;
+    line-height: 36px;
+    background: #f7f7f7;
+
+}
+.alltable td{
+    color: #333;
+    padding: 0 10px;
+    text-align: center;
+}
+
+td.td2{
+    width: 70px;
+}
+td.td3{
+    font-size: 14px;
+    text-align: left;
+    width: 140px;
+}
+td.td4{
+    text-align: left;
+}
+.bg1{
+    background: #f7f7f7;
+}
+.page_nav{
+    width: 100%;
+    float: left;
+}
+.page_nav_content{
+    overflow: hidden;
+}
+.page_nav_list{
+    margin-left: 125px;
+    width: auto;
+    float: left;
+}
+.page_nav_list li{
+    display: inline-block;
+    padding: 2px 8px;
+    border: 1px solid #c5ddf5;
+}
+.page_nav_list li a{
+    cursor: pointer;
+}
+li .active_page{
+    color: #51ccff;
+}
+.page_opt{
+    float: left;
+    margin-left: 5px;
+    margin-bottom: 16px;
+    margin-top: 16px;
+    padding-top: 2px;
+}
+.current_page{
+    width: 50px;
+    text-align: center;
+}
+.all_page{
+    width: 50px;
+    text-align: center;
+}
+tbody tr{
+    background-color: #51ccff;
+}
