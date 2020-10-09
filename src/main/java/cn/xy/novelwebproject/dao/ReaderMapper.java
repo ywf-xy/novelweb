@@ -14,4 +14,6 @@ public interface ReaderMapper {
 		Reader selectByPrimaryKey(String nick_name);
 
 		int SetUserHeadImg(String imgname, String nick_name);
+
+		int updataReaderByName(Reader reader);
 }

@@ -58,7 +58,10 @@
             <c:if test="${user_reader.nick_name!=null}">
                 <dd>
                     <div>
-                        <span><img src="${pageContext.request.contextPath}/static/user-photo/${user_reader.nick_name}/${user_reader.headimage}" alt="404" id="headimage"></span>
+                        <span>
+                            <img src="${pageContext.request.contextPath}/static/user-photo/${user_reader.nick_name}/${user_reader.headimage}"
+                                 alt="404" id="headimage">
+                        </span>
                         <a href="${pageContext.request.contextPath}/reader/getusermsg">欢迎！${user_reader.nick_name}</a>
                         <a href="${pageContext.request.contextPath}/loginAndRegist/loginout">注销</a>
                     </div>
@@ -111,11 +114,13 @@
                     <div class="user_picture">
                         <a href="" class="user_picture_a">
                             <c:if test="${readermsg.headimage!=null}">
-                                <img src="${pageContext.request.contextPath}/static/user-photo/${readermsg.nick_name}/${readermsg.headimage}" alt="404"  class="user_img"/>
+                                <img src="${pageContext.request.contextPath}/static/user-photo/${readermsg.nick_name}/${readermsg.headimage}"
+                                     alt="404" class="user_img"/>
                             </c:if>
                             <c:if test="${readermsg.headimage==null}">
-                                <img src="${pageContext.request.contextPath}/static/picture/default_user.png" alt="404" class="user_img"/></a>
-                            </c:if>
+                            <img src="${pageContext.request.contextPath}/static/picture/default_user.png" alt="404"
+                                 class="user_img"/></a>
+                        </c:if>
 
                         <!--是否为vip-->
                         <a href=""></a>
@@ -238,19 +243,19 @@
                     <div class="content">
                         <div id="tabTarget1">
                             <dl>
-                                <dd><label>昵称：</label><input type="text" value="${readermsg.nick_name}"/><span
-                                        class="error"></span></dd>
+                                <dd><label>昵称：</label><input type="text" id="nick_name" name="nick_name" value="${readermsg.nick_name}"/><span
+                                        id="nick_nameerror" class="erro"></span></dd>
                                 <dd><label>性别：</label><input type="radio" value="男" checked="checked" name="sex"/>男&nbsp;&nbsp;<input
-                                        type="radio" value="女" name="sex"/>女<span class="error"></span></dd>
-                                <dd><label>生日：</label><input type="text" value="${readermsg.birthday}"/><span
-                                        class="error"></span></dd>
+                                        type="radio" value="女" name="sex"/>女<span id="sexerror" class="erro"></span></dd>
+                                <dd><label>生日：</label><input type="text" id="birthday" name="birthday" value="${readermsg.birth}"/><span
+                                        id="birthdayerror" class="erro"></span></dd>
                                 <dd><label>地址：</label><label>
-                                    <textarea>${readermsg.intro}</textarea>
-                                </label><span class="error"></span>
+                                    <textarea id="addresstext" name="address">${readermsg.address}</textarea>
+                                </label><span id="addresserror" class="erro"></span>
                                 </dd>
                                 <dd><label>简介：</label><label>
-                                    <textarea name="" rows="5" cols="40">${readermsg.address}</textarea>
-                                </label><span class="error"></span>
+                                    <textarea id="introtext" name="intro" rows="5" cols="40">${readermsg.intro}</textarea>
+                                </label><span id="introerror" class="erro"></span>
                                 </dd>
                                 <dd>
                                     <button class="tab1_sub">提交</button>

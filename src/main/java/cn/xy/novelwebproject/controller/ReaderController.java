@@ -16,8 +16,10 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("reader")
@@ -86,15 +88,15 @@ public class ReaderController {
 
 								//设置用户头像
 								//插入数据库
-								int code = readerService.SetUserHeadImg(username,fileName);
-								if (code==-1){
+								int code = readerService.SetUserHeadImg(username, fileName);
+								if (code == -1) {
 										msg.setFlag(false);
 										msg.setMessage("参数错误！请检查是否登录！");
-								}else if(code==0){
+								} else if (code == 0) {
 										msg.setFlag(false);
 										msg.setMessage("上传失败！请稍后重试！");
-								}else{
-										request.getSession().setAttribute("user_reader",readerService.getReaderByName(username));
+								} else {
+										request.getSession().setAttribute("user_reader", readerService.getReaderByName(username));
 								}
 						} catch (Exception e) {
 								e.printStackTrace();
@@ -104,6 +106,64 @@ public class ReaderController {
 				} else {
 						msg.setFlag(false);
 						msg.setMessage("上传文件为空！请检查后重试！");
+				}
+				return msg;
+		}
+
+		/*
+		 * 用户信息修改
+		 *
+		 * */
+		@ResponseBody
+		@RequestMapping("updatareader")
+		public Msg updataReader(HttpServletRequest request) {
+				Msg msg = new Msg(true);
+				Reader reader = new Reader();
+				try {
+						String nick_name = request.getParameter("nick_name");
+						String sex = request.getParameter("sex");
+						String birthStr = request.getParameter("birthday");
+						String pattern = "\\d{4}-\\d{1,2}-\\d{1,2}";
+						Date birthday = null;
+						String address = request.getParameter("address");
+						String intro = request.getParameter("intro");
+
+						int flag = 0;
+						Map<String, String> erroField = new HashMap<String, String>();
+						// 创建 Pattern 对象
+						Pattern r = Pattern.compile(pattern);
+						// 现在创建 matcher 对象
+						Matcher m = r.matcher(birthStr);
+						if (m.find( )) {
+								birthday = new SimpleDateFormat("yyyy-MM-dd").parse(birthStr);
+						}else {
+								erroField.put("birthday","输入生日格式有误!应为yyyy-MM-dd格式！");
+						}
+						if (nick_name == null || "".equals(nick_name)) {
+								erroField.put("nick_name", "昵称不能为空！");
+						}if (intro.length() >= 100) {
+								erroField.put("intro", "简介长度不能超过100");
+						}if (address.length() >= 200) {
+								erroField.put("address", "地址长度不能超过200");
+						}
+						if(erroField.isEmpty()){
+								reader.setNick_name(nick_name);
+								reader.setSex(sex);
+								reader.setBirthday(birthday);
+								reader.setIntro(intro);
+								reader.setAddress(address);
+								flag = readerService.UpdateReaderMsg(reader);
+						}
+						if (flag == 1) {
+								msg.setFlag(true);
+						} else {
+								msg.setFlag(false);
+								msg.setFieldErrers(erroField);
+								msg.setMessage("更新资料失败!请重试！");
+						}
+
+				} catch (Exception e) {
+						e.printStackTrace();
 				}
 				return msg;
 		}

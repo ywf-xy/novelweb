@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 @Service
 public class ReaderServiceImp implements ReaderService {
@@ -28,6 +29,7 @@ public class ReaderServiceImp implements ReaderService {
 								reader = new ObjectMapper().readValue(value, Reader.class);
 						} else {
 								reader = readerMapper.selectByPrimaryKey(nick_name);
+								reader.setBirth(new SimpleDateFormat("yyyy-MM-dd").format(reader.getBirthday()));
 
 								String json = new ObjectMapper().writeValueAsString(reader);
 								jedis.setex(key, 60 * 60, json);
@@ -68,5 +70,39 @@ public class ReaderServiceImp implements ReaderService {
 
 				return i;
 		}
-
+		@Override
+		public int UpdateReaderMsg(Reader reader) {
+				Jedis jedis = JedisUtils.getConnect();
+				String key = "reader:" + reader.getNick_name();
+				int flag = 0;
+				try {
+						//更新读者信息
+						flag = readerMapper.updataReaderByName(reader);
+						//如果数据库更新成功则更新redis
+						if (flag == 1) {
+								int time = Math.toIntExact(jedis.ttl(key)) == -2 ? 60 * 60 : Math.toIntExact(jedis.ttl(key));
+								String value = "";
+								Reader result = null;
+								if (jedis.exists(key)) {
+										value = jedis.get(key);
+										result = new ObjectMapper().readValue(value, Reader.class);
+										//修改变更字段
+										result.setNick_name(reader.getNick_name());
+										result.setSex(reader.getSex());
+										result.setBirthday(reader.getBirthday());
+										result.setAddress(reader.getAddress());
+										result.setIntro(reader.getIntro());
+								} else {
+										result = readerMapper.selectByPrimaryKey(reader.getNick_name());
+								}
+								jedis.setex(key, time, new ObjectMapper().writeValueAsString(result));
+								return 1;
+						}
+				} catch (IOException e) {
+						e.printStackTrace();
+				} finally {
+						JedisUtils.close(jedis);
+				}
+				return 0;
+		}
 }
