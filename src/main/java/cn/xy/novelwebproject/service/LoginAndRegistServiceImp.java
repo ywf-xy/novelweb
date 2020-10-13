@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
+import java.text.SimpleDateFormat;
+
 @Service("loginAndRegistService")
 public class LoginAndRegistServiceImp implements LoginAndRegistService {
 		@Autowired
@@ -59,7 +61,7 @@ public class LoginAndRegistServiceImp implements LoginAndRegistService {
 								reader = new ObjectMapper().readValue(value, Reader.class);
 						} else {
 								reader = loginAndRegistMapper.selectByReaderKey(nick_name);
-
+								reader.setBirth(new SimpleDateFormat("yyyy-MM-dd").format(reader.getBirthday()));
 								String json = new ObjectMapper().writeValueAsString(reader);
 								jedis.setex(key, 60 * 60, json);
 
@@ -70,5 +72,29 @@ public class LoginAndRegistServiceImp implements LoginAndRegistService {
 						JedisUtils.close(jedis);
 				}
 				return reader;
+		}
+
+		@Override
+		public Author getAuthMsgByName(String nick_name) {
+				Jedis jedis = JedisUtils.getConnect();
+				String key = "author:"+nick_name;
+				Author author = null;
+				try {
+						if (jedis.exists(key)) {
+								String value = jedis.get(key);
+								author = new ObjectMapper().readValue(value, Author.class);
+						} else {
+								author = loginAndRegistMapper.selectByAuthorKey(nick_name);
+								//author.setBirth(new SimpleDateFormat("yyyy-MM-dd").format(reader.getBirthday()));
+								String json = new ObjectMapper().writeValueAsString(author);
+								jedis.setex(key, 60 * 60, json);
+
+						}
+				} catch (Exception e) {
+						e.printStackTrace();
+				} finally {
+						JedisUtils.close(jedis);
+				}
+				return author;
 		}
 }

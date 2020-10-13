@@ -3,6 +3,7 @@ package cn.xy.novelwebproject.controller;
 import cn.xy.novelwebproject.BaseTest;
 import cn.xy.novelwebproject.bean.Author;
 import cn.xy.novelwebproject.bean.Msg;
+import cn.xy.novelwebproject.bean.Reader;
 import cn.xy.novelwebproject.dao.LoginAndRegistMapper;
 import cn.xy.novelwebproject.service.LoginAndRegistService;
 import junit.framework.TestCase;
@@ -33,5 +34,11 @@ public class LoginAndRegistControllerTest extends BaseTest {
 						msg.setMessage("用户名错误！请检查后重试！");
 				}
 				System.out.println(msg);
+		}
+
+		@Test
+		public void readerlogin() {
+				Reader ywf = loginAndRegistService.getReaderMsgByName("ywf");
+				System.out.println(ywf);
 		}
 }

@@ -25,6 +25,7 @@
     <mvc:view-controller path="/classification" view-name="classification" ></mvc:view-controller>
     <mvc:view-controller path="/novel/book/*" view-name="book"></mvc:view-controller>
     <mvc:view-controller path="/read/*/*" view-name="book_read"></mvc:view-controller>
+    <!--<mvc:view-controller path="/reader/bookshelf" view-name="bookshelf"></mvc:view-controller>-->
     <!--
         DispatchServlet不拦截静态资源    http://localhost:8080/springmvc_05_i18n_war_exploded/static/js/jquery.min.js
     -->

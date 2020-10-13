@@ -17,4 +17,6 @@ public interface LoginAndRegistMapper {
 		public int ReaderRegist (Reader reader);
 
 		Reader selectByReaderKey(String nick_name);
+
+		Author selectByAuthorKey(String nick_name);
 }

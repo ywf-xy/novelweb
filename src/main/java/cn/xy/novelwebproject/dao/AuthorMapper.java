@@ -1,11 +1,9 @@
 package cn.xy.novelwebproject.dao;
 
 import cn.xy.novelwebproject.bean.Author;
-import cn.xy.novelwebproject.bean.AuthorExample;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
