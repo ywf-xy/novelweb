@@ -64,4 +64,102 @@
 				</set>
 				where nick_name = #{nick_name}
 		</update>
+
+		<resultMap id="allMsg" type="cn.xy.novelwebproject.bean.Reader" autoMapping="true">
+				<id column="nick_name" jdbcType="VARCHAR" property="nick_name"/>
+				<result column="sex" jdbcType="VARCHAR" property="sex"/>
+				<result column="birthday" jdbcType="DATE" property="birthday"/>
+				<result column="intro" jdbcType="VARCHAR" property="intro"/>
+				<result column="address" jdbcType="VARCHAR" property="address"/>
+				<result column="fans" jdbcType="INTEGER" property="fans"/>
+
+				<result column="account_balance" jdbcType="INTEGER" property="account_balance"/>
+				<result column="monthly_tickets" jdbcType="INTEGER" property="monthly_tickets"/>
+				<result column="vip" jdbcType="INTEGER" property="vip"/>
+				<result column="access" jdbcType="VARCHAR" property="access"/>
+				<result column="headimage" jdbcType="VARCHAR" property="headimage"/>
+				<collection property="mybookshelf" column="mybookshelf" autoMapping="true" ofType="cn.xy.novelwebproject.bean.NovelShelf">
+						<id column="id" property="id"/>
+						<result property="reader_name" column="reader_name"/>
+						<result column="bookmark" property="bookmark"/>
+						<association property="novel_name" column="novel_name" autoMapping="true">
+								<id column="book_name" jdbcType="VARCHAR" property="book_name"/>
+								<result column="book_author" jdbcType="VARCHAR" property="book_author"/>
+								<result column="book_state" jdbcType="VARCHAR" property="book_state"/>
+								<result column="book_words" jdbcType="INTEGER" property="book_words"/>
+								<result column="book_intro" jdbcType="VARCHAR" property="book_intro"/>
+								<result column="update_time" jdbcType="DATE" property="update_time"/>
+								<result column="monthly_tickets" jdbcType="INTEGER" property="monthly_tickets"/>
+								<result column="total_hits" jdbcType="INTEGER" property="total_hits"/>
+								<result column="monthly_hits" jdbcType="INTEGER" property="monthly_hits"/>
+								<result column="weekly_hits" jdbcType="INTEGER" property="weekly_hits"/>
+								<result column="daily_hits" jdbcType="INTEGER" property="daily_hits"/>
+								<result column="total_collections" jdbcType="INTEGER" property="total_collections"/>
+								<result column="monthly_collections" jdbcType="INTEGER" property="monthly_collections"/>
+								<result column="weekly_collections" jdbcType="INTEGER" property="weekly_collections"/>
+								<result column="daily_collections" jdbcType="INTEGER" property="daily_collections"/>
+								<result column="downloads" jdbcType="INTEGER" property="downloads"/>
+						</association>
+				</collection>
+		</resultMap>
+
+		<select id="findBookShelfByName" parameterType="String" resultMap="allMsg">
+				SELECT
+						readers.nick_name,
+						novel.book_name,
+						readers.sex,
+						readers.birthday,
+						readers.intro,
+						readers.address,
+						readers.fans,
+						readers.mybookshelf,
+						readers.collection_novels,
+						readers.subscribed_novels,
+						readers.footmark,
+						readers.account_balance,
+						readers.monthly_tickets,
+						readers.mycomments,
+						readers.vip,
+						readers.access,
+						readers.`password`,
+						readers.headimage,
+						novel.book_type,
+						novel.book_author,
+						novel.book_state,
+						novel.book_words,
+						novel.book_intro,
+						novel.book_catalog,
+						novel.update_time,
+						novel.monthly_tickets,
+						novel.total_hits,
+						novel.monthly_hits,
+						novel.weekly_hits,
+						novel.daily_hits,
+						novel.total_collections,
+						novel.monthly_collections,
+						novel.weekly_collections,
+						novel.daily_collections,
+						novel.downloads,
+						novel.comments,
+						reader_bookshelf.reader_name,
+						reader_bookshelf.novel_name,
+						reader_bookshelf.id,
+						reader_bookshelf.bookmark
+				FROM
+						readers
+								LEFT JOIN
+						reader_bookshelf
+						ON
+								reader_bookshelf.reader_name = readers.nick_name
+								INNER JOIN
+						novel
+						ON
+								novel.book_name = reader_bookshelf.novel_name
+				where nick_name = #{nick_name}
+
+		</select>
+
+		<delete id="deletBookShelfById" parameterType="int">
+				delete from reader_bookshelf where id = #{id}
+		</delete>
 </mapper>

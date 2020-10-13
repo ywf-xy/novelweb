@@ -1,5 +1,6 @@
 package cn.xy.novelwebproject.service;
 
+import cn.xy.novelwebproject.bean.NovelShelf;
 import cn.xy.novelwebproject.bean.Reader;
 import cn.xy.novelwebproject.dao.ReaderMapper;
 import cn.xy.novelwebproject.utils.JedisUtils;
@@ -10,6 +11,8 @@ import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
+import java.util.List;
 
 @Service
 public class ReaderServiceImp implements ReaderService {
@@ -70,6 +73,7 @@ public class ReaderServiceImp implements ReaderService {
 
 				return i;
 		}
+
 		@Override
 		public int UpdateReaderMsg(Reader reader) {
 				Jedis jedis = JedisUtils.getConnect();
@@ -104,5 +108,70 @@ public class ReaderServiceImp implements ReaderService {
 						JedisUtils.close(jedis);
 				}
 				return 0;
+		}
+
+		@Override
+		public Reader findBookShelfByName(String nick_name) {
+				Reader reader = null;
+				Jedis jedis = JedisUtils.getConnect();
+				String key = "reader:" + nick_name;
+
+				try {
+						if (jedis.exists(key)) {
+								String value = jedis.get(key);
+								reader = new ObjectMapper().readValue(value, Reader.class);
+								if (reader.getMybookshelf() == null) {
+										reader = readerMapper.findBookShelfByName(nick_name);
+										//获取key的过期时间，已过期设置为3600秒，
+										int time = Math.toIntExact(jedis.ttl(key)) == -2 ? 60 * 60 : Math.toIntExact(jedis.ttl(key));
+										jedis.setex(key, time, new ObjectMapper().writeValueAsString(reader));
+								}
+						} else {
+								reader = readerMapper.findBookShelfByName(nick_name);
+								//更新redis的值
+								if (reader != null) {
+										//获取key的过期时间，已过期设置为3600秒，
+										int time = Math.toIntExact(jedis.ttl(key)) == -2 ? 60 * 60 : Math.toIntExact(jedis.ttl(key));
+										jedis.setex(key, time, new ObjectMapper().writeValueAsString(reader));
+								}
+						}
+
+				} catch (Exception e) {
+						e.printStackTrace();
+				} finally {
+						JedisUtils.close(jedis);
+				}
+				return reader;
+		}
+
+		@Override
+		public int deletBookFromShelf(String nick_name, int id) {
+				Jedis jedis = JedisUtils.getConnect();
+				String key = "reader:"+nick_name;
+
+				int result = 0;
+				try{
+						result = readerMapper.deletBookShelfById(id);
+						if (result==1){
+								String value = jedis.get(key);
+								Reader reader = new ObjectMapper().readValue(value, Reader.class);
+								List<NovelShelf> mybookshelf = reader.getMybookshelf();
+								Iterator<NovelShelf> iterator = mybookshelf.iterator();
+								while (iterator.hasNext()){
+										NovelShelf n = iterator.next();
+										if (id==n.getId()){
+												iterator.remove();
+										}
+								}
+
+								reader.setMybookshelf(mybookshelf);
+								jedis.set(key,new ObjectMapper().writeValueAsString(reader));
+						}
+				}catch (Exception e){
+						e.printStackTrace();
+				}finally {
+						JedisUtils.close(jedis);
+				}
+			return result;
 		}
 }

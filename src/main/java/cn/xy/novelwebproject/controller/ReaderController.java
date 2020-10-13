@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.nio.file.Files;
@@ -100,6 +101,8 @@ public class ReaderController {
 								}
 						} catch (Exception e) {
 								e.printStackTrace();
+								msg.setFlag(false);
+								msg.setMessage(e.getMessage());
 						}
 						msg.setMessage("上传成功");
 						msg.setData(urls);
@@ -134,19 +137,21 @@ public class ReaderController {
 						Pattern r = Pattern.compile(pattern);
 						// 现在创建 matcher 对象
 						Matcher m = r.matcher(birthStr);
-						if (m.find( )) {
+						if (m.find()) {
 								birthday = new SimpleDateFormat("yyyy-MM-dd").parse(birthStr);
-						}else {
-								erroField.put("birthday","输入生日格式有误!应为yyyy-MM-dd格式！");
+						} else {
+								erroField.put("birthday", "输入生日格式有误!应为yyyy-MM-dd格式！");
 						}
 						if (nick_name == null || "".equals(nick_name)) {
 								erroField.put("nick_name", "昵称不能为空！");
-						}if (intro.length() >= 100) {
+						}
+						if (intro.length() >= 100) {
 								erroField.put("intro", "简介长度不能超过100");
-						}if (address.length() >= 200) {
+						}
+						if (address.length() >= 200) {
 								erroField.put("address", "地址长度不能超过200");
 						}
-						if(erroField.isEmpty()){
+						if (erroField.isEmpty()) {
 								reader.setNick_name(nick_name);
 								reader.setSex(sex);
 								reader.setBirthday(birthday);
@@ -164,6 +169,63 @@ public class ReaderController {
 
 				} catch (Exception e) {
 						e.printStackTrace();
+						msg.setFlag(false);
+						msg.setMessage(e.getMessage());
+				}
+				return msg;
+		}
+
+		@ResponseBody
+		@RequestMapping("getbookshelf")
+		public Msg findBookShelfByName(HttpServletRequest request) {
+				Msg msg = new Msg(true);
+				Reader reader = null;
+				try {
+						String nick_name = request.getParameter("nick_name");
+						if (nick_name == null || "".equals(nick_name)) {
+								msg.setFlag(false);
+								msg.setMessage("无法查询用户：" + nick_name + " 的书架信息，请刷新或重新登陆！");
+						} else {
+								reader = readerService.findBookShelfByName(nick_name);
+								if (reader != null) {
+										request.getSession().setAttribute("user_reader", reader);
+										msg.setData(reader);
+										msg.setFlag(true);
+								} else {
+										msg.setFlag(false);
+										msg.setMessage("找不到用户" + nick_name + "的信息，请刷新或重新登陆！");
+								}
+						}
+				} catch (Exception e) {
+						e.printStackTrace();
+						msg.setFlag(false);
+						msg.setMessage(e.getMessage());
+				}
+				return msg;
+		}
+
+		@RequestMapping("personshelf")
+		public String bookShelf(HttpServletRequest request, HttpServletResponse response) {
+				String username = request.getParameter("nick_name");
+				try {
+						Reader reader = readerService.findBookShelfByName(username);
+
+						request.setAttribute("bookshelfs", reader.getMybookshelf());
+				} catch (Exception e) {
+						e.printStackTrace();
+				}
+				return "bookshelf";
+		}
+		@RequestMapping("deletbookfromshelf")
+		@ResponseBody
+		public Msg deletBookFromShelf(HttpServletRequest request){
+				Msg msg = new Msg(true);
+				String id = request.getParameter("id");
+				Reader reader = (Reader)request.getSession().getAttribute("user_reader");
+				int result = readerService.deletBookFromShelf(reader.getNick_name(),Integer.parseInt(id));
+				if (result!=1){
+						msg.setFlag(false);
+						msg.setMessage("删除失败!请刷新后重试！");
 				}
 				return msg;
 		}

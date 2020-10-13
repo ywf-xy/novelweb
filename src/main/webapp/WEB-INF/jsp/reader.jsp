@@ -247,7 +247,7 @@
                                         id="nick_nameerror" class="erro"></span></dd>
                                 <dd><label>性别：</label><input type="radio" value="男" checked="checked" name="sex"/>男&nbsp;&nbsp;<input
                                         type="radio" value="女" name="sex"/>女<span id="sexerror" class="erro"></span></dd>
-                                <dd><label>生日：</label><input type="text" id="birthday" name="birthday" value="${readermsg.birth}"/><span
+                                <dd><label>生日：</label><input type="date" id="birthday" name="birthday" value="${readermsg.birth}"/><span
                                         id="birthdayerror" class="erro"></span></dd>
                                 <dd><label>地址：</label><label>
                                     <textarea id="addresstext" name="address">${readermsg.address}</textarea>

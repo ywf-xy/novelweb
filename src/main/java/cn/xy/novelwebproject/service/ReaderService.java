@@ -9,4 +9,8 @@ public interface ReaderService {
 		int SetUserHeadImg(String nick_name,String imgname);
 
 		int UpdateReaderMsg(Reader reader);
+
+		Reader findBookShelfByName(String nick_name);
+
+		int deletBookFromShelf(String nick_name, int id);
 }

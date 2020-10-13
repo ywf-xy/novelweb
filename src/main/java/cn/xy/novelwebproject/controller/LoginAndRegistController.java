@@ -4,11 +4,13 @@ import cn.xy.novelwebproject.bean.Author;
 import cn.xy.novelwebproject.bean.Msg;
 import cn.xy.novelwebproject.bean.Reader;
 import cn.xy.novelwebproject.service.LoginAndRegistService;
+import cn.xy.novelwebproject.utils.JedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,7 +23,7 @@ public class LoginAndRegistController {
 		private String referUrl = "/";
 
 		@RequestMapping("login")
-		public String Login (Model model, HttpSession session, HttpServletRequest request) {
+		public String Login(Model model, HttpSession session, HttpServletRequest request) {
 				session.removeAttribute("user_reader");
 				session.removeAttribute("user_auth");
 				String urls[] = request.getHeader("Referer").split("wfRead");
@@ -37,7 +39,16 @@ public class LoginAndRegistController {
 		}
 
 		@RequestMapping("loginout")
-		public String LoginOut (Model model, HttpSession session, HttpServletRequest request) {
+		public String LoginOut(Model model, HttpSession session, HttpServletRequest request) {
+
+				Jedis jedis = JedisUtils.getConnect();
+				Reader reader = (Reader) session.getAttribute("user_reader");
+				jedis.del("reader:" + reader.getNick_name());
+
+				Author author = (Author) session.getAttribute("user_auth");
+				jedis.del("auth:" + author.getNick_name());
+				JedisUtils.close(jedis);
+
 				session.removeAttribute("user_reader");
 				session.removeAttribute("user_auth");
 
@@ -46,12 +57,12 @@ public class LoginAndRegistController {
 		}
 
 		@RequestMapping("backindexpage")
-		public String BackIndexPage () {
+		public String BackIndexPage() {
 				return "redirect:/index.jsp";
 		}
 
 		@RequestMapping("regist")
-		public String Regist (Model model, HttpSession session) {
+		public String Regist(Model model, HttpSession session) {
 				model.addAttribute("user_auth", new Author());
 				model.addAttribute("user_read", new Reader());
 				return "regist";
@@ -59,14 +70,14 @@ public class LoginAndRegistController {
 
 		@ResponseBody
 		@RequestMapping("authlogin")
-		public Msg AuthLogin (Author author, HttpServletRequest request, HttpSession session) {
+		public Msg AuthLogin(Author author, HttpServletRequest request, HttpSession session) {
 				Msg msg = new Msg(true);
 				if (loginAndRegistService.AuthLogin(author)) {
 						Author authorLogin = loginAndRegistService.getAuthMsgByName(author.getNick_name());
-						if(authorLogin.getPassword().equals(author.getPassword())){
+						if (authorLogin.getPassword().equals(author.getPassword())) {
 								session.setAttribute("user_auth", author);
 								msg.setMessage(referUrl);
-						}else{
+						} else {
 								msg.setFlag(false);
 								msg.setMessage("密码错误！请检查后重试！");
 						}
@@ -79,14 +90,14 @@ public class LoginAndRegistController {
 
 		@ResponseBody
 		@RequestMapping("readerlogin")
-		public Msg Readerlogin (Reader reader, HttpServletRequest request, HttpSession session) {
+		public Msg Readerlogin(Reader reader, HttpServletRequest request, HttpSession session) {
 				Msg msg = new Msg(true);
 				if (loginAndRegistService.ReaderLogin(reader)) {
 						Reader readerLogin = loginAndRegistService.getReaderMsgByName(reader.getNick_name());
-						if(readerLogin.getPassword().equals(reader.getPassword())){
+						if (readerLogin.getPassword().equals(reader.getPassword())) {
 								session.setAttribute("user_reader", readerLogin);
 								msg.setMessage(referUrl);
-						}else{
+						} else {
 								msg.setFlag(false);
 								msg.setMessage("密码错误！请检查后重试！");
 						}
@@ -99,7 +110,7 @@ public class LoginAndRegistController {
 
 		@ResponseBody
 		@RequestMapping("authregist")
-		public Msg authRegist (Author author, HttpSession session) {
+		public Msg authRegist(Author author, HttpSession session) {
 				Msg msg = new Msg(true);
 				if (loginAndRegistService.AuthRegist(author)) {
 						msg.setFlag(true);
@@ -115,7 +126,7 @@ public class LoginAndRegistController {
 
 		@ResponseBody
 		@RequestMapping("readregist")
-		public Msg readRegist (Reader reader, HttpSession session) {
+		public Msg readRegist(Reader reader, HttpSession session) {
 				Msg msg = new Msg(true);
 				if (loginAndRegistService.ReaderRegist(reader)) {
 						msg.setFlag(true);
