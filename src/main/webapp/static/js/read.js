@@ -2,14 +2,14 @@ function getCatLog(novelname, catlogname) {
 		$.post("/wfRead/novel/loadbookcatlog",
 			"bookname=" + novelname, function (data) {
 					var list = data.data;
-                    $("#catlogList").empty();
-                    var positioncatlog=0;
+					$("#catlogList").empty();
+					var positioncatlog = 0;
 					for (var i = 0; i < list.length; i++) {
-							var li = "<li id=\"li"+i+"\"><a href=\"" + "/wfRead/read/" + novelname + "/" + list[i].novale_catalog.toString() + "\">" + list[i].novale_catalog.toString() + "</a></li>";
+							var li = "<li id=\"li" + i + "\"><a href=\"" + "/wfRead/read/" + novelname + "/" + list[i].novale_catalog.toString() + "\">" + list[i].novale_catalog.toString() + "</a></li>";
 							$("#catlogList").append(li);
 							var str = list[i].novale_catalog.toString();
 							if (catlogname == str) {
-							        positioncatlog=i;
+									positioncatlog = i;
 									if (i != 0) {
 											$(".lastCatlog")[0].href = "/wfRead/read/" + novelname + "/" + list[i - 1].novale_catalog.toString();
 											$(".lastCatlog")[1].href = "/wfRead/read/" + novelname + "/" + list[i - 1].novale_catalog.toString();
@@ -25,8 +25,8 @@ function getCatLog(novelname, catlogname) {
 									catlogname = "false";
 							}
 					}
-					$("#catlogList").scrollTop(positioncatlog*34);
-					$("#li"+positioncatlog).css("background","#CCE8CF");
+					$("#catlogList").scrollTop(positioncatlog * 34);
+					$("#li" + positioncatlog).css("background", "#CCE8CF");
 			}, "json");
 }
 
@@ -68,7 +68,7 @@ function light() {
 				color_ex();
 				$("#night").val(0);
 		}
-
+		saveConfig();
 }
 
 function bgc_ex() {
@@ -77,6 +77,7 @@ function bgc_ex() {
 				bgc = "#E9FAFF";
 		}
 		$(".content_read").css("background-color", bgc);
+		saveConfig();
 }
 
 function width_ex() {
@@ -85,6 +86,7 @@ function width_ex() {
 				width = "95%";
 		}
 		$("#content").width(width);
+		saveConfig();
 }
 
 function font_ex() {
@@ -92,8 +94,9 @@ function font_ex() {
 		if (font == "字体" || font == "默认") {
 				font = "宋体";
 		}
-		console.log(font);
+
 		$("#content").css("font-family", font);
+		saveConfig();
 }
 
 function fontsize_ex() {
@@ -102,6 +105,7 @@ function fontsize_ex() {
 				font = "19pt";
 		}
 		$("#content").css("font-size", font);
+		saveConfig();
 }
 
 function color_ex() {
@@ -111,7 +115,7 @@ function color_ex() {
 		}
 
 		$("#content").css("color", color);
-
+		saveConfig();
 }
 
 function voteTicket() {
@@ -143,4 +147,50 @@ $(function () {
 
 		$(".recommend").on("click", voteTicket);
 		loadData();
+		readConfig();
 })
+
+function saveConfig() {
+		var url = decodeURIComponent(window.location.href);
+		path = url.split("/")[url.split("/").length - 1]
+		url = url.split(path)[0]
+		console.log(url)
+		//$.cookie('light',$("#night").val(), {path:url});
+		document.cookie = 'night=' + $("#night").val() + '; path=' + url;
+		//$("#bgcselect").val()
+		document.cookie = 'bgcselect=' + $("#bgcselect").val() + '; path=' + url;
+		//$("#bcolor").val()
+		document.cookie = 'bcolor=' + $("#bcolor").val() + '; path=' + url;
+		//$("#fontselect").val()
+		document.cookie = 'fontselect=' + $("#fontselect").val() + '; path=' + url;
+		//$("#fontsizeselect").val()
+		document.cookie = 'fontsizeselect=' + $("#fontsizeselect").val() + '; path=' + url;
+		//$("#colorselect").val()
+		document.cookie = 'colorselect=' + $("#colorselect").val() + '; path=' + url;
+}
+
+function readConfig() {
+		var cookies = document.cookie;
+		console.log(cookies.split(";"));
+		cookies = cookies.split(";");
+		var flag = false;
+		for (var i = 0; i < cookies.length; i++) {
+				let kv = cookies[i].split("=");
+				let key = kv[0].replace(" ", "");
+				let value = kv[1];
+
+				if (key == "night" && value != $("#" + key).val()) {
+						value = $("#" + key).val()
+						flag = true;
+				}
+				$("#" + key).val(value);
+		}
+		font_ex();
+		fontsize_ex();
+		color_ex();
+		width_ex();
+		bgc_ex();
+		if (flag) {
+				light();
+		}
+}

@@ -43,10 +43,14 @@ public class LoginAndRegistController {
 
 				Jedis jedis = JedisUtils.getConnect();
 				Reader reader = (Reader) session.getAttribute("user_reader");
-				jedis.del("reader:" + reader.getNick_name());
-
+				if (reader!=null) {
+						jedis.del("reader:" + reader.getNick_name());
+				}
 				Author author = (Author) session.getAttribute("user_auth");
-				jedis.del("auth:" + author.getNick_name());
+				if (author!=null){
+						jedis.del("auth:" + author.getNick_name());
+				}
+
 				JedisUtils.close(jedis);
 
 				session.removeAttribute("user_reader");

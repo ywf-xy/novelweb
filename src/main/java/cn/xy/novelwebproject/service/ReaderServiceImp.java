@@ -99,6 +99,7 @@ public class ReaderServiceImp implements ReaderService {
 								} else {
 										result = readerMapper.selectByPrimaryKey(reader.getNick_name());
 								}
+								time = time==-1?60*60:time;
 								jedis.setex(key, time, new ObjectMapper().writeValueAsString(result));
 								return 1;
 						}

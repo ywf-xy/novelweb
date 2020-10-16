@@ -52,4 +52,15 @@
 				<!--文件编码格式-->
 				<property name="defaultEncoding" value="UTF-8"/>
 		</bean>
+
+		<!--拦截器使用第二步:配置拦截器-->
+		<mvc:interceptors>
+				<!--用于测试的拦截器-->
+				<mvc:interceptor>
+						<!--拦截路径的配置-->
+						<mvc:mapping path="/reader/personshelf"/>
+						<bean id="BookShelfInterceptor" class="cn.xy.novelwebproject.interceptor.BookShelfInterceptor"/>
+				</mvc:interceptor>
+		</mvc:interceptors>
+
 </beans>

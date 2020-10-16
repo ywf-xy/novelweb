@@ -39,23 +39,13 @@
                         <artifactId>log4j</artifactId>
                         <version>1.2.17</version>
                 </dependency>
-                <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+
+                <!-- commons-logging -->
                 <dependency>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>javax.servlet-api</artifactId>
-                        <version>4.0.1</version>
-                        <scope>provided</scope>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                        <version>1.2</version>
                 </dependency>
-
-
-                <!-- https://mvnrepository.com/artifact/javax.servlet.jsp/jsp-api -->
-                <dependency>
-                        <groupId>javax.servlet.jsp</groupId>
-                        <artifactId>jsp-api</artifactId>
-                        <version>2.2</version>
-                        <scope>provided</scope>
-                </dependency>
-
 
                 <!-- https://mvnrepository.com/artifact/org.springframework/spring-beans -->
                 <dependency>
@@ -85,52 +75,57 @@
                         <version>5.0.2.RELEASE</version>
                 </dependency>
 
+                <!--tx-->
+                <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-tx</artifactId>
+                        <version>5.0.2.RELEASE</version>
+                </dependency>
 
-                <!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+                <!-- web -->
                 <dependency>
                         <groupId>org.springframework</groupId>
                         <artifactId>spring-web</artifactId>
                         <version>5.0.2.RELEASE</version>
                 </dependency>
 
-                <!-- https://mvnrepository.com/artifact/org.springframework/spring-webmvc -->
+                <!-- webmvc -->
                 <dependency>
                         <groupId>org.springframework</groupId>
                         <artifactId>spring-webmvc</artifactId>
                         <version>5.0.2.RELEASE</version>
                 </dependency>
 
-                <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
-                <dependency>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                        <version>1.2</version>
-                </dependency>
-
-                <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+                <!-- aspectjweaver -->
                 <dependency>
                         <groupId>org.aspectj</groupId>
                         <artifactId>aspectjweaver</artifactId>
                         <version>1.8.13</version>
                 </dependency>
 
-
-                <!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+                <!-- spring-jdbc -->
                 <dependency>
                         <groupId>org.springframework</groupId>
                         <artifactId>spring-jdbc</artifactId>
                         <version>5.0.2.RELEASE</version>
                 </dependency>
 
-
-                <!-- https://mvnrepository.com/artifact/org.springframework/spring-aop -->
+                <!-- spring-aop -->
                 <dependency>
                         <groupId>org.springframework</groupId>
                         <artifactId>spring-aop</artifactId>
                         <version>5.0.2.RELEASE</version>
                 </dependency>
 
-                <!-- https://mvnrepository.com/artifact/org.springframework/spring-aspects -->
+                <!--spring-test-->
+                <dependency>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-test</artifactId>
+                        <version>5.0.2.RELEASE</version>
+                        <scope>test</scope>
+                </dependency>
+
+                <!-- spring-aspects -->
                 <dependency>
                         <groupId>org.springframework</groupId>
                         <artifactId>spring-aspects</artifactId>
@@ -182,8 +177,23 @@
                         <version>2.4</version>
                 </dependency>
 
+                <!--servlet 相关3个jar包-->
+                <!-- servlet-api -->
+                <dependency>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>javax.servlet-api</artifactId>
+                        <version>4.0.1</version>
+                        <scope>provided</scope>
+                </dependency>
+
+                <!--jsp-api -->
+                <dependency>
+                        <groupId>javax.servlet.jsp</groupId>
+                        <artifactId>jsp-api</artifactId>
+                        <version>2.2</version>
+                        <scope>provided</scope>
+                </dependency>
                 <!-- JSTL 标签库-->
-                <!-- https://mvnrepository.com/artifact/javax.servlet/jstl -->
                 <dependency>
                         <groupId>javax.servlet</groupId>
                         <artifactId>jstl</artifactId>
@@ -196,27 +206,27 @@
                         <version>1.1.2</version>
                 </dependency>
 
+
+                <!--json依赖-->
                 <dependency>
                         <groupId>com.alibaba</groupId>
                         <artifactId>fastjson</artifactId>
                         <version>1.2.68</version>
                 </dependency>
 
-
-                <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+                <!--jackson-databind -->
                 <dependency>
                         <groupId>com.fasterxml.jackson.core</groupId>
                         <artifactId>jackson-databind</artifactId>
                         <version>2.9.8</version>
                 </dependency>
 
-                <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+                <!-- jackson-core -->
                 <dependency>
                         <groupId>com.fasterxml.jackson.core</groupId>
                         <artifactId>jackson-core</artifactId>
                         <version>2.9.8</version>
                 </dependency>
-
 
                 <!--spring集成redis-->
                 <dependency>
@@ -231,17 +241,11 @@
                         <version>3.3.0</version>
                 </dependency>
 
+                <!--apache 连接池工具-->
                 <dependency>
                         <groupId>org.apache.commons</groupId>
                         <artifactId>commons-pool2</artifactId>
                         <version>2.8.0</version>
-                </dependency>
-
-                <dependency>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-test</artifactId>
-                        <version>5.0.2.RELEASE</version>
-                        <scope>test</scope>
                 </dependency>
 
         </dependencies>

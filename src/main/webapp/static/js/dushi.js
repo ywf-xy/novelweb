@@ -226,7 +226,7 @@ $(function () {
 						for (var i = 0; i < 5; i++) {
 								if (text < 5) {
 										li.eq(i).text(text - (index - i) + 1);
-								} else{
+								} else {
 										li.eq(i).text(text - (index - i));
 								}
 
@@ -270,8 +270,8 @@ $(function () {
 												"                    <dd>作者：<span class=\"book_author\">" + novels[i].book_author + "</span></dd>\n" +
 												"                    <dd>字数：<span class=\"book_words\">" + novels[i].book_words + "</span></dd>\n" +
 												"                    <dd>更新日期：<span class=\"book_update\">" + update_time + "</span></dd>" +
-												"                    <dd><a href=\""+"/wfRead/novel/download?novelname="+novels[i].book_name+".txt"+"\">全本下载</a></dd>\n" +
-												"                    <dd><a href=\""+"/wfRead/novel/book/"+novels[i].book_name+"\">在线阅读</a></dd>\n" +
+												"                    <dd><a href=\"" + "/wfRead/novel/download?novelname=" + novels[i].book_name + ".txt" + "\">全本下载</a></dd>\n" +
+												"                    <dd><a href=\"" + "/wfRead/novel/book/" + novels[i].book_name + "\">在线阅读</a></dd>\n" +
 												"                </dl>");
 									}
 									if (flag == 1) {
