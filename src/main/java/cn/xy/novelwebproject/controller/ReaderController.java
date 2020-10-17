@@ -1,10 +1,12 @@
 package cn.xy.novelwebproject.controller;
 
+import cn.xy.novelwebproject.bean.Author;
 import cn.xy.novelwebproject.bean.Msg;
 import cn.xy.novelwebproject.bean.Reader;
 import cn.xy.novelwebproject.service.ReaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -175,6 +177,9 @@ public class ReaderController {
 				return msg;
 		}
 
+		/*
+		* 获取用户书架
+		* */
 		@ResponseBody
 		@RequestMapping("getbookshelf")
 		public Msg findBookShelfByName(HttpServletRequest request) {
@@ -204,6 +209,9 @@ public class ReaderController {
 				return msg;
 		}
 
+		/*
+		* 跳转到用户书架页面
+		* */
 		@RequestMapping("personshelf")
 		public String bookShelf(HttpServletRequest request, HttpServletResponse response) {
 				String username = request.getParameter("nick_name");
@@ -216,6 +224,9 @@ public class ReaderController {
 				}
 				return "bookshelf";
 		}
+		/*
+		* 通过id删除书架的小说
+		* */
 		@RequestMapping("deletbookfromshelf")
 		@ResponseBody
 		public Msg deletBookFromShelf(HttpServletRequest request){
@@ -226,6 +237,43 @@ public class ReaderController {
 				if (result!=1){
 						msg.setFlag(false);
 						msg.setMessage("删除失败!请刷新后重试！");
+				}
+				return msg;
+		}
+
+		/*
+		* 加入书签
+		* */
+		@ResponseBody
+		@RequestMapping("addbookmark")
+		public Msg addBookMark(HttpServletRequest request){
+				Msg msg = new Msg(true);
+				String catlogname = request.getParameter("catlogname");
+				String nick_name = null;
+				String book_name = request.getParameter("book_name");
+
+				if (request.getSession().getAttribute("user_reader")!=null){
+						Reader reader = (Reader) request.getSession().getAttribute("user_reader");
+						nick_name = reader.getNick_name();
+				}
+				else if(request.getSession().getAttribute("user_auth")!=null){
+						msg.setFlag(false);
+						msg.setMessage("对不起，作者账号不能添加书签哦！请切换到读者账号");
+				}else {
+						msg.setFlag(false);
+						msg.setMessage("对不起，需要登录后才能添加书签哦！");
+				}
+
+				try {
+						boolean b = false;
+						if (nick_name!=null){
+								b= readerService.addBookMark(nick_name, book_name, catlogname);
+								String action = b?"书签添加成功！":"添加失败！书签以存在";
+								msg.setMessage(action);
+						}
+
+				} catch (Exception e) {
+						e.printStackTrace();
 				}
 				return msg;
 		}

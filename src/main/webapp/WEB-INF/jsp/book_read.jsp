@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -57,7 +56,9 @@
 						<c:if test="${user_reader.nick_name!=null}">
 								<dd>
 										<div>
-												<span><img src="${pageContext.request.contextPath}/static/user-photo/${user_reader.nick_name}/${user_reader.headimage}" alt="404" id="headimage"></span>
+						<span><img
+								src="${pageContext.request.contextPath}/static/user-photo/${user_reader.nick_name}/${user_reader.headimage}"
+								alt="404" id="headimage"></span>
 												<a href="${pageContext.request.contextPath}/reader/getusermsg">欢迎！${user_reader.nick_name}</a>
 												<a href="${pageContext.request.contextPath}/loginAndRegist/loginout">注销</a>
 										</div>
@@ -67,15 +68,12 @@
 						<dd>
 								<div>
 										<span class="booklib_log"></span>
-									<c:if test="${user_reader.nick_name!=null}">
-										<a href="/wfRead/reader/personshelf?nick_name=${user_reader.nick_name}" >书架</a>
-									</c:if>
-									<c:if test="${user_auth.nick_name!=null}">
-										<a href="/wfRead/reader/personshelf?nick_name=${user_auth.nick_name}">书架</a>
-									</c:if>
-									<c:if test="${user_reader.nick_name==nulls&&user_auth.nick_name==null}">
-										<a href="">书架</a>
-									</c:if>
+										<c:if test="${user_reader.nick_name!=null}">
+												<a href="/wfRead/reader/personshelf?nick_name=${user_reader.nick_name}">书架</a>
+										</c:if>
+										<c:if test="${user_reader.nick_name==nulls&&user_auth.nick_name==null}">
+												<a href="">书架</a>
+										</c:if>
 								</div>
 						</dd>
 				</dl>
@@ -172,7 +170,7 @@
 								<a href="" class="lastCatlog">上一章</a> ←
 								<a href="" class="novelCatlog">章节目录</a> →
 								<a href="" class="nextCatlog">下一章</a>
-								<a href="">加入书签</a>
+								<spana id="bookmark">加入书签</spana>
 						</div>
 				</div>
 				<div id="content" style="width: 95%;">

@@ -146,9 +146,24 @@ $(function () {
 		}
 
 		$(".recommend").on("click", voteTicket);
+		$("#bookmark").on("click", addBookMark);
 		loadData();
 		readConfig();
 })
+
+function addBookMark() {
+		var url = window.location.href;
+		var paths = url.split("/");
+		var book_name = decodeURIComponent(paths[paths.length - 2]);
+		var catlogname = decodeURIComponent(paths[paths.length - 1]);
+
+		$.post("/wfRead/reader/addbookmark",
+			"book_name=" + book_name + "&catlogname=" + catlogname,
+			function (data) {
+					alert(data.message);
+			}, "json")
+
+}
 
 function saveConfig() {
 		var url = decodeURIComponent(window.location.href);

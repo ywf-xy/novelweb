@@ -69,9 +69,6 @@
 									<c:if test="${user_reader.nick_name!=null}">
 										<a href="/wfRead/reader/personshelf?nick_name=${user_reader.nick_name}" >书架</a>
 									</c:if>
-									<c:if test="${user_auth.nick_name!=null}">
-										<a href="/wfRead/reader/personshelf?nick_name=${user_auth.nick_name}">书架</a>
-									</c:if>
 									<c:if test="${user_reader.nick_name==nulls&&user_auth.nick_name==null}">
 										<a href="">书架</a>
 									</c:if>

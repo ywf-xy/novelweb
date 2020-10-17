@@ -99,7 +99,7 @@ public class ReaderServiceImp implements ReaderService {
 								} else {
 										result = readerMapper.selectByPrimaryKey(reader.getNick_name());
 								}
-								time = time==-1?60*60:time;
+								time = time == -1 ? 60 * 60 : time;
 								jedis.setex(key, time, new ObjectMapper().writeValueAsString(result));
 								return 1;
 						}
@@ -148,31 +148,93 @@ public class ReaderServiceImp implements ReaderService {
 		@Override
 		public int deletBookFromShelf(String nick_name, int id) {
 				Jedis jedis = JedisUtils.getConnect();
-				String key = "reader:"+nick_name;
+				String key = "reader:" + nick_name;
 
 				int result = 0;
-				try{
+				try {
 						result = readerMapper.deletBookShelfById(id);
-						if (result==1){
+						if (result == 1) {
 								String value = jedis.get(key);
 								Reader reader = new ObjectMapper().readValue(value, Reader.class);
 								List<NovelShelf> mybookshelf = reader.getMybookshelf();
 								Iterator<NovelShelf> iterator = mybookshelf.iterator();
-								while (iterator.hasNext()){
+								while (iterator.hasNext()) {
 										NovelShelf n = iterator.next();
-										if (id==n.getId()){
+										if (id == n.getId()) {
 												iterator.remove();
 										}
 								}
 
 								reader.setMybookshelf(mybookshelf);
-								jedis.set(key,new ObjectMapper().writeValueAsString(reader));
+								jedis.set(key, new ObjectMapper().writeValueAsString(reader));
 						}
-				}catch (Exception e){
+				} catch (Exception e) {
 						e.printStackTrace();
-				}finally {
+				} finally {
 						JedisUtils.close(jedis);
 				}
-			return result;
+				return result;
+		}
+
+		@Override
+		public boolean addBookMark(String nick_name, String book_name, String catlogname) {
+				Jedis jedis = JedisUtils.getConnect();
+				String key = "reader:" + nick_name;
+				Reader reader=null;
+				int flag = 0;
+				boolean result = false;
+				try {
+
+						if (jedis.exists(key) ) {
+								String value = jedis.get(key);
+								reader = new ObjectMapper().readValue(value, Reader.class);
+								reader = reader.getMybookshelf()==null?readerMapper.findBookShelfByName(nick_name):reader;
+								List<NovelShelf> mybookshelf = reader.getMybookshelf();
+
+								Iterator<NovelShelf> iterator = mybookshelf.iterator();
+
+								while (iterator.hasNext()) {
+										NovelShelf n = iterator.next();
+										//如果书架有小说，就更新书签
+										if (book_name.equals(n.getNovel_name().getBook_name())) {
+
+												//同时更新数据库
+												if (!catlogname.equals(n.getBookmark())) {
+														n.setBookmark(catlogname);
+														result = readerMapper.updateBookMark(nick_name, book_name, catlogname);
+												}
+												flag=1;
+										}
+								}
+								//如果没有找到，想数据库插入新的记录
+								if (flag!=1){
+										result = readerMapper.addBookMark(nick_name,book_name, catlogname) ;
+										reader = readerMapper.findBookShelfByName(nick_name);
+								}else{
+										reader.setMybookshelf(mybookshelf);
+								}
+
+
+								jedis.set(key, new ObjectMapper().writeValueAsString(reader));
+						} else {
+
+								reader = readerMapper.findBookShelfByName(nick_name);
+								List<NovelShelf> mybookshelf = reader.getMybookshelf();
+								for (NovelShelf n : mybookshelf){
+										if(catlogname.equals(n.getBookmark())){
+												flag=-1;
+										}
+								}
+								if(flag!=-1){
+										result = readerMapper.addBookMark(nick_name,book_name, catlogname) ;
+								}
+								jedis.setex(key,60*60,new ObjectMapper().writeValueAsString(reader));
+						}
+				} catch (Exception e) {
+						e.printStackTrace();
+				} finally {
+						JedisUtils.close(jedis);
+				}
+				return result;
 		}
 }

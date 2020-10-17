@@ -13,4 +13,6 @@ public interface ReaderService {
 		Reader findBookShelfByName(String nick_name);
 
 		int deletBookFromShelf(String nick_name, int id);
+
+		boolean addBookMark(String nick_name, String book_name, String catlogname);
 }

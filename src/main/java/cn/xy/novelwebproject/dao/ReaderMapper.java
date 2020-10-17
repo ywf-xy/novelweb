@@ -16,4 +16,8 @@ public interface ReaderMapper {
 		Reader findBookShelfByName(String nick_name);
 
 		int deletBookShelfById(int id);
+
+		boolean addBookMark(String nick_name, String book_name, String catlogname);
+
+		boolean updateBookMark(String nick_name, String book_name,String catlogname);
 }

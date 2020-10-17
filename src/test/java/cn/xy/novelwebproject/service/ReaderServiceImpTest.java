@@ -5,6 +5,7 @@ import cn.xy.novelwebproject.bean.Reader;
 import cn.xy.novelwebproject.dao.ReaderMapper;
 import cn.xy.novelwebproject.utils.JedisUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import junit.framework.TestCase;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.Jedis;
@@ -109,4 +110,12 @@ public class ReaderServiceImpTest extends BaseTest {
 
 		}
 
+		@Test
+		public void addBookMark() {
+				String nick_name = "ywf";
+				String book_name = "万族之劫";
+				String catlogname = "第61章千钧修炼功法";
+				boolean mark = readerMapper.addBookMark(nick_name, book_name, catlogname);
+				System.out.println(mark);
+		}
 }

@@ -162,4 +162,12 @@
 		<delete id="deletBookShelfById" parameterType="int">
 				delete from reader_bookshelf where id = #{id}
 		</delete>
+
+		<insert id="addBookMark" parameterType="String">
+				insert into reader_bookshelf(reader_name, novel_name, bookmark) VALUES (#{arg0},#{arg1},#{arg2})
+		</insert>
+
+		<update id="updateBookMark" parameterType="String">
+				update reader_bookshelf set bookmark = #{arg2} where reader_name = #{arg0} and novel_name = #{arg1}
+		</update>
 </mapper>
