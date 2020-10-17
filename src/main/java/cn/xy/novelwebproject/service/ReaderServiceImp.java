@@ -1,5 +1,6 @@
 package cn.xy.novelwebproject.service;
 
+import cn.xy.novelwebproject.bean.Msg;
 import cn.xy.novelwebproject.bean.NovelShelf;
 import cn.xy.novelwebproject.bean.Reader;
 import cn.xy.novelwebproject.dao.ReaderMapper;
@@ -191,21 +192,9 @@ public class ReaderServiceImp implements ReaderService {
 								reader = reader.getMybookshelf() == null ? readerMapper.findBookShelfByName(nick_name) : reader;
 								List<NovelShelf> mybookshelf = reader.getMybookshelf();
 
-								Iterator<NovelShelf> iterator = mybookshelf.iterator();
-
-								while (iterator.hasNext()) {
-										NovelShelf n = iterator.next();
-										//如果书架有小说，就更新书签
-										if (book_name.equals(n.getNovel_name().getBook_name())) {
-												flag = 1;
-										}
-										if (book_name.equals(n.getNovel_name().getBook_name()) && !catlogname.equals(n.getBookmark())) {
-												//如果书架有小说，就更新书签
-												//同时更新数据库
-												n.setBookmark(catlogname);
-												result = readerMapper.updateBookMark(nick_name, book_name, catlogname);
-										}
-								}
+								Msg msg = checkBookShelf(mybookshelf,nick_name,book_name,catlogname,result);
+								flag = (int) msg.getData();
+								result = msg.isFlag();
 								//如果没有找到，想数据库插入新的记录
 								if (flag != 1) {
 										result = readerMapper.addBookMark(nick_name, book_name, catlogname);
@@ -236,5 +225,26 @@ public class ReaderServiceImp implements ReaderService {
 						JedisUtils.close(jedis);
 				}
 				return result;
+		}
+
+		public Msg checkBookShelf(List<NovelShelf> mybookshelf,String nick_name, String book_name, String catlogname,boolean result){
+				Msg msg = new Msg(false);
+				msg.setData(0);
+				Iterator<NovelShelf> iterator = mybookshelf.iterator();
+				while (iterator.hasNext()) {
+						NovelShelf n = iterator.next();
+						//如果书架有小说，就更新书签
+						if (book_name.equals(n.getNovel_name().getBook_name())) {
+								msg.setData(1);
+						}
+						if (book_name.equals(n.getNovel_name().getBook_name()) && !catlogname.equals(n.getBookmark())) {
+								//如果书架有小说，就更新书签
+								//同时更新数据库
+								n.setBookmark(catlogname);
+								result = readerMapper.updateBookMark(nick_name, book_name, catlogname);
+								msg.setFlag(result);
+						}
+				}
+				return msg;
 		}
 }
