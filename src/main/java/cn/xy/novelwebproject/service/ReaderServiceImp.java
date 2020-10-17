@@ -180,15 +180,15 @@ public class ReaderServiceImp implements ReaderService {
 		public boolean addBookMark(String nick_name, String book_name, String catlogname) {
 				Jedis jedis = JedisUtils.getConnect();
 				String key = "reader:" + nick_name;
-				Reader reader=null;
+				Reader reader = null;
 				int flag = 0;
 				boolean result = false;
 				try {
 
-						if (jedis.exists(key) ) {
+						if (jedis.exists(key)) {
 								String value = jedis.get(key);
 								reader = new ObjectMapper().readValue(value, Reader.class);
-								reader = reader.getMybookshelf()==null?readerMapper.findBookShelfByName(nick_name):reader;
+								reader = reader.getMybookshelf() == null ? readerMapper.findBookShelfByName(nick_name) : reader;
 								List<NovelShelf> mybookshelf = reader.getMybookshelf();
 
 								Iterator<NovelShelf> iterator = mybookshelf.iterator();
@@ -197,20 +197,20 @@ public class ReaderServiceImp implements ReaderService {
 										NovelShelf n = iterator.next();
 										//如果书架有小说，就更新书签
 										if (book_name.equals(n.getNovel_name().getBook_name())) {
-
+												flag = 1;
+										}
+										if (book_name.equals(n.getNovel_name().getBook_name()) && !catlogname.equals(n.getBookmark())) {
+												//如果书架有小说，就更新书签
 												//同时更新数据库
-												if (!catlogname.equals(n.getBookmark())) {
-														n.setBookmark(catlogname);
-														result = readerMapper.updateBookMark(nick_name, book_name, catlogname);
-												}
-												flag=1;
+												n.setBookmark(catlogname);
+												result = readerMapper.updateBookMark(nick_name, book_name, catlogname);
 										}
 								}
 								//如果没有找到，想数据库插入新的记录
-								if (flag!=1){
-										result = readerMapper.addBookMark(nick_name,book_name, catlogname) ;
+								if (flag != 1) {
+										result = readerMapper.addBookMark(nick_name, book_name, catlogname);
 										reader = readerMapper.findBookShelfByName(nick_name);
-								}else{
+								} else {
 										reader.setMybookshelf(mybookshelf);
 								}
 
@@ -220,15 +220,15 @@ public class ReaderServiceImp implements ReaderService {
 
 								reader = readerMapper.findBookShelfByName(nick_name);
 								List<NovelShelf> mybookshelf = reader.getMybookshelf();
-								for (NovelShelf n : mybookshelf){
-										if(catlogname.equals(n.getBookmark())){
-												flag=-1;
+								for (NovelShelf n : mybookshelf) {
+										if (catlogname.equals(n.getBookmark())) {
+												flag = -1;
 										}
 								}
-								if(flag!=-1){
-										result = readerMapper.addBookMark(nick_name,book_name, catlogname) ;
+								if (flag != -1) {
+										result = readerMapper.addBookMark(nick_name, book_name, catlogname);
 								}
-								jedis.setex(key,60*60,new ObjectMapper().writeValueAsString(reader));
+								jedis.setex(key, 60 * 60, new ObjectMapper().writeValueAsString(reader));
 						}
 				} catch (Exception e) {
 						e.printStackTrace();
