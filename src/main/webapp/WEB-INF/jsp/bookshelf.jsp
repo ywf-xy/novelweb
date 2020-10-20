@@ -48,7 +48,7 @@
 						<c:if test="${user_auth.nick_name!=null}">
 								<dd>
 										<div>
-												<span><img src="" alt="404"></span>
+												<span><img src="/static/picture/default_user.png" alt="404" id="headimages"></span>
 												<a href="">${user_auth.nick_name}</a>
 												<a href="${pageContext.request.contextPath}/loginAndRegist/loginout">注销</a>
 										</div>
@@ -92,12 +92,13 @@
 				<a href="${pageContext.request.contextPath}/wangyou"><span>网游</span></a>
 				<a href="${pageContext.request.contextPath}/rank"><span>排行</span></a>
 				<a href="${pageContext.request.contextPath}/classification"><span>分类</span></a>
+				<a href="${pageContext.request.contextPath}/auth/authorUI"><span>作家专区</span></a>
 		</div>
 </div>
 <!----主体-->
 <div id="main">
 		<div id="tips_head" align="center">
-				<span>您的书架可收藏20本，已收藏 0 本。 </span>
+				<span>您的书架可收藏${user_reader.vip*10}本，已收藏${bookshelfs.size()}本。 </span>
 		</div>
 		<br/>
 		<hr style="width: 800px;"/>

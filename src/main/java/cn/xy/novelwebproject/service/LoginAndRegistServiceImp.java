@@ -5,16 +5,21 @@ import cn.xy.novelwebproject.bean.Reader;
 import cn.xy.novelwebproject.dao.LoginAndRegistMapper;
 import cn.xy.novelwebproject.utils.JedisUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 @Service("loginAndRegistService")
 public class LoginAndRegistServiceImp implements LoginAndRegistService {
 		@Autowired
 		private LoginAndRegistMapper loginAndRegistMapper;
+
+		private Logger logger = LoggerFactory.getLogger(ReaderServiceImp.class);
 
 		@Override
 		public boolean AuthLogin (Author author) {
@@ -23,7 +28,10 @@ public class LoginAndRegistServiceImp implements LoginAndRegistService {
 
 		@Override
 		public boolean ReaderLogin (Reader reader) {
-				return loginAndRegistMapper.ReaderLogin(reader).size() > 0 ? true : false;
+				logger.info("[readerloginService:reader]"+reader);
+				List<Reader> readerList = loginAndRegistMapper.ReaderLogin(reader);
+				logger.info("[readerloginService:resultReader]"+reader);
+				return readerList.size() > 0 ? true : false;
 		}
 
 		@Override
@@ -32,7 +40,7 @@ public class LoginAndRegistServiceImp implements LoginAndRegistService {
 				try {
 						flag = loginAndRegistMapper.AuthRegist(author) > 0 ? true : false;
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				}
 				System.out.println(flag);
 				return flag;
@@ -44,7 +52,7 @@ public class LoginAndRegistServiceImp implements LoginAndRegistService {
 				try {
 						flag = loginAndRegistMapper.ReaderRegist(reader) > 0 ? true : false;
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				}
 				System.out.println(flag);
 				return flag;
@@ -67,7 +75,7 @@ public class LoginAndRegistServiceImp implements LoginAndRegistService {
 
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -91,7 +99,7 @@ public class LoginAndRegistServiceImp implements LoginAndRegistService {
 
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}

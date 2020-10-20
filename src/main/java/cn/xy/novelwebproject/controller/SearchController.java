@@ -3,8 +3,11 @@ package cn.xy.novelwebproject.controller;
 import cn.xy.novelwebproject.bean.Author;
 import cn.xy.novelwebproject.bean.Novel;
 import cn.xy.novelwebproject.bean.Reader;
+import cn.xy.novelwebproject.service.ReaderServiceImp;
 import cn.xy.novelwebproject.service.SearchService;
 import cn.xy.novelwebproject.utils.JedisUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +22,8 @@ import java.util.List;
 public class SearchController {
 		@Autowired
 		private SearchService searchService;
-
+		private Logger logger = LoggerFactory.getLogger(ReaderServiceImp.class);
+		
 		@RequestMapping("searchbookname")
 		public String searchBookByName (String bookname, HttpServletRequest request, HttpServletResponse response) {
 				List<Novel> novels = searchService.searchBookByName(bookname);
@@ -49,10 +53,11 @@ public class SearchController {
 								request.setAttribute("searchresult", novels);
 						}
 				}catch (Exception e){
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				}finally {
 						JedisUtils.close(jedis);
 				}
+				logger.info("searchBookByName:"+result);
 				return result;
 		}
 
@@ -85,7 +90,7 @@ public class SearchController {
 								request.setAttribute("searchresult", novels);
 						}
 				}catch (Exception e){
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				}finally {
 						JedisUtils.close(jedis);
 				}

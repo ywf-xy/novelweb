@@ -4,7 +4,10 @@ import cn.xy.novelwebproject.bean.Author;
 import cn.xy.novelwebproject.bean.Msg;
 import cn.xy.novelwebproject.bean.Reader;
 import cn.xy.novelwebproject.service.LoginAndRegistService;
+import cn.xy.novelwebproject.service.ReaderServiceImp;
 import cn.xy.novelwebproject.utils.JedisUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +23,7 @@ import javax.servlet.http.HttpSession;
 public class LoginAndRegistController {
 		@Autowired
 		private LoginAndRegistService loginAndRegistService;
+		private Logger logger = LoggerFactory.getLogger(ReaderServiceImp.class);
 		private String referUrl = "/";
 
 		@RequestMapping("login")
@@ -27,14 +31,9 @@ public class LoginAndRegistController {
 				session.removeAttribute("user_reader");
 				session.removeAttribute("user_auth");
 				String urls[] = request.getHeader("Referer").split("wfRead");
-				//System.out.println("UrL="+request.getHeader("Referer"));
-				/*if ("/".equals(referUrl)) {
-						referUrl = "/";
-				} else {
-						referUrl = urls[1];
-				}*/
+
 				referUrl = urls[1].replaceFirst("/", "");
-				//System.out.println("REFER="+referUrl);
+				logger.info(referUrl);
 				return "login";
 		}
 
@@ -89,6 +88,7 @@ public class LoginAndRegistController {
 						msg.setFlag(false);
 						msg.setMessage("用户名错误！请检查后重试！");
 				}
+				logger.info("authlogin:"+msg);
 				return msg;
 		}
 
@@ -96,6 +96,7 @@ public class LoginAndRegistController {
 		@RequestMapping("readerlogin")
 		public Msg Readerlogin(Reader reader, HttpServletRequest request, HttpSession session) {
 				Msg msg = new Msg(true);
+				logger.info("[login: reader]="+reader);
 				if (loginAndRegistService.ReaderLogin(reader)) {
 						Reader readerLogin = loginAndRegistService.getReaderMsgByName(reader.getNick_name());
 						if (readerLogin.getPassword().equals(reader.getPassword())) {
@@ -109,6 +110,7 @@ public class LoginAndRegistController {
 						msg.setFlag(false);
 						msg.setMessage("用户名错误！请检查后重试！");
 				}
+				logger.info("readerlogin:"+msg);
 				return msg;
 		}
 
@@ -123,8 +125,9 @@ public class LoginAndRegistController {
 						session.setAttribute("user_auth", author);
 				} else {
 						msg.setFlag(false);
-						msg.setMessage("注册失败！");
+						msg.setMessage("注册失败！用户名以存在！");
 				}
+				logger.info("authregist:"+msg);
 				return msg;
 		}
 
@@ -139,8 +142,9 @@ public class LoginAndRegistController {
 						session.setAttribute("user_reader", reader);
 				} else {
 						msg.setFlag(false);
-						msg.setMessage("注册失败！");
+						msg.setMessage("注册失败！用户名以存在！");
 				}
+				logger.info("readerregist:"+msg);
 				return msg;
 		}
 }

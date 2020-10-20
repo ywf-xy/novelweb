@@ -109,16 +109,7 @@ function upLoadImg() {
 		var formFile = new FormData();
 		formFile.append("file", fileObj);
 		var data = formFile;
-		console.log(data)
-		/*$.post("/wfRead/reader/imgupload",
-			data,
-			function (data) {
-				var urls = data.data;
-				alert(data.message);
-				if (data.flag){
-					console.log(urls);
-				}
-			},"json")*/
+
 		$.ajax({
 				url: '/wfRead/reader/imgupload',
 				type: 'post',
@@ -131,8 +122,8 @@ function upLoadImg() {
 						var urls = data.data;
 						alert(data.message);
 						if (data.flag) {
-								console.log(urls);
 								$("#tabTarget2 img").attr("src", "/" + urls[0]);
+								$("#headimage").attr("src","/" + urls[0])
 						}
 				}
 		});

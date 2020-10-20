@@ -81,7 +81,7 @@
 </div>
 <div class="NavBar">
 		<div>
-				<a href="${pageContext.request.contextPath}/" class='now'><span>首页</span></a>
+				<a href="${pageContext.request.contextPath}/" ><span>首页</span></a>
 				<a href="${pageContext.request.contextPath}/xuanhuan"><span>玄幻</span></a>
 				<a href="${pageContext.request.contextPath}/kehuan"><span>科幻</span></a>
 				<a href="${pageContext.request.contextPath}/lishi"><span>历史</span></a>
@@ -90,6 +90,7 @@
 				<a href="${pageContext.request.contextPath}/wangyou"><span>网游</span></a>
 				<a href="${pageContext.request.contextPath}/rank"><span>排行</span></a>
 				<a href="${pageContext.request.contextPath}/classification"><span>分类</span></a>
+				<a href="${pageContext.request.contextPath}/auth/authorUI"><span>作家专区</span></a>
 		</div>
 </div>
 <!--主体-->

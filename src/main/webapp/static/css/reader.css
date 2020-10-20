@@ -298,8 +298,9 @@ td{
 	display: inline-block;vertical-align: top;
 }
 #tabTarget2 img{
-	width: 88px;
-	height: 88px;
+	width: 108px;
+	height: 108px;
+	border-radius: 50%;
 }
 .erro{
 	color: red;

@@ -3,7 +3,10 @@ package cn.xy.novelwebproject.controller;
 import cn.xy.novelwebproject.bean.Author;
 import cn.xy.novelwebproject.bean.Msg;
 import cn.xy.novelwebproject.service.AuthService;
+import cn.xy.novelwebproject.service.ReaderServiceImp;
 import org.apache.ibatis.annotations.Param;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,13 +24,15 @@ public class AuthController {
 		@Autowired
 		private AuthService authService;
 
+		private Logger logger = LoggerFactory.getLogger(ReaderServiceImp.class);
+		
 		@RequestMapping("getAllAuthor")
 		public String getAllAuth (Model model) {
 				System.out.println("getallauthor");
 				List<Author> authors = authService.getAllAuth();
 				String str = "";
 				for (Author auth : authors) {
-						System.out.println(auth);
+						logger.info("getAllAuth:authors:"+auth);
 						str += auth.toString();
 				}
 				model.addAttribute("str", str);
@@ -40,7 +45,7 @@ public class AuthController {
 				List<Author> authorList = authService.selectAuthor(nickname);
 				for (Author auth : authorList
 				) {
-						System.out.println(auth);
+						logger.info("selectAuthor:authlist"+auth);
 				}
 				model.addAttribute("auths", authorList);
 				return "sucess";
@@ -56,8 +61,14 @@ public class AuthController {
 
 						msg.setData(authror);
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				}
+				logger.info("getauthorworks:"+msg);
 				return msg;
+		}
+		@RequestMapping("authorUI")
+		public String authorUI(Model model ,HttpServletRequest request){
+
+				return "author";
 		}
 }

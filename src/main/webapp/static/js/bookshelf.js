@@ -8,7 +8,8 @@ function deletebookfromshelf() {
 			"id=" + name,
 			function (data) {
 					if (data.flag) {
-							alert("删除成功!")
+							alert("删除成功!");
+
 							location.reload();
 					} else {
 							alert(data.message);

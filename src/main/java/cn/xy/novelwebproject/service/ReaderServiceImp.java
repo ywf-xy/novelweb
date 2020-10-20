@@ -6,6 +6,8 @@ import cn.xy.novelwebproject.bean.Reader;
 import cn.xy.novelwebproject.dao.ReaderMapper;
 import cn.xy.novelwebproject.utils.JedisUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
@@ -19,6 +21,8 @@ import java.util.List;
 public class ReaderServiceImp implements ReaderService {
 		@Autowired
 		private ReaderMapper readerMapper;
+
+		private Logger logger = LoggerFactory.getLogger(ReaderServiceImp.class);
 
 		@Override
 		public Reader getReaderByName(String nick_name) {
@@ -40,7 +44,7 @@ public class ReaderServiceImp implements ReaderService {
 
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -66,7 +70,7 @@ public class ReaderServiceImp implements ReaderService {
 								}
 								jedis.setex(keu, time, new ObjectMapper().writeValueAsString(reader));
 						} catch (IOException e) {
-								e.printStackTrace();
+								logger.error("错误消息：{}",e.getMessage(),e);
 						} finally {
 								JedisUtils.close(jedis);
 						}
@@ -105,7 +109,7 @@ public class ReaderServiceImp implements ReaderService {
 								return 1;
 						}
 				} catch (IOException e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -139,7 +143,7 @@ public class ReaderServiceImp implements ReaderService {
 						}
 
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -170,7 +174,7 @@ public class ReaderServiceImp implements ReaderService {
 								jedis.set(key, new ObjectMapper().writeValueAsString(reader));
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -192,7 +196,7 @@ public class ReaderServiceImp implements ReaderService {
 								reader = reader.getMybookshelf() == null ? readerMapper.findBookShelfByName(nick_name) : reader;
 								List<NovelShelf> mybookshelf = reader.getMybookshelf();
 
-								Msg msg = checkBookShelf(mybookshelf,nick_name,book_name,catlogname,result);
+								Msg msg = checkBookShelf(mybookshelf,nick_name,book_name,catlogname);
 								flag = (int) msg.getData();
 								result = msg.isFlag();
 								//如果没有找到，想数据库插入新的记录
@@ -220,16 +224,17 @@ public class ReaderServiceImp implements ReaderService {
 								jedis.setex(key, 60 * 60, new ObjectMapper().writeValueAsString(reader));
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
 				return result;
 		}
 
-		public Msg checkBookShelf(List<NovelShelf> mybookshelf,String nick_name, String book_name, String catlogname,boolean result){
+		public Msg checkBookShelf(List<NovelShelf> mybookshelf,String nick_name, String book_name, String catlogname){
 				Msg msg = new Msg(false);
 				msg.setData(0);
+				boolean result = false;
 				Iterator<NovelShelf> iterator = mybookshelf.iterator();
 				while (iterator.hasNext()) {
 						NovelShelf n = iterator.next();

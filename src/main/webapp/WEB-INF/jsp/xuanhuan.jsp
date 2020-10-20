@@ -88,6 +88,7 @@
 				<a href="${pageContext.request.contextPath}/wangyou"><span>网游</span></a>
 				<a href="${pageContext.request.contextPath}/rank"><span>排行</span></a>
 				<a href="${pageContext.request.contextPath}/classification"><span>分类</span></a>
+				<a href="${pageContext.request.contextPath}/auth/authorUI"><span>作家专区</span></a>
 		</div>
 </div>
 <div style="text-align: center;margin: 0px auto;padding: 5px 10px;width: 100%;background: #f7f7f7;height: 25px;ine-height: 25px;float: left;">

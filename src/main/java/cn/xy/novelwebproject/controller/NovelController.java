@@ -2,6 +2,9 @@ package cn.xy.novelwebproject.controller;
 
 import cn.xy.novelwebproject.bean.*;
 import cn.xy.novelwebproject.service.NovelService;
+import cn.xy.novelwebproject.service.ReaderServiceImp;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,10 +28,11 @@ import java.util.List;
 public class NovelController {
 		@Autowired
 		private NovelService novelService;
+		private Logger logger = LoggerFactory.getLogger(ReaderServiceImp.class);
 
 		@RequestMapping("getshownovel")
 		@ResponseBody
-		public Msg getShowNovel (HttpServletRequest request) {
+		public Msg getShowNovel(HttpServletRequest request) {
 				Msg msg = new Msg(true);
 				int i = new Integer(request.getParameter("colum"));
 				int index = new Integer(request.getParameter("index"));
@@ -41,15 +45,16 @@ public class NovelController {
 						}
 						msg.setData(novelList);
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}", e.getMessage(), e);
 						msg.setFlag(false);
 				}
+				logger.info(" getShowNovel:" + msg);
 				return msg;
 		}
 
 		@RequestMapping("editorpush")
 		@ResponseBody
-		public Msg editorPush (HttpServletRequest request) {
+		public Msg editorPush(HttpServletRequest request) {
 				Msg msg = new Msg(true);
 				int colum = new Integer(request.getParameter("colum"));
 				int index = new Integer(request.getParameter("index"));
@@ -60,29 +65,31 @@ public class NovelController {
 						List<Novel> novels = novelService.getNovelByColumindex(map);
 						msg.setData(novels);
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}", e.getMessage(), e);
 						msg.setFlag(false);
 				}
+				logger.info(" editorPush:" + msg);
 				return msg;
 		}
 
 		@ResponseBody
 		@RequestMapping("weekrecommend")
-		public Msg weekRecommend (HttpServletRequest request) {
+		public Msg weekRecommend(HttpServletRequest request) {
 				Msg msg = new Msg(true);
 				try {
 						List<Novel> novels = novelService.getWeekWecommend();
 						msg.setData(novels);
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}", e.getMessage(), e);
 						msg.setFlag(false);
 				}
+				logger.info("weekRecommend:" + msg);
 				return msg;
 		}
 
 		@ResponseBody
 		@RequestMapping("gethomepagelist")
-		public Msg gethomepagelist (HttpServletRequest request) {
+		public Msg gethomepagelist(HttpServletRequest request) {
 				Msg msg = new Msg(true);
 				List<Novel> novelList = new ArrayList<Novel>();
 				try {
@@ -137,9 +144,10 @@ public class NovelController {
 
 						msg.setData(novelList);
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}", e.getMessage(), e);
 						msg.setFlag(false);
 				}
+				logger.info("gethomepagelist:" + msg);
 				return msg;
 		}
 
@@ -151,7 +159,7 @@ public class NovelController {
 		 * */
 		@ResponseBody
 		@RequestMapping("xuanhuan")
-		public Msg getXuanHuanPageData (HttpServletRequest request) {
+		public Msg getXuanHuanPageData(HttpServletRequest request) {
 				Msg msg = new Msg(true);
 				//获取参数
 				Integer pagenum = new Integer(request.getParameter("page"));
@@ -184,17 +192,17 @@ public class NovelController {
 						}
 						msg.setMessage(String.valueOf(allpage));
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}", e.getMessage(), e);
 						msg.setFlag(false);
 						msg.setMessage("数据库出错了！请与管理员联系！");
 				}
-
+				logger.info("getXuanHuanPageData:" + msg);
 				return msg;
 		}
 
 		@ResponseBody
 		@RequestMapping("kehuan")
-		public Msg getKeHuanPageData (HttpServletRequest request) {
+		public Msg getKeHuanPageData(HttpServletRequest request) {
 				Msg msg = new Msg(true);
 				//获取参数
 				Integer pagenum = new Integer(request.getParameter("page"));
@@ -227,17 +235,17 @@ public class NovelController {
 						}
 						msg.setMessage(String.valueOf(allpage));
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}", e.getMessage(), e);
 						msg.setFlag(false);
 						msg.setMessage("数据库出错了！请与管理员联系！");
 				}
-
+				logger.info("getKeHuanPageData:" + msg);
 				return msg;
 		}
 
 		@ResponseBody
 		@RequestMapping("lishi")
-		public Msg getLiShiPageData (HttpServletRequest request) {
+		public Msg getLiShiPageData(HttpServletRequest request) {
 				Msg msg = new Msg(true);
 				//获取参数
 				Integer pagenum = new Integer(request.getParameter("page"));
@@ -270,17 +278,17 @@ public class NovelController {
 						}
 						msg.setMessage(String.valueOf(allpage));
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}", e.getMessage(), e);
 						msg.setFlag(false);
 						msg.setMessage("数据库出错了！请与管理员联系！");
 				}
-
+				logger.info("getLiShiPageData:" + msg);
 				return msg;
 		}
 
 		@ResponseBody
 		@RequestMapping("dushi")
-		public Msg getDuShiPageData (HttpServletRequest request) {
+		public Msg getDuShiPageData(HttpServletRequest request) {
 				Msg msg = new Msg(true);
 				//获取参数
 				Integer pagenum = new Integer(request.getParameter("page"));
@@ -313,16 +321,17 @@ public class NovelController {
 						}
 						msg.setMessage(String.valueOf(allpage));
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}", e.getMessage(), e);
 						msg.setFlag(false);
 						msg.setMessage("数据库出错了！请与管理员联系！");
 				}
+				logger.info("getDuShiPageData:" + msg);
 				return msg;
 		}
 
 		@ResponseBody
 		@RequestMapping("wuxia")
-		public Msg getWuXiaPageData (HttpServletRequest request) {
+		public Msg getWuXiaPageData(HttpServletRequest request) {
 				Msg msg = new Msg(true);
 				//获取参数
 				Integer pagenum = new Integer(request.getParameter("page"));
@@ -355,16 +364,17 @@ public class NovelController {
 						}
 						msg.setMessage(String.valueOf(allpage));
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}", e.getMessage(), e);
 						msg.setFlag(false);
 						msg.setMessage("数据库出错了！请与管理员联系！");
 				}
+				logger.info("getWuXiaPageData:" + msg);
 				return msg;
 		}
 
 		@ResponseBody
 		@RequestMapping("wangyou")
-		public Msg getWangYouPageData (HttpServletRequest request) {
+		public Msg getWangYouPageData(HttpServletRequest request) {
 				Msg msg = new Msg(true);
 				//获取参数
 				Integer pagenum = new Integer(request.getParameter("page"));
@@ -397,24 +407,25 @@ public class NovelController {
 						}
 						msg.setMessage(String.valueOf(allpage));
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}", e.getMessage(), e);
 						msg.setFlag(false);
 						msg.setMessage("数据库出错了！请与管理员联系！");
 				}
+				logger.info("getWangYouPageData:" + msg);
 				return msg;
 		}
 
 		@ResponseBody
 		@RequestMapping("rank")
-		public Msg getRankListData (HttpServletRequest request) {
+		public Msg getRankListData(HttpServletRequest request) {
 				Msg msg = new Msg(true);
-
+				logger.info("getRankListData:" + msg);
 				return msg;
 		}
 
 		@ResponseBody
 		@RequestMapping("classification")
-		public Msg getClassiFicationData (HttpServletRequest request) {
+		public Msg getClassiFicationData(HttpServletRequest request) {
 				Msg msg = new Msg(true);
 				String book_type = request.getParameter("type");
 				//System.out.println("type"+book_type);
@@ -456,45 +467,48 @@ public class NovelController {
 						msg.setData(list);
 						msg.setMessage(String.valueOf(allpage));
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}", e.getMessage(), e);
 						msg.setFlag(false);
 						msg.setMessage("加载数据出错！请与管理员联系！");
 				}
+				logger.info("getClassiFicationData:" + msg);
 				return msg;
 		}
 
 		@ResponseBody
 		@RequestMapping("loadbookmsg")
-		public Msg loadBookMsg (HttpServletRequest request) {
+		public Msg loadBookMsg(HttpServletRequest request) {
 				Msg msg = new Msg(true);
 				String bookname = request.getParameter("bookname");
 				try {
 						Novel novel = novelService.getNovelMsg(bookname);
 						msg.setData(novel);
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}", e.getMessage(), e);
 				}
+				logger.info("loadBookMsg:" + msg);
 				return msg;
 		}
 
 		@ResponseBody
 		@RequestMapping("loadbookcatlog")
-		public Msg loadBookCatlog (HttpServletRequest request) {
+		public Msg loadBookCatlog(HttpServletRequest request) {
 				Msg msg = new Msg(true);
 				String bookname = request.getParameter("bookname");
 				try {
 						List<Catalog> catalog = novelService.getBookCatalogs(bookname);
-
+						logger.info("loadBookCatlog:" + catalog);
 						msg.setData(catalog);
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}", e.getMessage(), e);
 				}
+				logger.info("loadBookCatlog:"+msg);
 				return msg;
 		}
 
 		@ResponseBody
 		@RequestMapping("downloadrank")
-		public Msg getDownloadRank (HttpServletRequest request) {
+		public Msg getDownloadRank(HttpServletRequest request) {
 				Msg msg = new Msg(true);
 				String type = request.getParameter("type");
 				try {
@@ -502,18 +516,20 @@ public class NovelController {
 						pageQuery.setType(type);
 						pageQuery.setPagesize(10);
 						List<Novel> list = novelService.getDownloadsList(pageQuery);
+						logger.info("getDownloadRank:"+list);
 						msg.setData(list);
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}", e.getMessage(), e);
 						msg.setFlag(false);
 						msg.setMessage(e.getMessage());
 				}
+				logger.info("getDownloadRank:"+msg);
 				return msg;
 		}
 
 		@ResponseBody
 		@RequestMapping("readbycatlog")
-		public Msg readCatlog (HttpServletRequest request) {
+		public Msg readCatlog(HttpServletRequest request) {
 				Msg msg = new Msg(false);
 				//1、获取参数
 				String novelname = request.getParameter("novelname");
@@ -521,20 +537,21 @@ public class NovelController {
 
 				try {
 						//2、根据参数从数据库查询章节内容
-						String data = novelService.getNovelCatlog(novelname,catlogname);
+						String data = novelService.getNovelCatlog(novelname, catlogname);
 						msg.setData(data);
 						msg.setFlag(true);
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}", e.getMessage(), e);
 						msg.setMessage("小说章节加载出错，请与管理员联系！");
 				}
+				logger.info("readCatlog:"+msg);
 				return msg;
 		}
 
 		@RequestMapping("/download")
-		public void downloadNovel (HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-				String encode = URLEncoder.encode(request.getParameter("novelname"),"UTF-8");
-				String novelName = URLDecoder.decode(encode,"UTF-8");
+		public void downloadNovel(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+				String encode = URLEncoder.encode(request.getParameter("novelname"), "UTF-8");
+				String novelName = URLDecoder.decode(encode, "UTF-8");
 
 				//1、加载小说
 				//2、将文件写入页面
@@ -543,7 +560,7 @@ public class NovelController {
 
 				OutputStream os = null;
 				InputStream fis = null;
-				String fileName ="static\\txt"+ File.separator + novelName;
+				String fileName = "static\\txt" + File.separator + novelName;
 
 				try {
 						String mimeType = request.getServletContext().getMimeType(novelName);
@@ -565,58 +582,60 @@ public class NovelController {
 						}
 
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}", e.getMessage(), e);
 				} finally {
-				//src\main\webapp\static\txt\一吨超人.txt
+						//src\main\webapp\static\txt\一吨超人.txt
 						if (os != null) {
 								try {
 										os.close();
 								} catch (Exception e) {
-										e.printStackTrace();
+										logger.error("错误消息：{}", e.getMessage(), e);
 								}
 						}
 						if (fis != null) {
 								try {
 										fis.close();
 								} catch (Exception e) {
-										e.printStackTrace();
+										logger.error("错误消息：{}", e.getMessage(), e);
 								}
 						}
 
 				}
 		}
+
 		@ResponseBody
 		@RequestMapping("voteticket")
-		public Msg voteTicket(HttpServletRequest request){
+		public Msg voteTicket(HttpServletRequest request) {
 				Msg msg = new Msg(true);
 				String novelname = request.getParameter("bookname");
 				HttpSession session = request.getSession();
 				Reader reader = (Reader) session.getAttribute("user_reader");
 				Author auth = (Author) session.getAttribute("user_auth");
 				String username = null;
-				if(reader!=null){
+				if (reader != null) {
 						username = reader.getNick_name();
-				}else if(auth!=null){
+				} else if (auth != null) {
 						username = auth.getNick_name();
-				}else{
+				} else {
 						msg.setFlag(false);
 						msg.setMessage("只有登录才能投票哦！清先登录！");
 						return msg;
 				}
 				try {
-						int code = novelService.voteTicket(novelname,username);
+						int code = novelService.voteTicket(novelname, username);
 						//System.out.println(code);
-						if(code==1){
+						if (code == 1) {
 								msg.setMessage("投票成功");
-						}else{
+						} else {
 								msg.setFlag(false);
 								msg.setMessage("这本书你已经投过票了哦！一天只能投一次哦亲！");
 						}
-				}catch (Exception e){
-						e.printStackTrace();
+				} catch (Exception e) {
+						logger.error("错误消息：{}", e.getMessage(), e);
 						msg.setFlag(false);
 						msg.setMessage("服务器出了点问题，投票失败！");
 				}
+				logger.info("voteTicket:"+msg);
 				return msg;
 		}
 }

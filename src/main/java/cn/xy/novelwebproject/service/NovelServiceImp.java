@@ -6,6 +6,8 @@ import cn.xy.novelwebproject.bean.PageQuery;
 import cn.xy.novelwebproject.dao.NovelMapper;
 import cn.xy.novelwebproject.utils.JedisUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
@@ -18,6 +20,8 @@ import java.util.List;
 public class NovelServiceImp implements NovelService {
 		@Autowired
 		private NovelMapper novelMapper;
+		private Logger logger = LoggerFactory.getLogger(ReaderServiceImp.class);
+
 		private final ObjectMapper objectMapper = new ObjectMapper();
 
 		@Override
@@ -36,7 +40,7 @@ public class NovelServiceImp implements NovelService {
 								jedis.expire(key, 60 * 60 * 18);
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -75,7 +79,7 @@ public class NovelServiceImp implements NovelService {
 								}
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -108,7 +112,7 @@ public class NovelServiceImp implements NovelService {
 								}
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -141,7 +145,7 @@ public class NovelServiceImp implements NovelService {
 								}
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -174,7 +178,7 @@ public class NovelServiceImp implements NovelService {
 								}
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -207,7 +211,7 @@ public class NovelServiceImp implements NovelService {
 								}
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -240,7 +244,7 @@ public class NovelServiceImp implements NovelService {
 								}
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -273,7 +277,7 @@ public class NovelServiceImp implements NovelService {
 								}
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -306,7 +310,7 @@ public class NovelServiceImp implements NovelService {
 								}
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -339,7 +343,7 @@ public class NovelServiceImp implements NovelService {
 								}
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -377,7 +381,7 @@ public class NovelServiceImp implements NovelService {
 								}
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -410,7 +414,7 @@ public class NovelServiceImp implements NovelService {
 								}
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -443,7 +447,7 @@ public class NovelServiceImp implements NovelService {
 								}
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -476,7 +480,7 @@ public class NovelServiceImp implements NovelService {
 								}
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -539,7 +543,7 @@ public class NovelServiceImp implements NovelService {
 								}
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -601,7 +605,7 @@ public class NovelServiceImp implements NovelService {
 
 						restcode = 1;
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				} finally {
 						JedisUtils.close(jedis);
 				}

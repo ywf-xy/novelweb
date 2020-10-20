@@ -4,6 +4,9 @@ import cn.xy.novelwebproject.bean.Author;
 import cn.xy.novelwebproject.bean.Msg;
 import cn.xy.novelwebproject.bean.Reader;
 import cn.xy.novelwebproject.service.ReaderService;
+import cn.xy.novelwebproject.service.ReaderServiceImp;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +32,8 @@ import java.util.regex.Pattern;
 public class ReaderController {
 		@Autowired
 		private ReaderService readerService;
-
+		private Logger logger = LoggerFactory.getLogger(ReaderServiceImp.class);
+		
 		@RequestMapping("getusermsg")
 		public String getReaderAllMsg(HttpServletRequest request) {
 				//从session获取用户名
@@ -42,11 +46,19 @@ public class ReaderController {
 
 				//根据用户名从数据库中查用用户的所有信息
 				Reader reader = readerService.getReaderByName(nick_name);
-
+				logger.info("getReaderAllMsg:"+reader);
 				request.setAttribute("readermsg", reader);
 				return "reader";
 		}
 
+		public void emptyDir(String path){
+				File file = new File(path);
+				for(File f: file.listFiles()){
+						logger.info("[delete: imgfile ]="+f.getName());
+						f.delete();
+				}
+
+		}
 		/*
 		 * 图片上传
 		 * */
@@ -76,6 +88,7 @@ public class ReaderController {
 								if (Files.notExists(targetDirFile)) {
 										Files.createDirectories(targetDirFile);
 								}
+								emptyDir(targetDir);
 								//2 获取上传文件的文件名
 								String fileName = multipartFile.getOriginalFilename();
 
@@ -102,7 +115,7 @@ public class ReaderController {
 										request.getSession().setAttribute("user_reader", readerService.getReaderByName(username));
 								}
 						} catch (Exception e) {
-								e.printStackTrace();
+								logger.error("错误消息：{}",e.getMessage(),e);
 								msg.setFlag(false);
 								msg.setMessage(e.getMessage());
 						}
@@ -112,6 +125,7 @@ public class ReaderController {
 						msg.setFlag(false);
 						msg.setMessage("上传文件为空！请检查后重试！");
 				}
+				logger.info("ImgUpLoad:"+msg);
 				return msg;
 		}
 
@@ -170,10 +184,11 @@ public class ReaderController {
 						}
 
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 						msg.setFlag(false);
 						msg.setMessage(e.getMessage());
 				}
+				logger.info("updataReader:"+msg);
 				return msg;
 		}
 
@@ -202,10 +217,11 @@ public class ReaderController {
 								}
 						}
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 						msg.setFlag(false);
 						msg.setMessage(e.getMessage());
 				}
+				logger.info("findBookShelfByName:"+msg);
 				return msg;
 		}
 
@@ -217,10 +233,10 @@ public class ReaderController {
 				String username = request.getParameter("nick_name");
 				try {
 						Reader reader = readerService.findBookShelfByName(username);
-
+						logger.info("bookShelf："+reader);
 						request.setAttribute("bookshelfs", reader.getMybookshelf());
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				}
 				return "bookshelf";
 		}
@@ -238,6 +254,7 @@ public class ReaderController {
 						msg.setFlag(false);
 						msg.setMessage("删除失败!请刷新后重试！");
 				}
+				logger.info("deletBookFromShelf:"+msg);
 				return msg;
 		}
 
@@ -273,8 +290,9 @@ public class ReaderController {
 						}
 
 				} catch (Exception e) {
-						e.printStackTrace();
+						logger.error("错误消息：{}",e.getMessage(),e);
 				}
+				logger.info("addBookMark:"+msg);
 				return msg;
 		}
 }

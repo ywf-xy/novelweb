@@ -6,6 +6,8 @@ function authRegist() {
 					if (data.flag) {
 							alert(data.message);
 							window.top.location.href = "/wfRead";
+					}else{
+							$("#auth p span").text(data.message);
 					}
 			}, "json");
 }
@@ -18,6 +20,9 @@ function readRegist() {
 					if (data.flag) {
 							alert(data.message);
 							window.top.location.href = "/wfRead";
+					}else{
+							$("#reader p span").text(data.message);
 					}
+
 			}, "json");
 }
