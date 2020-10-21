@@ -1,0 +1,13 @@
+#up-img, #up-novel {
+    margin-left: 37%;
+}
+
+#imgDiv, #novelDiv {
+    margin-top: 50px;
+    display: none;
+}
+
+#imgupload, #novelupload {
+    margin-left: 35%;
+    width: 117px;
+}
