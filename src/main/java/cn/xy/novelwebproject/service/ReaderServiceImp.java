@@ -133,7 +133,7 @@ public class ReaderServiceImp implements ReaderService {
 										jedis.setex(key, time, new ObjectMapper().writeValueAsString(reader));
 								}
 						} else {
-								reader = null;//readerMapper.findBookShelfByName(nick_name);
+								reader = readerMapper.getAllMsg(nick_name);//readerMapper.findBookShelfByName(nick_name);
 								//更新redis的值
 								if (reader != null) {
 										//获取key的过期时间，已过期设置为3600秒，
