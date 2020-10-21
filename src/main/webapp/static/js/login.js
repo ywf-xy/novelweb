@@ -5,7 +5,8 @@ function authLogining() {
 			function (data) {
 					var flag = data.flag;
 					if (flag) {
-							window.top.location.href = "/wfRead/" + data.message;
+							//alert("zz?")
+							window.top.location.href = "/wfRead/auth/authorUI";
 					} else {
 							$("#auth p span").html(data.message);
 					}

@@ -124,14 +124,12 @@ function editorpush() {
 							var booklist = data.data;
 							var links = $(".wrap_12_mian a");
 							for (var i = 0; i < 4; i++) {
-
-									var j = i + 1;
-									$("#recommend_" + j + " a").text(booklist[i].book_name);
+									$("#recommend_" + (i + 1) + " a").text(booklist[i].book_name);
 									links[i].href = "/wfRead/novel/book/" + booklist[i].book_name;
 									var texts = booklist[i].book_intro.replace(" ", "");
 									if (texts.length > 63)
 											texts = texts.substring(0, 63) + "...";
-									$("#recommend_" + i + " p").text(texts);
+									$("#recommend_" + (i + 1) + " p").text(texts);
 							}
 					}
 			}, "json");

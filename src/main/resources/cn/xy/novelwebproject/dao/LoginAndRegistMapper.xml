@@ -58,6 +58,7 @@
         <result property="concerns" column="concerns"/>
         <result property="fans" column="fans"/>
         <result property="password" column="password"/>
+        <result property="headimage" column="headimage"/>
         <collection property="footmark" ofType="cn.xy.novelwebproject.bean.Footmarks">
             <result property="user_name" column="user_name"/>
             <result property="novle_name" column="novle_name"/>
@@ -107,6 +108,7 @@
             au.collections,
             au.concerns,
             au.fans,
+            au.headimage,
             nv.book_name,
             nv.book_state,
             fm.user_name,

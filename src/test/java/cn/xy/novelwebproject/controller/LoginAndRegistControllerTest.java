@@ -19,10 +19,11 @@ public class LoginAndRegistControllerTest extends BaseTest {
 		public void authLogin() {
 				Msg msg = new Msg(true);
 				Author author = new Author();
-				author.setNick_name("严七官");
+				author.setNick_name("8难");
 				author.setPassword("123456");
 				if (loginAndRegistService.AuthLogin(author)) {
 						Author authorLogin = loginAndRegistService.getAuthMsgByName(author.getNick_name());
+						System.out.println(authorLogin);
 						if(authorLogin.getPassword().equals(author.getPassword())){
 
 						}else{
@@ -41,4 +42,5 @@ public class LoginAndRegistControllerTest extends BaseTest {
 				Reader ywf = loginAndRegistService.getReaderMsgByName("ywf");
 				System.out.println(ywf);
 		}
+
 }

@@ -102,8 +102,30 @@
 						</association>
 				</collection>
 		</resultMap>
-
-		<select id="findBookShelfByName" parameterType="String" resultMap="allMsg">
+		<resultMap id="bookShelf" type="cn.xy.novelwebproject.bean.NovelShelf">
+						<id column="id" property="id"/>
+						<result property="reader_name" column="reader_name"/>
+						<result column="bookmark" property="bookmark"/>
+						<association property="novel_name" column="novel_name" autoMapping="true">
+								<id column="book_name" jdbcType="VARCHAR" property="book_name"/>
+								<result column="book_author" jdbcType="VARCHAR" property="book_author"/>
+								<result column="book_state" jdbcType="VARCHAR" property="book_state"/>
+								<result column="book_words" jdbcType="INTEGER" property="book_words"/>
+								<result column="book_intro" jdbcType="VARCHAR" property="book_intro"/>
+								<result column="update_time" jdbcType="DATE" property="update_time"/>
+								<result column="monthly_tickets" jdbcType="INTEGER" property="monthly_tickets"/>
+								<result column="total_hits" jdbcType="INTEGER" property="total_hits"/>
+								<result column="monthly_hits" jdbcType="INTEGER" property="monthly_hits"/>
+								<result column="weekly_hits" jdbcType="INTEGER" property="weekly_hits"/>
+								<result column="daily_hits" jdbcType="INTEGER" property="daily_hits"/>
+								<result column="total_collections" jdbcType="INTEGER" property="total_collections"/>
+								<result column="monthly_collections" jdbcType="INTEGER" property="monthly_collections"/>
+								<result column="weekly_collections" jdbcType="INTEGER" property="weekly_collections"/>
+								<result column="daily_collections" jdbcType="INTEGER" property="daily_collections"/>
+								<result column="downloads" jdbcType="INTEGER" property="downloads"/>
+						</association>
+		</resultMap>
+		<select id="getAllMsg" parameterType="String" resultMap="allMsg">
 				SELECT
 						readers.nick_name,
 						novel.book_name,
@@ -147,11 +169,11 @@
 						reader_bookshelf.bookmark
 				FROM
 						readers
-								LEFT JOIN
+								left  JOIN
 						reader_bookshelf
 						ON
 								reader_bookshelf.reader_name = readers.nick_name
-								INNER JOIN
+								inner JOIN
 						novel
 						ON
 								novel.book_name = reader_bookshelf.novel_name
@@ -159,6 +181,39 @@
 
 		</select>
 
+		<select id="findBookShelfByName" parameterType="String" resultMap="bookShelf">
+				SELECT
+						novel.book_name,
+						novel.book_type,
+						novel.book_author,
+						novel.book_state,
+						novel.book_words,
+						novel.book_intro,
+						novel.book_catalog,
+						novel.update_time,
+						novel.monthly_tickets,
+						novel.total_hits,
+						novel.monthly_hits,
+						novel.weekly_hits,
+						novel.daily_hits,
+						novel.total_collections,
+						novel.monthly_collections,
+						novel.weekly_collections,
+						novel.daily_collections,
+						novel.downloads,
+						novel.comments,
+						reader_bookshelf.reader_name,
+						reader_bookshelf.novel_name,
+						reader_bookshelf.id,
+						reader_bookshelf.bookmark
+				FROM
+						reader_bookshelf
+								INNER JOIN
+						novel
+						ON
+								novel.book_name = reader_bookshelf.novel_name
+				where reader_name =#{nick_name}
+		</select>
 		<delete id="deletBookShelfById" parameterType="int">
 				delete from reader_bookshelf where id = #{id}
 		</delete>

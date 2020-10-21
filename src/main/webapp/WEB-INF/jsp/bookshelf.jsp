@@ -45,15 +45,7 @@
 										</div>
 								</dd>
 						</c:if>
-						<c:if test="${user_auth.nick_name!=null}">
-								<dd>
-										<div>
-												<span><img src="/static/picture/default_user.png" alt="404" id="headimages"></span>
-												<a href="">${user_auth.nick_name}</a>
-												<a href="${pageContext.request.contextPath}/loginAndRegist/loginout">注销</a>
-										</div>
-								</dd>
-						</c:if>
+
 						<c:if test="${user_reader.nick_name!=null}">
 								<dd>
 										<div>
@@ -71,9 +63,9 @@
 								<div>
 										<span class="booklib_log"></span>
 										<c:if test="${user_reader.nick_name!=null}">
-												<a href="/wfRead/reader/personshelf?nick_name=${user_reader.nick_name}">书架</a>
+												<a href="/wfRead/reader/personshelf?nick_name=${user_reader.nick_name}" >书架</a>
 										</c:if>
-										<c:if test="${user_reader.nick_name==nulls&&user_auth.nick_name==null}">
+										<c:if test="${user_reader.nick_name==null}">
 												<a href="">书架</a>
 										</c:if>
 								</div>
@@ -98,7 +90,7 @@
 <!----主体-->
 <div id="main">
 		<div id="tips_head" align="center">
-				<span>您的书架可收藏${user_reader.vip*10}本，已收藏${bookshelfs.size()}本。 </span>
+				<span>您的书架可收藏${user_reader.vip==0?10:ser_reader.vip*10}本，已收藏${bookshelfs.size()}本。 </span>
 		</div>
 		<br/>
 		<hr style="width: 800px;"/>

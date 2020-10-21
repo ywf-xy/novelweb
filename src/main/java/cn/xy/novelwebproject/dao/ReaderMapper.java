@@ -1,8 +1,11 @@
 package cn.xy.novelwebproject.dao;
 
+import cn.xy.novelwebproject.bean.NovelShelf;
 import cn.xy.novelwebproject.bean.Reader;
 
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface ReaderMapper {
@@ -13,11 +16,13 @@ public interface ReaderMapper {
 
 		int updataReaderByName(Reader reader);
 
-		Reader findBookShelfByName(String nick_name);
+		List<NovelShelf> findBookShelfByName(String nick_name);
 
 		int deletBookShelfById(int id);
 
 		boolean addBookMark(String nick_name, String book_name, String catlogname);
 
 		boolean updateBookMark(String nick_name, String book_name,String catlogname);
+
+		Reader getAllMsg(String nick_name);
 }

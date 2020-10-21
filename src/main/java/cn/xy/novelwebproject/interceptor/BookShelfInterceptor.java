@@ -16,10 +16,6 @@ public class BookShelfInterceptor implements HandlerInterceptor {
 				boolean flag = false;
 				if (reader!=null&&reader.getNick_name()!=null&&!"".equals(reader.getNick_name())){
 						flag = true;
-				}else {
-						if (author!=null&&author.getNick_name()!=null&&!"".equals(author.getNick_name())){
-								flag = true;
-						}
 				}
 				return flag;
 		}

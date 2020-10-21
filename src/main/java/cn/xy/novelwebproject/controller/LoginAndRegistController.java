@@ -75,18 +75,22 @@ public class LoginAndRegistController {
 		@RequestMapping("authlogin")
 		public Msg AuthLogin(Author author, HttpServletRequest request, HttpSession session) {
 				Msg msg = new Msg(true);
-				if (loginAndRegistService.AuthLogin(author)) {
-						Author authorLogin = loginAndRegistService.getAuthMsgByName(author.getNick_name());
-						if (authorLogin.getPassword().equals(author.getPassword())) {
-								session.setAttribute("user_auth", author);
-								msg.setMessage(referUrl);
-						} else {
+				logger.info(author.toString());
+				Author authorLogin = loginAndRegistService.getAuthMsgByName(author.getNick_name());
+				if (!loginAndRegistService.AuthLogin(author)) {
+						if(authorLogin==null){
+								msg.setFlag(false);
+								msg.setMessage("用户名错误！请检查后重试！");
+						}
+						else if (!authorLogin.getPassword().equals(author.getPassword())) {
 								msg.setFlag(false);
 								msg.setMessage("密码错误！请检查后重试！");
 						}
 				} else {
-						msg.setFlag(false);
-						msg.setMessage("用户名错误！请检查后重试！");
+						msg.setFlag(true);
+						msg.setMessage("登录成功！");
+						session.setAttribute("user_auth", authorLogin);
+						msg.setMessage(referUrl);
 				}
 				logger.info("authlogin:"+msg);
 				return msg;
@@ -97,18 +101,21 @@ public class LoginAndRegistController {
 		public Msg Readerlogin(Reader reader, HttpServletRequest request, HttpSession session) {
 				Msg msg = new Msg(true);
 				logger.info("[login: reader]="+reader);
-				if (loginAndRegistService.ReaderLogin(reader)) {
-						Reader readerLogin = loginAndRegistService.getReaderMsgByName(reader.getNick_name());
-						if (readerLogin.getPassword().equals(reader.getPassword())) {
-								session.setAttribute("user_reader", readerLogin);
-								msg.setMessage(referUrl);
-						} else {
+				Reader readerLogin = loginAndRegistService.getReaderMsgByName(reader.getNick_name());
+				if (!loginAndRegistService.ReaderLogin(reader)) {
+						if (readerLogin==null){
+								msg.setFlag(false);
+								msg.setMessage("用户名错误！请检查后重试！");
+						}
+						else if (!readerLogin.getPassword().equals(reader.getPassword())){
 								msg.setFlag(false);
 								msg.setMessage("密码错误！请检查后重试！");
 						}
 				} else {
-						msg.setFlag(false);
+						msg.setFlag(true);
 						msg.setMessage("用户名错误！请检查后重试！");
+						session.setAttribute("user_reader", readerLogin);
+						msg.setMessage(referUrl);
 				}
 				logger.info("readerlogin:"+msg);
 				return msg;

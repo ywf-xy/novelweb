@@ -69,7 +69,9 @@ public class LoginAndRegistServiceImp implements LoginAndRegistService {
 								reader = new ObjectMapper().readValue(value, Reader.class);
 						} else {
 								reader = loginAndRegistMapper.selectByReaderKey(nick_name);
-								reader.setBirth(new SimpleDateFormat("yyyy-MM-dd").format(reader.getBirthday()));
+								if (reader.getBirthday()!=null){
+										reader.setBirth(new SimpleDateFormat("yyyy-MM-dd").format(reader.getBirthday()));
+								}
 								String json = new ObjectMapper().writeValueAsString(reader);
 								jedis.setex(key, 60 * 60, json);
 

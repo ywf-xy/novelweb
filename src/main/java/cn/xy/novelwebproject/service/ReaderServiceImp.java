@@ -44,7 +44,7 @@ public class ReaderServiceImp implements ReaderService {
 
 						}
 				} catch (Exception e) {
-						logger.error("错误消息：{}",e.getMessage(),e);
+						logger.error("错误消息：{}", e.getMessage(), e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -70,7 +70,7 @@ public class ReaderServiceImp implements ReaderService {
 								}
 								jedis.setex(keu, time, new ObjectMapper().writeValueAsString(reader));
 						} catch (IOException e) {
-								logger.error("错误消息：{}",e.getMessage(),e);
+								logger.error("错误消息：{}", e.getMessage(), e);
 						} finally {
 								JedisUtils.close(jedis);
 						}
@@ -109,7 +109,7 @@ public class ReaderServiceImp implements ReaderService {
 								return 1;
 						}
 				} catch (IOException e) {
-						logger.error("错误消息：{}",e.getMessage(),e);
+						logger.error("错误消息：{}", e.getMessage(), e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -127,13 +127,13 @@ public class ReaderServiceImp implements ReaderService {
 								String value = jedis.get(key);
 								reader = new ObjectMapper().readValue(value, Reader.class);
 								if (reader.getMybookshelf() == null) {
-										reader = readerMapper.findBookShelfByName(nick_name);
+										reader.setMybookshelf(readerMapper.findBookShelfByName(nick_name));
 										//获取key的过期时间，已过期设置为3600秒，
 										int time = Math.toIntExact(jedis.ttl(key)) == -2 ? 60 * 60 : Math.toIntExact(jedis.ttl(key));
 										jedis.setex(key, time, new ObjectMapper().writeValueAsString(reader));
 								}
 						} else {
-								reader = readerMapper.findBookShelfByName(nick_name);
+								reader = null;//readerMapper.findBookShelfByName(nick_name);
 								//更新redis的值
 								if (reader != null) {
 										//获取key的过期时间，已过期设置为3600秒，
@@ -143,7 +143,7 @@ public class ReaderServiceImp implements ReaderService {
 						}
 
 				} catch (Exception e) {
-						logger.error("错误消息：{}",e.getMessage(),e);
+						logger.error("错误消息：{}", e.getMessage(), e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -174,7 +174,7 @@ public class ReaderServiceImp implements ReaderService {
 								jedis.set(key, new ObjectMapper().writeValueAsString(reader));
 						}
 				} catch (Exception e) {
-						logger.error("错误消息：{}",e.getMessage(),e);
+						logger.error("错误消息：{}", e.getMessage(), e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
@@ -189,29 +189,26 @@ public class ReaderServiceImp implements ReaderService {
 				int flag = 0;
 				boolean result = false;
 				try {
-
 						if (jedis.exists(key)) {
 								String value = jedis.get(key);
 								reader = new ObjectMapper().readValue(value, Reader.class);
-								reader = reader.getMybookshelf() == null ? readerMapper.findBookShelfByName(nick_name) : reader;
-								List<NovelShelf> mybookshelf = reader.getMybookshelf();
+								logger.info("[reader:addmark]=" + reader);
+								List<NovelShelf> mybookshelf = reader.getMybookshelf() == null ? readerMapper.findBookShelfByName(nick_name) : reader.getMybookshelf();
 
-								Msg msg = checkBookShelf(mybookshelf,nick_name,book_name,catlogname);
+								Msg msg = checkBookShelf(mybookshelf, nick_name, book_name, catlogname);
 								flag = (int) msg.getData();
 								result = msg.isFlag();
 								//如果没有找到，想数据库插入新的记录
 								if (flag != 1) {
 										result = readerMapper.addBookMark(nick_name, book_name, catlogname);
-										reader = readerMapper.findBookShelfByName(nick_name);
+										reader = readerMapper.getAllMsg(nick_name);
 								} else {
 										reader.setMybookshelf(mybookshelf);
 								}
-
-
 								jedis.set(key, new ObjectMapper().writeValueAsString(reader));
 						} else {
 
-								reader = readerMapper.findBookShelfByName(nick_name);
+								reader = readerMapper.getAllMsg(nick_name);
 								List<NovelShelf> mybookshelf = reader.getMybookshelf();
 								for (NovelShelf n : mybookshelf) {
 										if (catlogname.equals(n.getBookmark())) {
@@ -224,14 +221,14 @@ public class ReaderServiceImp implements ReaderService {
 								jedis.setex(key, 60 * 60, new ObjectMapper().writeValueAsString(reader));
 						}
 				} catch (Exception e) {
-						logger.error("错误消息：{}",e.getMessage(),e);
+						logger.error("错误消息：{}", e.getMessage(), e);
 				} finally {
 						JedisUtils.close(jedis);
 				}
 				return result;
 		}
 
-		public Msg checkBookShelf(List<NovelShelf> mybookshelf,String nick_name, String book_name, String catlogname){
+		public Msg checkBookShelf(List<NovelShelf> mybookshelf, String nick_name, String book_name, String catlogname) {
 				Msg msg = new Msg(false);
 				msg.setData(0);
 				boolean result = false;

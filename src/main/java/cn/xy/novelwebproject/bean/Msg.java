@@ -57,4 +57,14 @@ public class Msg<T> {
 		public void setData (T data) {
 				this.data = data;
 		}
+
+		@Override
+		public String toString() {
+				return "Msg{" +
+					"data=" + data +
+					", fieldErrers=" + fieldErrers +
+					", message='" + message + '\'' +
+					", flag=" + flag +
+					'}';
+		}
 }
