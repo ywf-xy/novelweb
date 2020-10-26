@@ -45,20 +45,18 @@
                 </dd>
             </c:if>
             <c:if test="${user_auth.nick_name!=null}">
-                <dd>
+                <dd >
                     <div>
-                        <span><img src="" alt="404"></span>
-                        <a href="">${user_auth.nick_name}</a>
+                        <span><img class="headimage" src="${pageContext.request.contextPath}/static/auth-photo/${user_auth.nick_name}/${user_auth.headimage}" alt="404"></span>
+                        <a href="" >欢迎！${user_auth.nick_name}</a>
                         <a href="${pageContext.request.contextPath}/loginAndRegist/loginout">注销</a>
                     </div>
                 </dd>
             </c:if>
             <c:if test="${user_reader.nick_name!=null}">
-                <dd>
+                <dd >
                     <div>
-                        <span><img
-                                src="${pageContext.request.contextPath}/static/user-photo/${user_reader.nick_name}/${user_reader.headimage}"
-                                alt="404" id="headimage"></span>
+                        <span><img src="${pageContext.request.contextPath}/static/user-photo/${user_reader.nick_name}/${user_reader.headimage}" alt="404" class="headimage"></span>
                         <a href="${pageContext.request.contextPath}/reader/getusermsg">欢迎！${user_reader.nick_name}</a>
                         <a href="${pageContext.request.contextPath}/loginAndRegist/loginout">注销</a>
                     </div>

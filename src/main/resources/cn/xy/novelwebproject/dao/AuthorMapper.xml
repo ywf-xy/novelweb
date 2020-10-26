@@ -51,7 +51,8 @@
             </collection>
         </collection>
     </resultMap>
-    <select id="getAllAuth" resultMap="allAuth">
+
+        <select id="getAllAuth" resultMap="allAuth">
         SELECT au.nick_name,
                au.sex,
                au.subscriptions,
@@ -107,6 +108,7 @@
                  LEFT OUTER JOIN
              usercomment cm ON nc.comment_id = cm.id
     </select>
+
     <resultMap id="selectAuthor_map" type="cn.xy.novelwebproject.bean.Author">
         <id property="nick_name" column="nick_name"/>
         <result property="sex" column="sex"/>
@@ -115,8 +117,9 @@
         <result property="concerns" column="concerns"/>
         <result property="fans" column="fans"/>
         <result property="password" column="password"/>
-            <result property="headimage" column="headimage"/>
+        <result property="headimage" column="headimage"/>
     </resultMap>
+
     <select id="selectAuthor" resultMap="selectAuthor_map" parameterType="String">
         <bind name="nname" value="'%'+_parameter+'%'"/>
         SELECT a.nick_name,a.sex,a.subscriptions,a.collections,a.concerns,a.fans,a.password from author a
@@ -126,6 +129,7 @@
             </if>
         </where>
     </select>
+
     <resultMap id="getAuthorWorks_map" type="cn.xy.novelwebproject.bean.Author">
         <id property="nick_name" column="nick_name"/>
         <collection property="works" ofType="cn.xy.novelwebproject.bean.Novel">
@@ -134,10 +138,27 @@
             <result property="update_time" column="update_time"/>
         </collection>
     </resultMap>
+
     <select id="getAuthorWorks" parameterType="String" resultMap="getAuthorWorks_map">
         SELECT author.nick_name, novel.book_name, novel.book_words, novel.update_time
         FROM author
                  INNER JOIN novel ON novel.book_author = author.nick_name
         WHERE author.nick_name = #{nick_name}
     </select>
+
+        <select id="findAuthByNamePwd" parameterType="String" resultType="int">
+                select count(*) from author where nick_name = #{arg0} and password = #{arg1}
+        </select>
+
+        <update id="updatePasswordByName" parameterType="String">
+                update author set password = #{arg1} where nick_name = #{arg0}
+        </update>
+
+        <update id="SetUserHeadImg" parameterType="String">
+                update author set headimage = #{arg1}  where nick_name = #{arg0}
+        </update>
+
+        <select id="findAuthorByName" parameterType="String" resultMap="selectAuthor_map">
+                select * from author where nick_name = #{username}
+        </select>
 </mapper>

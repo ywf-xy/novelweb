@@ -54,7 +54,7 @@
 																								   alt="404" class="headimag">
 																				</c:if>
 																		<c:if test="${user_auth.headimage!=null}">
-																				<img class="headimage" src="${pageContext.request.contextPath}/static/user-photo/${user_auth.nick_name}/${user_auth.headimage}" alt="404">
+																				<img class="headimage" src="${pageContext.request.contextPath}/static/auth-photo/${user_auth.nick_name}/${user_auth.headimage}" alt="404">
 																		</c:if>
 																		</li>
 																		<li><a href="">${user_auth.nick_name}</a></li>
@@ -82,7 +82,12 @@
 												作品管理
 										</h3>
 										<button type="button" class="btn btn-success btn-lg btn-block" style="width: 280px;margin: 0 auto;">
-												<a href="">管理入口</a>
+												<c:if test="${user_auth.nick_name==null}">
+														<a href="javascript:alert('您还未登录，请登录后使用！')" disabled="disabled" >由此进入</a>
+												</c:if>
+												<c:if test="${user_auth.nick_name!=null}">
+														<a href="">管理入口</a>
+												</c:if>
 										</button>
 								</div>
 								<div class="col-md-4 column">
@@ -90,7 +95,12 @@
 												作品上传
 										</h3>
 										<button type="button" class="btn btn-lg btn-block btn-warning" style="width: 280px;margin: 0 auto;">
-												<a href="${pageContext.request.contextPath}/auth/fileuploadUI">由此进入</a>
+												<c:if test="${user_auth.nick_name==null}">
+														<a href="javascript:alert('您还未登录，请登录后使用！')" disabled="disabled" >由此进入</a>
+												</c:if>
+												<c:if test="${user_auth.nick_name!=null}">
+														<a href="${pageContext.request.contextPath}/auth/fileuploadUI">由此进入</a>
+												</c:if>
 										</button>
 								</div>
 								<div class="col-md-4 column">
@@ -98,7 +108,12 @@
 												信息修改
 										</h3>
 										<button type="button" class="btn btn-lg btn-block btn-primary" style="width: 280px;margin: 0 auto;">
-												<a href="">个人中心</a>
+												<c:if test="${user_auth.nick_name==null}">
+														<a href="javascript:alert('您还未登录，请登录后使用！')" disabled="disabled" >个人中心</a>
+												</c:if>
+												<c:if test="${user_auth.nick_name!=null}">
+														<a href="${pageContext.request.contextPath}/auth/authorcenterUI">个人中心</a>
+												</c:if>
 										</button>
 								</div>
 						</div>

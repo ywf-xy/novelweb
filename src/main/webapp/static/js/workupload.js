@@ -11,6 +11,8 @@ function imguploadUI() {
 }
 function imgupload() {
 		var fileObj = $(".imgfileup")[0].files[0]; // js 获取文件对象
+		var filename = $(".filename").val()+"."+(fileObj.name).split(".")[1]
+		console.log(filename);
 		if (typeof (fileObj) == "undefined" || fileObj.size <= 0) {
 				alert("请选择上传的图片！");
 				return;
@@ -19,7 +21,7 @@ function imgupload() {
 		}
 		var formFile = new FormData();
 		formFile.append("file", fileObj);
-		formFile.append("filename",escape(fileObj.name).replaceAll("%","_"))
+		formFile.append("filename",escape(filename).replaceAll("%","_"))
 		var data = formFile;
 
 		$.ajax({

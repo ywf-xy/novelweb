@@ -7,12 +7,11 @@
 		<link rel="shortcut icon" href="${path}/static/picture/favicon.ico"/>
 		<link href="${path}/static/css/bootstrap.min.css" rel="stylesheet">
 		<link href="${path}/static/css/auth-base.css" rel="stylesheet">
-		<link href="${path}/static/css/workupload.css" rel="stylesheet">
 		<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
 		<script src="${path}/static/js/jquery-3.4.1.min.js" type="text/javascript"></script>
 		<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
 		<script src="${path}/static/js/bootstrap.min.js"></script>
-		<script src="${path}/static/js/workupload.js"></script>
+		<script type="text/javascript" src="${path}/static/js/author_center.js"></script>
 </head>
 <body>
 <div class="container">
@@ -78,55 +77,58 @@
 										</nav>
 								</div>
 						</div>
+						<div class="row clearfix">
+								<div class="col-md-12 column">
+										<div class="tabbable" id="tabs-510506">
+												<ul class="nav nav-tabs">
+														<li>
+																<a href="#panel-796791" data-toggle="tab">密码</a>
+														</li>
+														<li class="active">
+																<a href="#panel-218110" data-toggle="tab">头像</a>
+														</li>
+												</ul>
+												<div class="tab-content">
+														<div class="tab-pane" id="panel-796791">
 
-								<div class="row clearfix" style="margin-top: 100px">
-										<div class="col-md-6 column">
-												<h3 class="text-center text-info">
-														<span class="glyphicon glyphicon-picture"></span> <strong>图片·上传</strong>
-												</h3>
-												<button type="button" class="btn btn-lg btn-success" id="up-img">上传小说封面</button>
-										</div>
-										<div class="col-md-6 column">
-												<h3 class="text-info text-center">
-														<span class="glyphicon glyphicon-file"></span> <strong>小说·上传</strong>
-												</h3>
-												<button type="button" class="btn btn-success btn-lg" id="up-novel">上传<strong>完本</strong>小说</button>
+																<div>
+																		<div class="form-group"><span id="pwd_erro" style="color: red"></span></div>
+																		<div class="form-group">
+																				<label for="inputSuccess1">旧密码:</label><input type="password" name="old_pwd" id="inputSuccess1">
+																		</div>
+																		<div class="form-group">
+																				<label for="inputSuccess2">新密码:</label><input type="password" name="new_pwd" id="inputSuccess2">
+																		</div>
+																		<div class="form-group">
+																				<label for="inputSuccess3">确认密码:</label><input type="password" name="cfm_pwd" id="inputSuccess3">
+																		</div>
+																		<div >
+																				<button class="btn-success" id="btn_pwd">修改</button>
+																		</div>
+																</div>
+
+														</div>
+														<div class="tab-pane active" id="panel-218110">
+
+																		<div class="form-group">
+																				<c:if test="${user_auth.headimage==null}">
+																						<img src="${pageContext.request.contextPath}/static/picture/default_user.png" alt="404" id="big_headimage" style="width: 180px;height: 180px;border-radius: 50%;">
+																				</c:if>
+																				<c:if test="${user_auth.headimage!=null}">
+																						<img src="${pageContext.request.contextPath}/static/auth-photo/${user_auth.nick_name}/${user_auth.headimage}" alt="404" id="big_headimage" style="width: 180px;height: 180px;border-radius: 50%;">
+																				</c:if>
+																		</div>
+																		<div class="form-group">
+																				<label for="imgInput">头像上传</label>
+																				<input type="file" id="imgInput"><br>
+																				<p class="help-block"><button class="btn-success" id="img_up_btn">上传</button></p>
+																		</div>
+
+														</div>
+												</div>
 										</div>
 								</div>
-								<div class="row clearfix" id="imgDiv">
-										<div class="col-md-4 column"></div>
-
-										<div class="col-md-4 column">
-												<form role="form">
-														<div class="form-group">
-																<label for="imgupload">图片·小说名</label>
-																<input type="text" name="filename" class="filename" />
-														</div>
-														<div class="form-group">
-																<label for="imgupload">上传图片</label>
-																<input type="file" name="imgfile" class="imgfileup" />
-														</div>
-														<button type="button" class="btn btn-default" id="imgupload" ><span class="glyphicon glyphicon-arrow-up"></span> <strong>上传</strong></button>
-												</form>
-										</div>
-
-										<div class="col-md-4 column"></div>
-								</div>
-								<div class="row clearfix" id="novelDiv">
-										<div class="col-md-4 column"></div>
-
-										<div class="col-md-4 column">
-												<form role="form">
-														<div class="form-group">
-																<label for="novelupload">上传小说</label>
-																<input type="file" name="novelfile" class="novelfileup" />
-														</div>
-														<button type="button" class="btn btn-default" id="novelupload"><span class="glyphicon glyphicon-arrow-up"></span> <strong>上传</strong></button>
-												</form>
-										</div>
-
-										<div class="col-md-4 column"></div>
-								</div>
+						</div>
 				</div>
 		</div>
 </div>
