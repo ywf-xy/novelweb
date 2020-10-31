@@ -16,4 +16,8 @@ public interface AuthService {
 		int SetUserHeadImg(String username, String fileName);
 
 		Object getAuthByName(String username);
+
+		Author getAuthorAllMsg(String nick_name);
+
+		boolean updateAuthWork(String book_name, String book_intro, String book_status);
 }

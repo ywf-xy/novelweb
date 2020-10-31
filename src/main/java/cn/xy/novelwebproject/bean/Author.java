@@ -1,6 +1,5 @@
 package cn.xy.novelwebproject.bean;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Author {
@@ -244,7 +243,7 @@ public class Author {
 					", collections=" + collections +
 					", concerns=" + concerns +
 					", footmark=" + footmark +
-					", works=" + works +
+					", works=" + works+
 					", fans=" + fans +
 					", password='" + password + '\'' +
 					", headimage='" + headimage + '\'' +

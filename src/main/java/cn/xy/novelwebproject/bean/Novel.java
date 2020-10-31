@@ -313,27 +313,26 @@ public class Novel {
 		}
 
 		@Override
-		public String toString () {
+		public String toString() {
 				return "Novel{" +
-						"book_name='" + book_name + '\'' +
-						", book_type=" + book_type +
-						", book_author='" + book_author + '\'' +
-						", book_state='" + book_state + '\'' +
-						", book_words=" + book_words +
-						", book_intro='" + book_intro + '\'' +
-						", book_catalog=" + book_catalog +
-						", update_time=" + update_time +
-						", monthly_tickets=" + monthly_tickets +
-						", total_hits=" + total_hits +
-						", monthly_hits=" + monthly_hits +
-						", weekly_hits=" + weekly_hits +
-						", daily_hits=" + daily_hits +
-						", total_collections=" + total_collections +
-						", monthly_collections=" + monthly_collections +
-						", weekly_collections=" + weekly_collections +
-						", daily_collections=" + daily_collections +
-						", downloads=" + downloads +
-						", comments=" + comments +
-						'}';
+					"book_name='" + book_name + '\'' +
+					", book_author='" + book_author + '\'' +
+					", book_state='" + book_state + '\'' +
+					", book_words=" + book_words +
+					", book_intro='" + book_intro + '\'' +
+					", book_catalog=" + book_catalog +
+					", update_time=" + update_time +
+					", monthly_tickets=" + monthly_tickets +
+					", total_hits=" + total_hits +
+					", monthly_hits=" + monthly_hits +
+					", weekly_hits=" + weekly_hits +
+					", daily_hits=" + daily_hits +
+					", total_collections=" + total_collections +
+					", monthly_collections=" + monthly_collections +
+					", weekly_collections=" + weekly_collections +
+					", daily_collections=" + daily_collections +
+					", downloads=" + downloads +
+					", comments=" + comments +
+					'}';
 		}
 }

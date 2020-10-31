@@ -2,163 +2,198 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.xy.novelwebproject.dao.AuthorMapper">
-    <resultMap id="allAuth" type="cn.xy.novelwebproject.bean.Author">
-        <id property="nick_name" column="nick_name"/>
-        <result property="sex" column="sex"/>
-        <result property="subscriptions" column="subscriptions"/>
-        <result property="collections" column="collections"/>
-        <result property="concerns" column="concerns"/>
-        <result property="fans" column="fans"/>
-        <result property="headimage" column="headimage"/>
-        <collection property="footmark" ofType="cn.xy.novelwebproject.bean.Footmarks">
-            <result property="user_name" column="user_name"/>
-            <result property="novle_name" column="novle_name"/>
-            <result property="visit_time" column="visit_time"/>
-        </collection>
-        <collection property="works" ofType="cn.xy.novelwebproject.bean.Novel">
-            <id property="book_name" column="book_name"/>
-            <result property="book_author" column="book_author"/>
-            <result property="book_state" column="book_state"/>
-            <result property="book_words" column="book_words"/>
-            <result property="book_intro" column="book_intro"/>
-            <result property="update_time" column="update_time"/>
-            <result property="monthly_tickets" column="monthly_tickets"/>
-            <result property="total_hits" column="total_hits"/>
-            <result property="monthly_hits" column="monthly_hits"/>
-            <result property="weekly_hits" column="weekly_hits"/>
-            <result property="daily_hits" column="daily_hits"/>
-            <result property="total_collections" column="total_collections"/>
-            <result property="monthly_collections" column="monthly_collections"/>
-            <result property="weekly_collections" column="weekly_collections"/>
-            <result property="daily_collections" column="daily_collections"/>
-            <result property="downloads" column="downloads"/>
-            <collection property="book_type" ofType="cn.xy.novelwebproject.bean.Noveltype">
-                <id property="id" column="id"/>
-                <result property="typename" column="typename"/>
-            </collection>
-            <collection property="comments" ofType="cn.xy.novelwebproject.bean.Comment">
-                <id property="id" column="cmid"/>
-                <result property="comment_title" column="comment_title"/>
-                <result property="comment_context" column="comment_context"/>
-                <result property="comment_author" column="comment_author"/>
-                <result property="comment_time" column="comment_time"/>
-                <result property="comment_url" column="comment_url"/>
-            </collection>
-            <collection property="book_catalog" ofType="cn.xy.novelwebproject.bean.Catalog">
-                <result property="novale_catalog" column="novale_catalog"/>
-                <result property="novel_name" column="clnovel_name"/>
-                <result property="updatetime" column="updatetime"/>
-            </collection>
-        </collection>
-    </resultMap>
+		<resultMap id="allAuth" type="cn.xy.novelwebproject.bean.Author">
+				<id property="nick_name" column="nick_name"/>
+				<result property="sex" column="sex"/>
+				<result property="subscriptions" column="subscriptions"/>
+				<result property="collections" column="collections"/>
+				<result property="concerns" column="concerns"/>
+				<result property="fans" column="fans"/>
+				<result property="headimage" column="headimage"/>
+				<collection property="footmark" ofType="cn.xy.novelwebproject.bean.Footmarks">
+						<result property="user_name" column="user_name"/>
+						<result property="novle_name" column="novle_name"/>
+						<result property="visit_time" column="visit_time"/>
+				</collection>
+				<collection property="works" ofType="cn.xy.novelwebproject.bean.Novel">
+						<id property="book_name" column="book_name"/>
+						<result property="book_author" column="book_author"/>
+						<result property="book_state" column="book_state"/>
+						<result property="book_words" column="book_words"/>
+						<result property="book_intro" column="book_intro"/>
+						<result property="update_time" column="update_time"/>
+						<result property="monthly_tickets" column="monthly_tickets"/>
+						<result property="total_hits" column="total_hits"/>
+						<result property="monthly_hits" column="monthly_hits"/>
+						<result property="weekly_hits" column="weekly_hits"/>
+						<result property="daily_hits" column="daily_hits"/>
+						<result property="total_collections" column="total_collections"/>
+						<result property="monthly_collections" column="monthly_collections"/>
+						<result property="weekly_collections" column="weekly_collections"/>
+						<result property="daily_collections" column="daily_collections"/>
+						<result property="downloads" column="downloads"/>
+						<collection property="book_type" ofType="cn.xy.novelwebproject.bean.Noveltype">
+								<result property="novel_name" column="book_name"/>
+								<result property="type" column="type"/>
+						</collection>
+						<collection property="comments" ofType="cn.xy.novelwebproject.bean.Comment">
+								<id property="id" column="cmid"/>
+								<result property="comment_title" column="comment_title"/>
+								<result property="comment_context" column="comment_context"/>
+								<result property="comment_author" column="comment_author"/>
+								<result property="comment_time" column="comment_time"/>
+								<result property="comment_url" column="comment_url"/>
+						</collection>
+						<collection property="book_catalog" ofType="cn.xy.novelwebproject.bean.Catalog">
+								<id column="id" property="id"/>
+								<result property="novale_catalog" column="novale_catalog"/>
+								<result property="novel_name" column="book_name"/>
+								<result property="updatetime" column="updatetime"/>
+						</collection>
+				</collection>
+		</resultMap>
 
-        <select id="getAllAuth" resultMap="allAuth">
-        SELECT au.nick_name,
-               au.sex,
-               au.subscriptions,
-               au.collections,
-               au.concerns,
-               au.fans,
-               au.headimage,
-               nv.book_name,
-               nv.book_state,
-               fm.user_name,
-               fm.novle_name,
-               fm.visit_time,
-               nv.book_author,
-               nv.book_words,
-               nv.book_intro,
-               nv.update_time,
-               nv.monthly_tickets,
-               nv.total_hits,
-               nv.monthly_hits,
-               nv.weekly_hits,
-               nv.daily_hits,
-               nv.total_collections,
-               nv.monthly_collections,
-               nv.weekly_collections,
-               nv.daily_collections,
-               nv.downloads,
-               cl.novale_catalog,
-               cl.novel_name clnovel_name,
-               cl.updatetime,
-               cm.id         cmid,
-               cm.comment_title,
-               cm.comment_context,
-               cm.comment_author,
-               cm.comment_time,
-               cm.comment_url,
-               ntp.id,
-               ntp.typename
-        FROM author au
-                 LEFT OUTER JOIN
-             author_work_novel awn ON au.works = awn.novel_author
-                 LEFT OUTER JOIN
-             footmarks fm ON fm.user_name = au.footmark
-                 LEFT OUTER JOIN
-             novel nv ON awn.novel_name = nv.book_name
-                 LEFT OUTER JOIN
-             novel_type nt ON nv.book_name = nt.novel_name
-                 LEFT OUTER JOIN
-             noveltype ntp ON nt.type = ntp.typename
-                 LEFT OUTER JOIN
-             catalog cl ON nv.book_catalog = cl.novel_name
-                 LEFT OUTER JOIN
-             novel_comments nc ON nv.comments = nc.novel_name
-                 LEFT OUTER JOIN
-             usercomment cm ON nc.comment_id = cm.id
-    </select>
+		<select id="getAllAuth" resultMap="allAuth">
+				SELECT au.nick_name,
+					   au.sex,
+					   au.subscriptions,
+					   au.collections,
+					   au.concerns,
+					   au.fans,
+					   au.headimage,
+					   nv.book_name,
+					   nv.book_state,
+					   fm.user_name,
+					   fm.novle_name,
+					   fm.visit_time,
+					   nv.book_author,
+					   nv.book_words,
+					   nv.book_intro,
+					   nv.update_time,
+					   nv.monthly_tickets,
+					   nv.total_hits,
+					   nv.monthly_hits,
+					   nv.weekly_hits,
+					   nv.daily_hits,
+					   nv.total_collections,
+					   nv.monthly_collections,
+					   nv.weekly_collections,
+					   nv.daily_collections,
+					   nv.downloads,
+					   cl.novale_catalog,
+					   cl.novel_name clnovel_name,
+					   cl.updatetime,
+					   cm.id         cmid,
+					   cm.comment_title,
+					   cm.comment_context,
+					   cm.comment_author,
+					   cm.comment_time,
+					   cm.comment_url,
+					   ntp.id,
+					   ntp.typename
+				FROM author au
+							 LEFT OUTER JOIN
+					 author_work_novel awn ON au.works = awn.novel_author
+							 LEFT OUTER JOIN
+					 footmarks fm ON fm.user_name = au.footmark
+							 LEFT OUTER JOIN
+					 novel nv ON awn.novel_name = nv.book_name
+							 LEFT OUTER JOIN
+					 novel_type nt ON nv.book_name = nt.novel_name
+							 LEFT OUTER JOIN
+					 noveltype ntp ON nt.type = ntp.typename
+							 LEFT OUTER JOIN
+					 catalog cl ON nv.book_catalog = cl.novel_name
+							 LEFT OUTER JOIN
+					 novel_comments nc ON nv.comments = nc.novel_name
+							 LEFT OUTER JOIN
+					 usercomment cm ON nc.comment_id = cm.id
+		</select>
 
-    <resultMap id="selectAuthor_map" type="cn.xy.novelwebproject.bean.Author">
-        <id property="nick_name" column="nick_name"/>
-        <result property="sex" column="sex"/>
-        <result property="subscriptions" column="subscriptions"/>
-        <result property="collections" column="collections"/>
-        <result property="concerns" column="concerns"/>
-        <result property="fans" column="fans"/>
-        <result property="password" column="password"/>
-        <result property="headimage" column="headimage"/>
-    </resultMap>
+		<resultMap id="selectAuthor_map" type="cn.xy.novelwebproject.bean.Author">
+				<id property="nick_name" column="nick_name"/>
+				<result property="sex" column="sex"/>
+				<result property="subscriptions" column="subscriptions"/>
+				<result property="collections" column="collections"/>
+				<result property="concerns" column="concerns"/>
+				<result property="fans" column="fans"/>
+				<result property="password" column="password"/>
+				<result property="headimage" column="headimage"/>
+		</resultMap>
 
-    <select id="selectAuthor" resultMap="selectAuthor_map" parameterType="String">
-        <bind name="nname" value="'%'+_parameter+'%'"/>
-        SELECT a.nick_name,a.sex,a.subscriptions,a.collections,a.concerns,a.fans,a.password from author a
-        <where>
-            <if test="_parameter!=null || _parameter!=''">
-                nick_name LIKE #{nname}
-            </if>
-        </where>
-    </select>
+		<select id="selectAuthor" resultMap="selectAuthor_map" parameterType="String">
+				<bind name="nname" value="'%'+_parameter+'%'"/>
+				SELECT a.nick_name,a.sex,a.subscriptions,a.collections,a.concerns,a.fans,a.password from author a
+				<where>
+						<if test="_parameter!=null || _parameter!=''">
+								nick_name LIKE #{nname}
+						</if>
+				</where>
+		</select>
 
-    <resultMap id="getAuthorWorks_map" type="cn.xy.novelwebproject.bean.Author">
-        <id property="nick_name" column="nick_name"/>
-        <collection property="works" ofType="cn.xy.novelwebproject.bean.Novel">
-            <id property="book_name" column="book_name"/>
-            <result column="book_words" jdbcType="INTEGER" property="book_words"/>
-            <result property="update_time" column="update_time"/>
-        </collection>
-    </resultMap>
+		<resultMap id="getAuthorWorks_map" type="cn.xy.novelwebproject.bean.Author">
+				<id property="nick_name" column="nick_name"/>
+				<collection property="works" ofType="cn.xy.novelwebproject.bean.Novel">
+						<id property="book_name" column="book_name"/>
+						<result column="book_words" jdbcType="INTEGER" property="book_words"/>
+						<result property="update_time" column="update_time"/>
+				</collection>
+		</resultMap>
 
-    <select id="getAuthorWorks" parameterType="String" resultMap="getAuthorWorks_map">
-        SELECT author.nick_name, novel.book_name, novel.book_words, novel.update_time
-        FROM author
-                 INNER JOIN novel ON novel.book_author = author.nick_name
-        WHERE author.nick_name = #{nick_name}
-    </select>
+		<select id="getAuthorWorks" parameterType="String" resultMap="getAuthorWorks_map">
+				SELECT author.nick_name, novel.book_name, novel.book_words, novel.update_time
+				FROM author
+							 INNER JOIN novel ON novel.book_author = author.nick_name
+				WHERE author.nick_name = #{nick_name}
+		</select>
 
-        <select id="findAuthByNamePwd" parameterType="String" resultType="int">
-                select count(*) from author where nick_name = #{arg0} and password = #{arg1}
-        </select>
+		<select id="findAuthByNamePwd" parameterType="String" resultType="int">
+				select count(*)
+				from author
+				where nick_name = #{arg0}
+				  and password = #{arg1}
+		</select>
 
-        <update id="updatePasswordByName" parameterType="String">
-                update author set password = #{arg1} where nick_name = #{arg0}
-        </update>
+		<update id="updatePasswordByName" parameterType="String">
+				update author
+				set password = #{arg1}
+				where nick_name = #{arg0}
+		</update>
 
-        <update id="SetUserHeadImg" parameterType="String">
-                update author set headimage = #{arg1}  where nick_name = #{arg0}
-        </update>
+		<update id="SetUserHeadImg" parameterType="String">
+				update author
+				set headimage = #{arg1}
+				where nick_name = #{arg0}
+		</update>
 
-        <select id="findAuthorByName" parameterType="String" resultMap="selectAuthor_map">
-                select * from author where nick_name = #{username}
-        </select>
+		<select id="findAuthorByName" parameterType="String" resultMap="selectAuthor_map">
+				select *
+				from author
+				where nick_name = #{username}
+		</select>
+
+		<select id="getAuthAllMsg" resultMap="allAuth" parameterType="String">
+				SELECT author.*,
+					   footmarks.*,
+					   novel.*,
+					   novel_comments.*,
+					   novel_type.*,
+					   catalog.*
+				FROM author
+							 LEFT OUTER JOIN footmarks ON author.nick_name = footmarks.user_name
+							 LEFT OUTER JOIN author_work_novel ON author.nick_name = author_work_novel.novel_author
+							 INNER JOIN novel ON author_work_novel.novel_name = novel.book_name
+							 LEFT OUTER JOIN novel_comments ON novel.book_name = novel_comments.novel_name
+							 LEFT OUTER JOIN novel_type ON novel.book_name = novel_type.novel_name
+							 LEFT OUTER JOIN catalog ON novel.book_name = catalog.novel_name
+				WHERE author.nick_name = #{nick_name}
+		</select>
+
+		<update id="updateAuthWork" parameterType="String">
+				update novel
+				set book_intro = #{arg1},
+					book_state = #{arg2}
+				where book_name = #{arg0}
+		</update>
+
 </mapper>

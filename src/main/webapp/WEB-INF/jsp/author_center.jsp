@@ -11,7 +11,7 @@
 		<script src="${path}/static/js/jquery-3.4.1.min.js" type="text/javascript"></script>
 		<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
 		<script src="${path}/static/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="${path}/static/js/author_center.js"></script>
+		<script type="text/javascript" src="${path}/static/js/auth/author_center.js"></script>
 </head>
 <body>
 <div class="container">

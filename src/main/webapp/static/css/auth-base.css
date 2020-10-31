@@ -4,6 +4,9 @@ body {
 button a{
     color: white;
 }
+.container{
+    width: 1470px;
+}
 .headimage {
     width: 88px;
     height: 88px;

@@ -21,4 +21,8 @@ public interface AuthorMapper {
 		boolean SetUserHeadImg(String username, String fileName);
 
 		Author findAuthorByName(String username);
+
+		Author getAuthAllMsg(String nick_name);
+
+		boolean updateAuthWork(String book_name, String book_intro, String book_status);
 }

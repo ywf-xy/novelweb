@@ -48,4 +48,10 @@ public class AuthServiceImpTest extends BaseTest {
 				Author author = authorMapper.findAuthorByName("8难");
 				logger.info("findauthorbyname auth="+author);
 		}
+
+		@Test
+		public void updateAuthWork() {
+				boolean b = authorMapper.updateAuthWork("从当爷爷开始", "我是爷爷，你们都是孙子", "完结");
+				logger.info("updateAuthWork result="+b);
+		}
 }

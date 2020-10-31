@@ -38,4 +38,8 @@ public class FileNameUtilTest extends BaseTest {
 
 				l.info("[unicode->zh]="+decodeUnicode);
 		}
+		@Test
+		public void test01(){
+
+		}
 }

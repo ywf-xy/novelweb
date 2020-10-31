@@ -86,7 +86,7 @@
 														<a href="javascript:alert('您还未登录，请登录后使用！')" disabled="disabled" >由此进入</a>
 												</c:if>
 												<c:if test="${user_auth.nick_name!=null}">
-														<a href="">管理入口</a>
+														<a href="${path}/auth/workUI">管理入口</a>
 												</c:if>
 										</button>
 								</div>

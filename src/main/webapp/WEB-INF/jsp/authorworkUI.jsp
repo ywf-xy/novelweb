@@ -7,17 +7,16 @@
 		<link rel="shortcut icon" href="${path}/static/picture/favicon.ico"/>
 		<link href="${path}/static/css/bootstrap.min.css" rel="stylesheet">
 		<link href="${path}/static/css/auth-base.css" rel="stylesheet">
-		<link href="${path}/static/css/workupload.css" rel="stylesheet">
+		<link href="${path}/static/css/authworkUI.css" rel="stylesheet">
 		<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
 		<script src="${path}/static/js/jquery-3.4.1.min.js" type="text/javascript"></script>
 		<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
 		<script src="${path}/static/js/bootstrap.min.js"></script>
-		<script src="${path}/static/js/auth/workupload.js"></script>
 </head>
 <body>
 <div class="container">
 		<div class="row clearfix">
-				<div class="col-md-12 column">
+				<div class="col-md-12 column" style="height: fit-content;">
 						<div class="row clearfix">
 								<div class="col-md-12 column">
 										<nav class="navbar navbar-default navbar-static-top navbar-inverse"
@@ -53,11 +52,11 @@
 																		<li>
 																				<c:if test="${user_auth.headimage==null}">
 																						<img src="${pageContext.request.contextPath}/static/picture/default_user.png"
-																							 alt="404" class="headimag">
+																								   alt="404" class="headimag">
 																				</c:if>
-																				<c:if test="${user_auth.headimage!=null}">
-																						<img class="headimage" src="${pageContext.request.contextPath}/static/auth-photo/${user_auth.nick_name}/${user_auth.headimage}" alt="404">
-																				</c:if>
+																		<c:if test="${user_auth.headimage!=null}">
+																				<img class="headimage" src="${pageContext.request.contextPath}/static/auth-photo/${user_auth.nick_name}/${user_auth.headimage}" alt="404">
+																		</c:if>
 																		</li>
 																		<li><a href="">${user_auth.nick_name}</a></li>
 																		<li>
@@ -78,55 +77,31 @@
 										</nav>
 								</div>
 						</div>
-
-								<div class="row clearfix" style="margin-top: 100px">
-										<div class="col-md-6 column">
-												<h3 class="text-center text-info">
-														<span class="glyphicon glyphicon-picture"></span> <strong>图片·上传</strong>
-												</h3>
-												<button type="button" class="btn btn-lg btn-success" id="up-img">上传小说封面</button>
-										</div>
-										<div class="col-md-6 column">
-												<h3 class="text-info text-center">
-														<span class="glyphicon glyphicon-file"></span> <strong>小说·上传</strong>
-												</h3>
-												<button type="button" class="btn btn-success btn-lg" id="up-novel">上传<strong>完本</strong>小说</button>
+						<div class="row clearfix" style="background: #00BFFF">
+								<div class="col-md-2 column">
+										<div class="list-group" id="left-menu">
+												<span class="list-group-item active">作品管理</span>
+												<div class="list-group-item" >
+														<h4 class="list-group-item-heading ">
+																<a href="${path}/auth/worklist" target="content_frame">所有作品</a>
+														</h4>
+												</div>
+												<div class="list-group-item">
+														<h4 class="list-group-item-heading">
+																<a href="${path}/auth/workupdateUI" target="content_frame">修改作品信息</a>
+														</h4>
+												</div>
+												<div class="list-group-item">
+														<h4 class="list-group-item-heading">
+																<a href="">新建&&编辑</a>
+														</h4>
+												</div>
 										</div>
 								</div>
-								<div class="row clearfix" id="imgDiv">
-										<div class="col-md-4 column"></div>
-
-										<div class="col-md-4 column">
-												<form role="form">
-														<div class="form-group">
-																<label for="imgupload">图片·小说名</label>
-																<input type="text" name="filename" class="filename" />
-														</div>
-														<div class="form-group">
-																<label for="imgupload">上传图片</label>
-																<input type="file" name="imgfile" class="imgfileup" />
-														</div>
-														<button type="button" class="btn btn-default" id="imgupload" ><span class="glyphicon glyphicon-arrow-up"></span> <strong>上传</strong></button>
-												</form>
-										</div>
-
-										<div class="col-md-4 column"></div>
+								<div class="col-md-10 column">
+										<iframe name="content_frame" src="${path}/auth/worklist" id="frame" scrolling="auto"></iframe>
 								</div>
-								<div class="row clearfix" id="novelDiv">
-										<div class="col-md-4 column"></div>
-
-										<div class="col-md-4 column">
-												<form role="form">
-														<div class="form-group">
-																<label for="novelupload">上传小说</label>
-																<input type="file" name="novelfile" class="novelfileup" />
-														</div>
-														<button type="button" class="btn btn-default" id="novelupload"><span class="glyphicon glyphicon-arrow-up"></span> <strong>上传</strong></button>
-												</form>
-										</div>
-
-										<div class="col-md-4 column"></div>
-								</div>
+						</div>
 				</div>
 		</div>
 </div>

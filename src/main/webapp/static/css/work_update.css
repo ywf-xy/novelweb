@@ -1,0 +1,97 @@
+table > thead > tr > th, table > tbody > tr > th, table > tfoot > tr > th, table > thead > tr > td, table > tbody > tr > td, table > tfoot > tr > td {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+tr td:nth-child(5) {
+    width: 500px;
+    word-break: break-all; /*属性规定自动换行的处理方法。normal(使用浏览器默认的换行规则。),break-all(允许在单词内换行。),keep-all(只能在半角空格或连字符处换行。)*/
+    text-overflow: ellipsis;
+    display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+    -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+    -webkit-line-clamp: 1; /** 显示的行数 **/
+    overflow: hidden; /** 隐藏超出的内容 **/
+}
+
+tbody > tr:nth-child(odd) {
+    background-color: #dff0d8;
+}
+
+body {
+    background: #E7F4FE;
+}
+
+.full_box {
+    width: 100%;
+}
+
+#mask {
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 4;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+#mask .mask {
+    width: 300px;
+    height: 375px;
+    background: white;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 100;
+    border-radius: 5px;
+}
+
+#mask .tittle {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+#mask .tittle span {
+    float: right;
+    cursor: pointer;
+}
+
+#mask .cont {
+    padding: 10px;
+}
+
+#mask input, #update_intro {
+    width: 250px;
+    margin-bottom: 15px;
+    margin-left: 0;
+}
+
+#mask button {
+    background-color: orange;
+    border: 1px solid lightgray;
+}
+
+#mask #updata {
+    float: left;
+}
+
+#mask #quit {
+    float: right;
+}
+
+#mask .update_status {
+    width: 60px;
+}

@@ -2,7 +2,6 @@ package cn.xy.novelwebproject.controller;
 
 import cn.xy.novelwebproject.bean.Author;
 import cn.xy.novelwebproject.bean.Msg;
-import cn.xy.novelwebproject.bean.Reader;
 import cn.xy.novelwebproject.service.AuthService;
 import cn.xy.novelwebproject.service.ReaderServiceImp;
 import org.apache.ibatis.annotations.Param;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -25,6 +25,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @Controller
@@ -36,15 +37,15 @@ public class AuthController {
 		private Logger logger = LoggerFactory.getLogger(ReaderServiceImp.class);
 
 		/*
-		* 获取所有作者
-		* */
+		 * 获取所有作者
+		 * */
 		@RequestMapping("getAllAuthor")
-		public String getAllAuth (Model model) {
+		public String getAllAuth(Model model) {
 				System.out.println("getallauthor");
 				List<Author> authors = authService.getAllAuth();
 				String str = "";
 				for (Author auth : authors) {
-						logger.info("getAllAuth:authors:"+auth);
+						logger.info("getAllAuth:authors:" + auth);
 						str += auth.toString();
 				}
 				model.addAttribute("str", str);
@@ -52,26 +53,26 @@ public class AuthController {
 		}
 
 		/*
-		* 获取作者信息
-		* */
+		 * 获取作者信息
+		 * */
 		@RequestMapping("getauth")
-		public String selectAuthor (@Param("nickname") String nickname, Model model) throws UnsupportedEncodingException {
+		public String selectAuthor(@Param("nickname") String nickname, Model model) throws UnsupportedEncodingException {
 				model.addAttribute("str", nickname);
 				List<Author> authorList = authService.selectAuthor(nickname);
 				for (Author auth : authorList
 				) {
-						logger.info("selectAuthor:authlist"+auth);
+						logger.info("selectAuthor:authlist" + auth);
 				}
 				model.addAttribute("auths", authorList);
 				return "sucess";
 		}
 
 		/*
-		* 获取作者全部作品
-		* */
+		 * 获取作者全部作品
+		 * */
 		@ResponseBody
 		@RequestMapping("getauthorworks")
-		public Msg getauthorworks (HttpServletRequest request) {
+		public Msg getauthorworks(HttpServletRequest request) {
 				Msg msg = new Msg(true);
 				String nickname = request.getParameter("authname");
 				try {
@@ -79,42 +80,42 @@ public class AuthController {
 
 						msg.setData(authror);
 				} catch (Exception e) {
-						logger.error("错误消息：{}",e.getMessage(),e);
+						logger.error("错误消息：{}", e.getMessage(), e);
 				}
-				logger.info("getauthorworks:"+msg);
+				logger.info("getauthorworks:" + msg);
 				return msg;
 		}
 
 		/*
-		* 跳转作者中心页面
-		* */
+		 * 跳转作者中心页面
+		 * */
 		@RequestMapping("authorUI")
-		public String authorUI(Model model ,HttpServletRequest request){
+		public String authorUI(Model model, HttpServletRequest request) {
 				return "author";
 		}
 
 		/*
-		* 跳转作品上传页面
-		* */
+		 * 跳转作品上传页面
+		 * */
 		@RequestMapping("fileuploadUI")
-		public String fileUpLoadUI(){
+		public String fileUpLoadUI() {
 				return "workupload";
 		}
 
 		/*
-		* 小说图片上传
-		* */
+		 * 小说图片上传
+		 * */
 		@RequestMapping("nimgupload")
 		@ResponseBody
-		public Msg imgUpLoad(HttpServletRequest request,@RequestParam(value = "file") MultipartFile multipartfile,String filename){
+		public Msg imgUpLoad(HttpServletRequest request, @RequestParam(value = "file") MultipartFile multipartfile, String filename) {
 				Msg msg = new Msg();
-				logger.info("[novelimg:img]="+multipartfile);
-				logger.info("[novelimg:name]="+filename);
+				logger.info("[novelimg:img]=" + multipartfile);
+				logger.info("[novelimg:name]=" + filename);
 				try {
-						if (!multipartfile.isEmpty()){
+						if (!multipartfile.isEmpty()) {
 								//部署到服务器地址；String contexPath= request.getSession().getServletContext().getRealPath("/static/picture");
-								String targetDir= "D:\\NovelWebProject\\src\\main\\webapp\\static\\picture";
-								logger.info("[novelimg:path]="+targetDir);
+								String targetDir = "D:\\NovelWebProject\\src\\main\\webapp\\static\\picture";
+								logger.info("[novelimg:path]=" + targetDir);
 								//1.3 创建path对象 File new File()-->Path  Paths.get() 新的对象
 								Path targetDirFile = Paths.get(targetDir);
 
@@ -131,34 +132,34 @@ public class AuthController {
 
 								//4 将数据写入文件
 								multipartfile.transferTo(target.toFile());
-								File file = new File(targetDir+ File.separator+filename);
-								logger.info("[file]="+file.exists()+" "+file.getAbsolutePath());
+								File file = new File(targetDir + File.separator + filename);
+								logger.info("[file]=" + file.exists() + " " + file.getAbsolutePath());
 								msg.setFlag(true);
-								msg.setMessage("上传成功！上传文件为："+fileName);
-						}else {
+								msg.setMessage("上传成功！上传文件为：" + fileName);
+						} else {
 								msg.setFlag(false);
 								msg.setMessage("上传文件为空！请检查后重试！");
 						}
 				} catch (IOException e) {
-						logger.error("错误消息：{}",e.getMessage(),e);
+						logger.error("错误消息：{}", e.getMessage(), e);
 				}
 				return msg;
 		}
 
 		/*
-		* 小说上传
-		* */
+		 * 小说上传
+		 * */
 		@RequestMapping("novelupload")
 		@ResponseBody
-		public Msg novelUpLoad(HttpServletRequest request,@RequestParam(value = "file") MultipartFile multipartfile,String filename){
+		public Msg novelUpLoad(HttpServletRequest request, @RequestParam(value = "file") MultipartFile multipartfile, String filename) {
 				Msg msg = new Msg();
-				logger.info("[noveltxt:img]="+multipartfile);
-				logger.info("[noveltxt:name]="+filename);
+				logger.info("[noveltxt:img]=" + multipartfile);
+				logger.info("[noveltxt:name]=" + filename);
 				try {
-						if (!multipartfile.isEmpty()){
+						if (!multipartfile.isEmpty()) {
 								//String contexPath= request.getSession().getServletContext().getRealPath("/static/picture");
-								String targetDir= "D:\\NovelWebProject\\src\\main\\webapp\\static\\txt";
-								logger.info("[noveltxt:path]="+targetDir);
+								String targetDir = "D:\\NovelWebProject\\src\\main\\webapp\\static\\txt";
+								logger.info("[noveltxt:path]=" + targetDir);
 								//1.3 创建path对象 File new File()-->Path  Paths.get() 新的对象
 								Path targetDirFile = Paths.get(targetDir);
 
@@ -175,65 +176,65 @@ public class AuthController {
 
 								//4 将数据写入文件
 								multipartfile.transferTo(target.toFile());
-								File file = new File(targetDir+ File.separator+filename);
-								logger.info("[file]="+file.exists()+" "+file.getAbsolutePath());
+								File file = new File(targetDir + File.separator + filename);
+								logger.info("[file]=" + file.exists() + " " + file.getAbsolutePath());
 								msg.setFlag(true);
-								msg.setMessage("上传成功！上传文件为："+fileName);
-						}else {
+								msg.setMessage("上传成功！上传文件为：" + fileName);
+						} else {
 								msg.setFlag(false);
 								msg.setMessage("上传文件为空！请检查后重试！");
 						}
 				} catch (IOException e) {
-						logger.error("错误消息：{}",e.getMessage(),e);
+						logger.error("错误消息：{}", e.getMessage(), e);
 				}
 				return msg;
 		}
 
 		/*
-		* 跳转用户中心页面
-		* */
+		 * 跳转用户中心页面
+		 * */
 		@RequestMapping("authorcenterUI")
-		public String authorCenter(HttpServletRequest request){
+		public String authorCenter(HttpServletRequest request) {
 				Author author = (Author) request.getSession().getAttribute("user_auth");
-				request.setAttribute("author",author);
+				request.setAttribute("author", author);
 				return "author_center";
 		}
 
 		/*
-		* 更新作者密码
-		* */
+		 * 更新作者密码
+		 * */
 		@RequestMapping("updatepasswrod")
 		@ResponseBody
-		public Msg<Object> updataPassword(String old_pwd,String new_pwd,String cfm_pwd,HttpServletRequest request){
+		public Msg<Object> updataPassword(String old_pwd, String new_pwd, String cfm_pwd, HttpServletRequest request) {
 				Msg<Object> msg = new Msg<>(false);
 				Author author = (Author) request.getSession().getAttribute("user_auth");
-				if (author==null){
+				if (author == null) {
 						msg.setFlag(false);
 						msg.setMessage("对不起请登录！");
 						return msg;
 				}
 				String nick_name = author.getNick_name();
-				logger.info("oldPassword="+old_pwd);
-				logger.info("newPassword="+new_pwd);
-				logger.info("confirmPassword="+cfm_pwd);
-				if ("".equals(old_pwd)||old_pwd==null){
+				logger.info("oldPassword=" + old_pwd);
+				logger.info("newPassword=" + new_pwd);
+				logger.info("confirmPassword=" + cfm_pwd);
+				if ("".equals(old_pwd) || old_pwd == null) {
 						msg.setMessage("旧密码不能为空！");
 						return msg;
-				}else if(new_pwd==null||"".equals(new_pwd)){
+				} else if (new_pwd == null || "".equals(new_pwd)) {
 						msg.setMessage("新密码不能为空！");
 						return msg;
-				}else if(!new_pwd.equals(cfm_pwd)){
+				} else if (!new_pwd.equals(cfm_pwd)) {
 						msg.setMessage("前后输入密码不一致，请重新输入！");
 						return msg;
-				}else if(new_pwd.length()>15){
+				} else if (new_pwd.length() > 15) {
 						msg.setMessage("密码长度不能超过15位，请重新输入！");
 						return msg;
 				}
-				boolean flag = authService.updatePassword(nick_name,old_pwd,new_pwd);
+				boolean flag = authService.updatePassword(nick_name, old_pwd, new_pwd);
 				msg.setFlag(flag);
-				if (flag){
+				if (flag) {
 						msg.setMessage("密码修改成功！");
-				}else {
+				} else {
 						msg.setMessage("密码修改失败！请检查旧密码是否正确！");
 				}
 				return msg;
@@ -241,33 +242,34 @@ public class AuthController {
 
 
 		/*
-		* 清空头像
-		* */
-		public void emptyDir(String path){
+		 * 清空头像
+		 * */
+		public void emptyDir(String path) {
 				File file = new File(path);
-				for(File f: file.listFiles()){
-						logger.info("[delete: imgfile ]="+f.getName());
+				for (File f : file.listFiles()) {
+						logger.info("[delete: imgfile ]=" + f.getName());
 						f.delete();
 				}
 		}
+
 		/*
-		* 头像上传
-		* */
+		 * 头像上传
+		 * */
 		@RequestMapping("authheadupload")
 		@ResponseBody
-		public Msg<Object> uploadHeadImg(HttpServletRequest request, @RequestParam(value = "file") MultipartFile multipartfile){
+		public Msg<Object> uploadHeadImg(HttpServletRequest request, @RequestParam(value = "file") MultipartFile multipartfile) {
 				Msg<Object> msg = new Msg<>(false);
 				MultipartFile multipartFile = multipartfile;
 				Author author = (Author) request.getSession().getAttribute("user_auth");
 
 				List<String> urls = new ArrayList<>();
-				logger.info("uploadimg auth="+author.toString());
+				logger.info("uploadimg auth=" + author.toString());
 				if (!multipartFile.isEmpty()) {
 						try {
 								//1创建目录
 								// 1.1 获取发布路径
 								String username = author.getNick_name();
-								if (author==null||username==null){
+								if (author == null || username == null) {
 										msg.setFlag(false);
 										msg.setMessage("请登录");
 										return msg;
@@ -298,7 +300,7 @@ public class AuthController {
 
 								//5 将路径添加到urls中
 								urls.add("wfRead/" + dir + File.separator + fileName);
-								logger.info("imgupload url="+urls);
+								logger.info("imgupload url=" + urls);
 								//设置用户头像
 								//插入数据库
 								int code = authService.SetUserHeadImg(username, fileName);
@@ -313,7 +315,7 @@ public class AuthController {
 										request.getSession().setAttribute("user_auth", authService.getAuthByName(username));
 								}
 						} catch (Exception e) {
-								logger.error("错误消息：{}",e.getMessage(),e);
+								logger.error("错误消息：{}", e.getMessage(), e);
 								msg.setFlag(false);
 								msg.setMessage(e.getMessage());
 						}
@@ -323,7 +325,79 @@ public class AuthController {
 						msg.setFlag(false);
 						msg.setMessage("上传文件为空！请检查后重试！");
 				}
-				logger.info("ImgUpLoad:"+msg);
+				logger.info("ImgUpLoad:" + msg);
+				return msg;
+		}
+
+		/*
+		 * 跳转到authorworkUI.jsp
+		 * */
+		@RequestMapping("workUI")
+		public String workUI(Model model) {
+				Author author = authService.getAuthorWorks("user_auth");
+				model.addAttribute("author", author);
+				return "authorworkUI";
+		}
+
+		/*
+		 * 将作者作品信息返回到work_list.jsp
+		 * */
+		@RequestMapping("worklist")
+		public String workList(Model model, HttpServletRequest request) {
+				Author author = (Author) request.getSession().getAttribute("user_auth");
+				if (author == null) {
+						model.addAttribute("url", request.getRequestURI());
+						return "errors/unlogin";
+				}
+				String nick_name = author.getNick_name();
+				author = authService.getAuthorAllMsg(nick_name);
+				request.getSession().setAttribute("user_auth", author);
+				model.addAttribute("author", author);
+				return "author-work/work_list";
+		}
+
+		/*
+		 * 跳转到work_update.jsp
+		 * */
+		@RequestMapping("workupdateUI")
+		public String workUpdateUI(Model model, HttpServletRequest request, HttpSession session) {
+				Author auth = (Author) session.getAttribute("user_auth");
+				logger.info("workupdateUI auth = " + auth);
+				if (auth == null) {
+						model.addAttribute("url", request.getRequestURI());
+						return "errors/unlogin";
+				}
+				if (auth.getWorks() == null) {
+						auth = authService.getAuthorAllMsg(auth.getNick_name());
+				}
+				request.getSession().setAttribute("user_auth", auth);
+				model.addAttribute("auth", auth);
+				return "author-work/work_update";
+		}
+
+		/*
+		 * 更新小说信息
+		 * */
+		@RequestMapping("workupdate")
+		@ResponseBody
+		public Msg workUpdate(HttpServletRequest request) {
+				Msg msg = new Msg(true);
+				String book_name = request.getParameter("book_name");
+				String book_intro = request.getParameter("book_intro");
+				String book_status = request.getParameter("book_status");
+				logger.info("workUpdate  paramete=[book_name=" + book_name + "&book_intro=" + book_intro + "&book_status=" + book_status + "]");
+
+				if (book_status.length() > 800) {
+						msg.setFlag(false);
+						msg.setMessage("对不起，简介不能超过800字！");
+				}
+				boolean flag = authService.updateAuthWork(book_name, book_intro, book_status);
+				msg.setFlag(flag);
+				if (flag) {
+						msg.setMessage("更新成功！");
+				} else {
+						msg.setMessage("更新失败！");
+				}
 				return msg;
 		}
 }
