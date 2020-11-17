@@ -3,6 +3,7 @@ package cn.xy.novelwebproject.service;
 import cn.xy.novelwebproject.bean.Catalog;
 import cn.xy.novelwebproject.bean.Novel;
 import cn.xy.novelwebproject.bean.PageQuery;
+import cn.xy.novelwebproject.dao.AuthorMapper;
 import cn.xy.novelwebproject.dao.NovelMapper;
 import cn.xy.novelwebproject.utils.JedisUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,7 +22,8 @@ public class NovelServiceImp implements NovelService {
 		@Autowired
 		private NovelMapper novelMapper;
 		private Logger logger = LoggerFactory.getLogger(ReaderServiceImp.class);
-
+		@Autowired
+		private AuthorMapper authorMapper;
 		private final ObjectMapper objectMapper = new ObjectMapper();
 
 		@Override
@@ -517,6 +519,10 @@ public class NovelServiceImp implements NovelService {
 				try {
 						if (jedis.llen(key) == 0) {
 								cataloglList = novelMapper.getBookCatalogs(novelname);
+								logger.info("getBookCatalogs catalogList="+cataloglList);
+								if (cataloglList==null||cataloglList.size()==0){
+										return new ArrayList<Catalog>();
+								}
 								//将查询出来的数据处理
 								if (!cataloglList.get(0).getNovale_catalog().contains("第一章") && !cataloglList.get(0).getNovale_catalog().contains("第1章") &&
 										!cataloglList.get(0).getNovale_catalog().contains("第0章") && !cataloglList.get(0).getNovale_catalog().contains("第01章") &&
@@ -552,11 +558,20 @@ public class NovelServiceImp implements NovelService {
 
 		@Override
 		public String getNovelCatlog (String novelname, String catlogname) {
-				Catalog catalog = new Catalog();
-				catalog.setNovale_catalog(catlogname);
-				catalog.setNovel_name(novelname);
-
-				String txt = novelMapper.getNovelCatlog(catalog).get(0);
+				String table;
+				String txt = null;
+				try {
+						int dbNum = authorMapper.selectNovelDB(novelname);
+						logger.info("addCatalogContent dbNum="+dbNum);
+						if (dbNum==0){
+								table = "";
+						}else{
+								table =  ""+dbNum;
+						}
+						txt = novelMapper.getNovelCatlog(novelname,catlogname,table).get(0);
+				} catch (Exception e) {
+						logger.error("错误消息：{}",e.getMessage(),e);
+				}
 				return "".equals(txt) ? null : txt;
 		}
 

@@ -32,6 +32,8 @@
 
 		<select id="findcatlognum" resultType="int">
 				SELECT COUNT(*)
-				from (SELECT count(*) from catalog GROUP BY novel_name) AS count_novel
+				from novel
 		</select>
+
+
 </mapper>

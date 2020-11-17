@@ -5,6 +5,7 @@
 <html>
 <head>
 		<title>Title</title>
+		<% pageContext.setAttribute("path",request.getContextPath());%>
 		<style>
 				table>thead>tr>th, table>tbody>tr>th, table>tfoot>tr>th, table>thead>tr>td, table>tbody>tr>td,table>tfoot>tr>td {
 						border-collapse: collapse;
@@ -67,7 +68,7 @@
 											<td>${auth.monthly_tickets}</td>
 											<td>${auth.downloads}</td>
 											<td>
-													<button><a href="${auth.book_state=="完结"||auth.book_state=="完本"?'#':'写作页面'}">写作</a></button>
+													<button><a href="${auth.book_state=="完结"||auth.book_state=="完本"?'#':"/wfRead/auth/addUI"}" >${auth.book_state=="完结"||auth.book_state=="完本"?'<stronge style="color: red">完本</stronge>':"写作"}</a></button>
 											</td>
 									</tr>
 							</c:forEach>

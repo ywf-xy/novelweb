@@ -6,7 +6,7 @@
 <html>
 <head>
 		<title>Title</title>
-		<link href="${path}/static/css/work_update.css" rel="stylesheet">
+		<link href="${path}/static/css/auth/work_update.css" rel="stylesheet">
 		<script type="text/javascript" src="${path}/static/js/jquery-3.4.1.min.js"></script>
 		<script type="text/javascript" src="${path}/static/js/auth/work_update.js"></script>
 </head>

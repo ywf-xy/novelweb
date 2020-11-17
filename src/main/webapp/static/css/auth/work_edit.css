@@ -1,0 +1,32 @@
+small{font-size: 14px;color: #aaa;}
+pre{padding: 5px;background-color: #eee;}
+.textcenter{text-align: center;}
+#save_catalog{
+    padding: 0 15px;
+    font-size: 30px;
+    color: #fff;
+    border: none;
+    margin-left: 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    background-color: #ca0c16;
+}
+#catalog_input{
+    width: 70%;
+    padding: 8px;
+    font-size: 18px;
+    float: left;
+
+    line-height: 24px;
+    background-color: #fff;
+}
+#title_content{
+    width: 100%;
+    margin: 10px 0px;
+}
+#catalog_title{
+    margin-left: 20px;
+    float: left;
+    font-size: 30px;
+    color:  #bbb;
+}

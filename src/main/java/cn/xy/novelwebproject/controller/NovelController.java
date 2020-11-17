@@ -490,6 +490,10 @@ public class NovelController {
 				return msg;
 		}
 
+		/**
+		 * 获取小说章节列表
+		 * 参数：bookname
+		* */
 		@ResponseBody
 		@RequestMapping("loadbookcatlog")
 		public Msg loadBookCatlog(HttpServletRequest request) {
@@ -527,6 +531,9 @@ public class NovelController {
 				return msg;
 		}
 
+		/**
+		* 获取章节内容
+		* */
 		@ResponseBody
 		@RequestMapping("readbycatlog")
 		public Msg readCatlog(HttpServletRequest request) {
@@ -538,6 +545,7 @@ public class NovelController {
 				try {
 						//2、根据参数从数据库查询章节内容
 						String data = novelService.getNovelCatlog(novelname, catlogname);
+						logger.info("readCatlog catalog="+data);
 						msg.setData(data);
 						msg.setFlag(true);
 				} catch (Exception e) {

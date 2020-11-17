@@ -1,0 +1,38 @@
+table > thead > tr > th, table > tbody > tr > th, table > tfoot > tr > th, table > thead > tr > td, table > tbody > tr > td, table > tfoot > tr > td {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+tr td:nth-child(5) {
+    width: 500px;
+    word-break: break-all; /*属性规定自动换行的处理方法。normal(使用浏览器默认的换行规则。),break-all(允许在单词内换行。),keep-all(只能在半角空格或连字符处换行。)*/
+    text-overflow: ellipsis;
+    display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+    -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+    -webkit-line-clamp: 1; /** 显示的行数 **/
+    overflow: hidden; /** 隐藏超出的内容 **/
+}
+
+tbody > tr:nth-child(odd) {
+    background-color: #dff0d8;
+}
+#addcatalog{
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.3333333;
+    border-radius: 6px;
+    user-select: none;
+    background-image: none;
+}

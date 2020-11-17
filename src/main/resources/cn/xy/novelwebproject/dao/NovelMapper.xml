@@ -165,8 +165,10 @@
   		</select>
 
 		<select id="getNovelCatlog" parameterType="cn.xy.novelwebproject.bean.Catalog" resultType="String">
-             SELECT c.content FROM catlog_content c
-            where c.catlogname =#{novale_catalog}  and c.novelname=#{novel_name}
+             SELECT c.content FROM
+             <if test="arg2== '' ">catlog_content</if>
+			 <if test="arg2 != ''">catlog_content${arg3}</if> c
+            where c.catlogname =#{arg1}  and c.novelname=#{arg0}
         </select>
 
 		<select id="getVoteTicket" parameterType="String" resultType="int">

@@ -1,7 +1,6 @@
 package cn.xy.novelwebproject.controller;
 
-import cn.xy.novelwebproject.bean.Author;
-import cn.xy.novelwebproject.bean.Msg;
+import cn.xy.novelwebproject.bean.*;
 import cn.xy.novelwebproject.service.AuthService;
 import cn.xy.novelwebproject.service.ReaderServiceImp;
 import org.apache.ibatis.annotations.Param;
@@ -24,21 +23,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
-
 
 @Controller
 @RequestMapping("auth")
 public class AuthController {
 		@Autowired
 		private AuthService authService;
-		//日志打印
-		private Logger logger = LoggerFactory.getLogger(ReaderServiceImp.class);
+		private final Logger logger = LoggerFactory.getLogger(ReaderServiceImp.class);
 
-		/*
+		/**
 		 * 获取所有作者
-		 * */
+		 */
 		@RequestMapping("getAllAuthor")
 		public String getAllAuth(Model model) {
 				System.out.println("getallauthor");
@@ -52,9 +49,9 @@ public class AuthController {
 				return "sucess";
 		}
 
-		/*
+		/**
 		 * 获取作者信息
-		 * */
+		 */
 		@RequestMapping("getauth")
 		public String selectAuthor(@Param("nickname") String nickname, Model model) throws UnsupportedEncodingException {
 				model.addAttribute("str", nickname);
@@ -67,9 +64,9 @@ public class AuthController {
 				return "sucess";
 		}
 
-		/*
+		/**
 		 * 获取作者全部作品
-		 * */
+		 */
 		@ResponseBody
 		@RequestMapping("getauthorworks")
 		public Msg getauthorworks(HttpServletRequest request) {
@@ -86,28 +83,28 @@ public class AuthController {
 				return msg;
 		}
 
-		/*
+		/**
 		 * 跳转作者中心页面
-		 * */
+		 */
 		@RequestMapping("authorUI")
 		public String authorUI(Model model, HttpServletRequest request) {
 				return "author";
 		}
 
-		/*
+		/**
 		 * 跳转作品上传页面
-		 * */
+		 */
 		@RequestMapping("fileuploadUI")
 		public String fileUpLoadUI() {
 				return "workupload";
 		}
 
-		/*
+		/**
 		 * 小说图片上传
-		 * */
+		 */
 		@RequestMapping("nimgupload")
 		@ResponseBody
-		public Msg imgUpLoad(HttpServletRequest request, @RequestParam(value = "file") MultipartFile multipartfile, String filename) {
+		public Msg imgUpLoad(@RequestParam(value = "file") MultipartFile multipartfile, String filename) {
 				Msg msg = new Msg();
 				logger.info("[novelimg:img]=" + multipartfile);
 				logger.info("[novelimg:name]=" + filename);
@@ -146,12 +143,12 @@ public class AuthController {
 				return msg;
 		}
 
-		/*
+		/**
 		 * 小说上传
-		 * */
+		 */
 		@RequestMapping("novelupload")
 		@ResponseBody
-		public Msg novelUpLoad(HttpServletRequest request, @RequestParam(value = "file") MultipartFile multipartfile, String filename) {
+		public Msg novelUpLoad(@RequestParam(value = "file") MultipartFile multipartfile, String filename) {
 				Msg msg = new Msg();
 				logger.info("[noveltxt:img]=" + multipartfile);
 				logger.info("[noveltxt:name]=" + filename);
@@ -190,9 +187,9 @@ public class AuthController {
 				return msg;
 		}
 
-		/*
+		/**
 		 * 跳转用户中心页面
-		 * */
+		 */
 		@RequestMapping("authorcenterUI")
 		public String authorCenter(HttpServletRequest request) {
 				Author author = (Author) request.getSession().getAttribute("user_auth");
@@ -200,9 +197,9 @@ public class AuthController {
 				return "author_center";
 		}
 
-		/*
+		/**
 		 * 更新作者密码
-		 * */
+		 */
 		@RequestMapping("updatepasswrod")
 		@ResponseBody
 		public Msg<Object> updataPassword(String old_pwd, String new_pwd, String cfm_pwd, HttpServletRequest request) {
@@ -241,9 +238,9 @@ public class AuthController {
 		}
 
 
-		/*
+		/**
 		 * 清空头像
-		 * */
+		 */
 		public void emptyDir(String path) {
 				File file = new File(path);
 				for (File f : file.listFiles()) {
@@ -252,9 +249,9 @@ public class AuthController {
 				}
 		}
 
-		/*
+		/**
 		 * 头像上传
-		 * */
+		 */
 		@RequestMapping("authheadupload")
 		@ResponseBody
 		public Msg<Object> uploadHeadImg(HttpServletRequest request, @RequestParam(value = "file") MultipartFile multipartfile) {
@@ -292,8 +289,9 @@ public class AuthController {
 								String fileName = multipartFile.getOriginalFilename();
 
 								// 3 保存到项目的服务器发布路径
-								/*D:/NovelWebProject/src/main/webapp/static/auth-photo/用户名/filename*/
-								Path target = Paths.get(targetDir, fileName);//get(目标路径，文件名)
+								//D:/NovelWebProject/src/main/webapp/static/auth-photo/用户名/filename
+								//get(目标路径，文件名)
+								Path target = Paths.get(targetDir, fileName);
 
 								//4 将数据写入文件
 								multipartFile.transferTo(target.toFile());
@@ -303,7 +301,7 @@ public class AuthController {
 								logger.info("imgupload url=" + urls);
 								//设置用户头像
 								//插入数据库
-								int code = authService.SetUserHeadImg(username, fileName);
+								int code = authService.setUserHeadImg(username, fileName);
 								if (code == -1) {
 										msg.setFlag(false);
 										msg.setMessage("参数错误！请检查是否登录！");
@@ -329,19 +327,20 @@ public class AuthController {
 				return msg;
 		}
 
-		/*
+		/**
 		 * 跳转到authorworkUI.jsp
-		 * */
+		 */
 		@RequestMapping("workUI")
 		public String workUI(Model model) {
 				Author author = authService.getAuthorWorks("user_auth");
 				model.addAttribute("author", author);
+				model.addAttribute("src","worklist");
 				return "authorworkUI";
 		}
 
-		/*
+		/**
 		 * 将作者作品信息返回到work_list.jsp
-		 * */
+		 */
 		@RequestMapping("worklist")
 		public String workList(Model model, HttpServletRequest request) {
 				Author author = (Author) request.getSession().getAttribute("user_auth");
@@ -356,13 +355,13 @@ public class AuthController {
 				return "author-work/work_list";
 		}
 
-		/*
+		/**
 		 * 跳转到work_update.jsp
-		 * */
+		 */
 		@RequestMapping("workupdateUI")
 		public String workUpdateUI(Model model, HttpServletRequest request, HttpSession session) {
 				Author auth = (Author) session.getAttribute("user_auth");
-				logger.info("workupdateUI auth = " + auth);
+				logger.info("workupDateUI auth = " + auth);
 				if (auth == null) {
 						model.addAttribute("url", request.getRequestURI());
 						return "errors/unlogin";
@@ -375,19 +374,20 @@ public class AuthController {
 				return "author-work/work_update";
 		}
 
-		/*
+		/**
 		 * 更新小说信息
-		 * */
+		 */
 		@RequestMapping("workupdate")
 		@ResponseBody
 		public Msg workUpdate(HttpServletRequest request) {
 				Msg msg = new Msg(true);
+				int length = 800;
 				String book_name = request.getParameter("book_name");
 				String book_intro = request.getParameter("book_intro");
 				String book_status = request.getParameter("book_status");
-				logger.info("workUpdate  paramete=[book_name=" + book_name + "&book_intro=" + book_intro + "&book_status=" + book_status + "]");
+				logger.info("workUpdate  parameter=[book_name=" + book_name + "&book_intro=" + book_intro + "&book_status=" + book_status + "]");
 
-				if (book_status.length() > 800) {
+				if (book_status.length() > length) {
 						msg.setFlag(false);
 						msg.setMessage("对不起，简介不能超过800字！");
 				}
@@ -397,6 +397,192 @@ public class AuthController {
 						msg.setMessage("更新成功！");
 				} else {
 						msg.setMessage("更新失败！");
+				}
+				return msg;
+		}
+
+
+		/**
+		 * 跳转到新建&编辑页面
+		 */
+		@RequestMapping("addUI")
+		public String addUI(HttpSession session, Model model, HttpServletRequest request) {
+				Author auth = (Author) session.getAttribute("user_auth");
+				logger.info("addUI auth = " + auth);
+				if (auth == null) {
+						model.addAttribute("url", request.getRequestURI());
+						return "errors/unlogin";
+				}
+				if (auth.getWorks() == null) {
+						auth = authService.getAuthorAllMsg(auth.getNick_name());
+						logger.info("addUI auth=" + auth);
+				}
+				model.addAttribute("work", auth.getWorks());
+				List<RootNovelType> list = authService.getAllTypes();
+
+				logger.info("addUI typeList=" + list);
+				model.addAttribute("types", list);
+				return "author-work/work_add";
+		}
+
+		/**
+		 * 添加小说
+		 */
+		@RequestMapping("addnovel")
+		@ResponseBody
+		public Msg addNovel(Novel novel, String[] types) {
+				Msg msg = new Msg(true);
+				logger.info("addNovel  novel=" + novel);
+				logger.info("addNovel  types=" + types);
+
+				if (novel == null) {
+						msg.setFlag(false);
+						msg.setMessage("请填写指定小说信息！");
+						return msg;
+				} else if (novel.getBook_name() == null || "".equals(novel.getBook_name())) {
+						msg.setFlag(false);
+						msg.setMessage("请填写指定小说名！");
+						return msg;
+				} else if (novel.getBook_intro() == null || "".equals(novel.getBook_intro())) {
+						msg.setFlag(false);
+						msg.setMessage("请填写指定小说简介！");
+						return msg;
+				} else if (types == null || types.length == 0) {
+						msg.setFlag(false);
+						msg.setMessage("请选择小说类型！");
+						return msg;
+				}
+				List<Noveltype> list = new ArrayList<>();
+				for (int i = 0; i < types.length; i++) {
+						list.add(new Noveltype(novel.getBook_name(), types[i]));
+				}
+				logger.info("addNovel  list=" + list);
+				boolean flag;
+
+				//将新建小说信息插入数据库
+				flag = authService.addNovel(novel);
+				logger.info("addNovel add_novel:flag=" + flag);
+
+				//添加到作者的作品中
+				authService.addAuhtorWork(novel.getBook_author(), novel.getBook_name(), new Date());
+
+				//将小说类型插入数据库
+				if (flag) {
+						flag = authService.addType(list);
+				}
+				logger.info("addNovel add_type:flag=" + flag);
+
+				msg.setFlag(flag);
+				if (flag) {
+						msg.setMessage("新建成功！");
+				} else {
+						msg.setMessage("新建失败！");
+				}
+				return msg;
+		}
+		/**
+		 * 跳到编辑页面
+		 * */
+		@RequestMapping("toedit")
+		public String toEdit(HttpServletRequest request){
+				String str = request.getParameter("catalogname");
+				String novelname = request.getParameter("novelname");
+				logger.info("toEdit catalogName="+str);
+				logger.info("toEdit novelName="+novelname);
+				request.setAttribute("catalog",str);
+				request.setAttribute("novelname",novelname);
+				return "author-work/work_edit";
+		}
+		/**
+		 * 添加章节String novelName,String novelCatalog,Date updateTime
+		 */
+		@RequestMapping("addcatalog")
+		@ResponseBody
+		public Msg addCatalog(String novelName, String novelCatalog, String content) {
+				Msg msg = new Msg(true);
+				if (novelName==null||"".equals(novelName)){
+						msg.setFlag(false);
+						msg.setMessage("小说章节不能为空");
+						return msg;
+				}
+				logger.info("addNovel  novelName=" + novelName + " novelCatalog="
+					+ novelCatalog + " content=" + content.substring(0, 10));
+				//将新建章节信息插入数据库
+				boolean flag = authService.addCatalog(novelName, novelCatalog, new Date());
+				if (flag==false){
+						msg.setFlag(false);
+						msg.setMessage("添加失败,请检查章节是否存在！");
+						return msg;
+				}
+				flag = authService.addCatalogContent(novelName, novelCatalog, content);
+
+				//更新小说信息：更新时间，字数||状态
+				if (flag) {
+						Novel novel = new Novel();
+						novel.setBook_name(novelName);
+						novel.setBook_words(content.length());
+
+						authService.updateWorkWords(novel);
+				} else {
+						msg.setFlag(flag);
+						msg.setMessage("添加失败！");
+				}
+				return msg;
+		}
+
+		/**
+		 * 跳转到章节编辑页面
+		 * */
+		@RequestMapping("tocatalogupdata")
+		public String toCatalogUpdate(HttpServletRequest request,String novelName, String novelCatalog){
+				logger.info("toCatalogUpdate novelName="+novelName);
+				logger.info("toCatalogUpdate novelCatalog="+novelCatalog);
+				String content = authService.getCatalogContent(novelName,novelCatalog);
+				request.setAttribute("content",content);
+				request.setAttribute("novelname",novelName);
+				request.setAttribute("catalog",novelCatalog);
+				return "author-work/work_catalog_update";
+		}
+		/**
+		 * 更新章节
+		 * */
+		@RequestMapping("updatacatalog")
+		@ResponseBody
+		public  Object updataCatalog(String novelName,String newCatalogName, String oldCatalogName, String content){
+				Msg msg = new Msg(false);
+				boolean flag = false;
+				logger.info("updataCatalog novelName="+novelName);
+				logger.info("updataCatalog newCatalogName="+newCatalogName);
+				logger.info("updataCatalog oldCatalogName="+oldCatalogName);
+				logger.info("updataCatalog content="+content);
+				if (novelName==null||"".equals(novelName)){
+						msg.setMessage("小说名不能为空！");
+						logger.info("updataCatalog erro="+msg.getMessage());
+						return msg;
+				}else if(oldCatalogName==null||"".equals(oldCatalogName)){
+						msg.setMessage("小说章节标题不能为空！");
+						logger.info("updataCatalog erro="+msg.getMessage());
+						return msg;
+				}else  if (content==null||"".equals(content)){
+						msg.setMessage("章节内容不能为空！");
+						logger.info("updataCatalog erro="+msg.getMessage());
+						return msg;
+				}else if (newCatalogName!=null&&!"".equals(newCatalogName)){
+						//如果标题发生改变更新标题后再更新内容
+						if (!newCatalogName.equals(oldCatalogName)){
+								flag = authService.updateCatalog(novelName, newCatalogName);
+								flag = authService.updateCatalogContent(novelName,newCatalogName,content);
+						}else {
+								flag = authService.updateCatalogContent(novelName,oldCatalogName,content);
+						}
+
+				}
+				msg.setFlag(flag);
+				if (flag) {
+						msg.setMessage("更新成功！");
+				} else {
+						msg.setMessage("更新失败！");
+						logger.info("updataCatalog erro="+msg.getMessage());
 				}
 				return msg;
 		}

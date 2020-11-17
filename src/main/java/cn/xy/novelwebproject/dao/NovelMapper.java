@@ -70,7 +70,7 @@ public interface NovelMapper {
 		List<Catalog> getBookCatalogs (String novelname);
 
 		//获取章节内容
-		List<String> getNovelCatlog (Catalog catalog);
+		List<String> getNovelCatlog (String bookName,String catalogName,String table);
 
 		//投票
 		Integer getVoteTicket (String novelname);

@@ -79,7 +79,7 @@
 		</servlet-mapping>
 
 
-		<jsp-config>
+		<!--<jsp-config>
 				<taglib>
 						<taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
 						<taglib-location>/WEB-INF/tld/c.tld</taglib-location>
@@ -88,12 +88,12 @@
 						<taglib-uri>http://java.sun.com/jsp/jstl/fmt</taglib-uri>
 						<taglib-location>/WEB-INF/tld/fmt.tld</taglib-location>
 				</taglib>
-				<!--自定义标签-->
+				&lt;!&ndash;自定义标签&ndash;&gt;
 				<taglib>
 						<taglib-uri>http://auth.qst.com</taglib-uri>
 						<taglib-location>/WEB-INF/tld/auth.tld</taglib-location>
 				</taglib>
-		</jsp-config>
+		</jsp-config>-->
 
 		<error-page>
 				<error-code>404</error-code>

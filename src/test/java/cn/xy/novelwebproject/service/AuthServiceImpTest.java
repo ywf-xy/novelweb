@@ -2,6 +2,7 @@ package cn.xy.novelwebproject.service;
 
 import cn.xy.novelwebproject.BaseTest;
 import cn.xy.novelwebproject.bean.Author;
+import cn.xy.novelwebproject.bean.Novel;
 import cn.xy.novelwebproject.dao.AuthorMapper;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -53,5 +54,24 @@ public class AuthServiceImpTest extends BaseTest {
 		public void updateAuthWork() {
 				boolean b = authorMapper.updateAuthWork("从当爷爷开始", "我是爷爷，你们都是孙子", "完结");
 				logger.info("updateAuthWork result="+b);
+		}
+
+		@Test
+		public void updateWorkWords() {
+				Novel novel = new Novel();
+				novel.setBook_name("NBA最强主教");
+				novel.setBook_words(77777);
+				String updateTime = "2020-07-22";
+				//1、获取小说字数
+				int words = authorMapper.selectWorkWords(novel.getBook_name());
+				logger.info("updateWorkWords  before：words=" + words);
+				//2、更新小说字数并插入数据库
+				words += novel.getBook_words();
+				logger.info("updateWorkWords  after：words=" + words);
+				try {
+						authorMapper.updateWorkWords(words, updateTime, novel.getBook_name());
+				} catch (Exception e) {
+						e.printStackTrace();
+				}
 		}
 }

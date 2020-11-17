@@ -1,23 +1,47 @@
 package cn.xy.novelwebproject.service;
 
 import cn.xy.novelwebproject.bean.Author;
+import cn.xy.novelwebproject.bean.Novel;
+import cn.xy.novelwebproject.bean.Noveltype;
+import cn.xy.novelwebproject.bean.RootNovelType;
 
+import java.util.Date;
 import java.util.List;
 
 public interface AuthService {
-		public List<Author> getAllAuth ();
+		List<Author> getAllAuth();
 
-		public List<Author> selectAuthor (String nickname);
+		List<Author> selectAuthor(String nickName);
 
-		Author getAuthorWorks (String nick_name);
+		Author getAuthorWorks(String nickName);
 
-		boolean updatePassword(String nick_name, String old_pwd, String new_pwd);
+		boolean updatePassword(String nickName, String oldPwd, String newPwd);
 
-		int SetUserHeadImg(String username, String fileName);
+		int setUserHeadImg(String userName, String fileName);
 
-		Object getAuthByName(String username);
+		Object getAuthByName(String userName);
 
-		Author getAuthorAllMsg(String nick_name);
+		Author getAuthorAllMsg(String nickName);
 
-		boolean updateAuthWork(String book_name, String book_intro, String book_status);
+		boolean updateAuthWork(String bookName, String bookIntro, String bookStatus);
+
+		boolean addNovel(Novel novel);
+
+		boolean addType(List<Noveltype> types);
+
+		void addAuhtorWork(String book_author, String book_name, Date date);
+
+		boolean addCatalogContent(String bookName, String catalogName, String content);
+
+		boolean addCatalog(String bookName, String catalogName, Date date);
+
+		void updateWorkWords(Novel novel);
+
+		List<RootNovelType> getAllTypes();
+
+		boolean updateCatalog(String novelName, String catalogName);
+
+		boolean updateCatalogContent(String novelName, String catalogName, String content);
+
+		String getCatalogContent(String novelName, String novelCatalog);
 }

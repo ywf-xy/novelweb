@@ -6,8 +6,8 @@
 		<% pageContext.setAttribute("path", request.getContextPath()); %>
 		<link rel="shortcut icon" href="${path}/static/picture/favicon.ico"/>
 		<link href="${path}/static/css/bootstrap.min.css" rel="stylesheet">
-		<link href="${path}/static/css/auth-base.css" rel="stylesheet">
-		<link href="${path}/static/css/workupload.css" rel="stylesheet">
+		<link href="${path}/static/css/auth/auth-base.css" rel="stylesheet">
+		<link href="${path}/static/css/auth/workupload.css" rel="stylesheet">
 		<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
 		<script src="${path}/static/js/jquery-3.4.1.min.js" type="text/javascript"></script>
 		<!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->

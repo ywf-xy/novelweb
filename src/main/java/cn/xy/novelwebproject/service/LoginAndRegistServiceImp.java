@@ -4,6 +4,8 @@ import cn.xy.novelwebproject.bean.Author;
 import cn.xy.novelwebproject.bean.Reader;
 import cn.xy.novelwebproject.dao.LoginAndRegistMapper;
 import cn.xy.novelwebproject.utils.JedisUtils;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,7 +75,7 @@ public class LoginAndRegistServiceImp implements LoginAndRegistService {
 										reader.setBirth(new SimpleDateFormat("yyyy-MM-dd").format(reader.getBirthday()));
 								}
 								String json = new ObjectMapper().writeValueAsString(reader);
-								jedis.setex(key, 60 * 60, json);
+								jedis.setex(key, 60 * 60*2, json);
 
 						}
 				} catch (Exception e) {
@@ -92,13 +94,16 @@ public class LoginAndRegistServiceImp implements LoginAndRegistService {
 				try {
 						if (jedis.exists(key)) {
 								String value = jedis.get(key);
-								author = new ObjectMapper().readValue(value, Author.class);
+								logger.info("getAuthMsgByName json="+value);
+								author =JSON.parseObject(value,Author.class);
+								logger.info("getAuthMsgByName jedis:author="+author);
 						} else {
 								author = loginAndRegistMapper.selectByAuthorKey(nick_name);
 								//author.setBirth(new SimpleDateFormat("yyyy-MM-dd").format(reader.getBirthday()));
-								String json = new ObjectMapper().writeValueAsString(author);
-								jedis.setex(key, 60 * 60, json);
-
+								String json = JSON.toJSONString(author);
+								logger.info("getAuthMsgByName author="+author);
+								logger.info("getAuthMsgByName json="+author);
+								jedis.setex(key, 60 * 60*2, json);
 						}
 				} catch (Exception e) {
 						logger.error("错误消息：{}",e.getMessage(),e);

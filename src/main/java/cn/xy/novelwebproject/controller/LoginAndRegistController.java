@@ -77,6 +77,7 @@ public class LoginAndRegistController {
 				Msg msg = new Msg(true);
 				logger.info(author.toString());
 				Author authorLogin = loginAndRegistService.getAuthMsgByName(author.getNick_name());
+				logger.info("AuthLogin auth="+authorLogin);
 				if (!loginAndRegistService.AuthLogin(author)) {
 						if(authorLogin==null){
 								msg.setFlag(false);

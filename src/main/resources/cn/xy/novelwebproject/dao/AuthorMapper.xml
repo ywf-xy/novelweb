@@ -196,4 +196,76 @@
 				where book_name = #{arg0}
 		</update>
 
+		<!--		boolean addNovel(Novel novel);-->
+		<insert id="addNovel" parameterType="cn.xy.novelwebproject.bean.Novel">
+				insert into novel (book_name, book_type, book_author, book_state, book_words, book_intro, update_time)
+				values (#{book_name}, #{book_name}, #{book_author}, #{book_state}, #{book_words}, #{book_intro},
+						#{update_time})
+		</insert>
+		<!--		void addWork(String book_author, String book_name, Date date);-->
+		<insert id="addWork" parameterType="String">
+				insert into author_work_novel (novel_author, novel_name, creat_time)
+				values (#{arg0}, #{arg1}, #{arg2})
+		</insert>
+		<!--		boolean addType(List<Noveltype> types);-->
+		<insert id="addType" parameterType="list">
+				insert into novel_type (novel_name, type) values
+				<foreach collection="list" item="worktype" separator=",">
+						(#{worktype.novel_name},#{worktype.type})
+				</foreach>
+		</insert>
+		<!--		boolean addCatalog(String bookName, String catalogName, String time);-->
+		<insert id="addCatalog" parameterType="String">
+				insert into catalog (novel_name, novale_catalog, updatetime)
+				values (#{arg0}, #{arg1}, #{arg2})
+		</insert>
+		<!--		boolean addCatalogContent(String bookName, String catalogName, String content);-->
+		<insert id="addCatalogContent" parameterType="String">
+				insert into
+				<if test="arg3== '' ">catlog_content</if>
+				<if test="arg3 != ''">catlog_content${arg3}</if>
+				(novelname, catlogname, content) VALUES (#{arg0},#{arg1},#{arg2})
+		</insert>
+		<insert id="addNovelDB" parameterType="String">
+				insert into novel_db (novel_name, db_id)
+				VALUES (#{arg0}, #{arg1})
+		</insert>
+		<select id="findAllNovel" resultType="String">
+				select novel.book_name
+				from novel
+		</select>
+		<select id="selectNovelDB" parameterType="String" resultType="int">
+				select db_id
+				from novel_db
+				where novel_name = #{bookName}
+		</select>
+		<!--		int selectWorkWords(String book_name);-->
+		<select id="selectWorkWords" parameterType="String" resultType="int">
+				SELECT n.book_words
+				FROM novel n
+				WHERE n.book_name = #{bookName}
+		</select>
+		<!--		void updateWorkWords(int words);-->
+		<update id="updateWorkWords" parameterType="Object">
+				update novel
+				set book_words = #{arg0},
+					update_time=#{arg1}
+				where book_name = #{arg2}
+		</update>
+<!--		List<Noveltype> selectAllType();-->
+		<select id="selectAllType" resultType="cn.xy.novelwebproject.bean.RootNovelType">
+				select * from noveltype
+		</select>
+		<!--boolean updateCatalog(String novelName, String catalogName);-->
+		<update id="updateCatalog" parameterType="String">
+				update catalog set catalog.novale_catalog=#{arg1} where catalog.novel_name=#{arg0}
+		</update>
+		<!--boolean updateCatalogContent(String novelName, String catalogName, String content);-->
+		<update id="updateCatalogContent" parameterType="String">
+				update catlog_content set content = #{arg2} , catlogname = #{arg1} where novelname = #{arg0}
+		</update>
+		<!--String getCatalogContent(String novelName, String novelCatalog);-->
+		<select id="getCatalogContent" parameterType="String" resultType="String">
+				select  content from catlog_content where novelname=#{arg0} and catlogname=#{arg1}
+		</select>
 </mapper>
