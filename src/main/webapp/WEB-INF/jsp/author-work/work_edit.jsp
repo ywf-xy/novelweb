@@ -19,10 +19,6 @@
 </div>
 <textarea id="editor" name="editor" rows="5" style="display: none;"></textarea>
 <br>
-<button onclick="getHtml()">获取HTML</button>&nbsp;&nbsp;
-<button onclick="getText()">获取纯文本</button>
-<br><br>
-
 
 <script src="${pageContext.request.contextPath}/static/js/auth/HandyEditor.min.js"></script>
 <script type="text/javascript">

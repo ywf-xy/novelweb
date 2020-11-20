@@ -77,4 +77,8 @@ public interface NovelMapper {
 
 		//更新投票信息
 		void updateVoteTicket (String count, String novelname);
+
+		//获取榜单列表小说
+		List<Novel> getRankList(String type);
+
 }

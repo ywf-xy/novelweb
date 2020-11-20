@@ -178,4 +178,26 @@
 		<update id="updateVoteTicket" parameterType="String">
         	UPDATE novel set total_collections =#{count} where novel.book_name=#{novelname}
   		</update>
+
+		<select id="getRankList" parameterType="String" resultMap="BaseResultMap">
+				SELECT book_name,book_author,
+				<choose>
+						<when test="_parameter == 'update_time'">
+								update_time	FROM novel ORDER BY update_time
+						</when>
+						<when test="_parameter == 'book_words'">
+								book_words FROM novel ORDER BY book_words
+						</when>
+						<when test="_parameter == 'monthly_tickets'">
+								monthly_tickets FROM novel ORDER BY monthly_tickets
+						</when>
+						<when test="_parameter == 'total_hits'">
+								total_hits FROM novel ORDER BY total_hits
+						</when>
+						<when test="_parameter == 'downloads'">
+								downloads FROM novel ORDER BY downloads
+						</when>
+				</choose>
+				 DESC
+		</select>
 </mapper>

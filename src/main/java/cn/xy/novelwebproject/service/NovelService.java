@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface NovelService {
 		Novel getNovelByColums (int colum, int i);
@@ -69,4 +70,6 @@ public interface NovelService {
 		String getNovelCatlog (String novelname, String catlogname);
 
 		int voteTicket (String novelname,String username);
+
+		Map<String, List<Novel>> getRankList();
 }

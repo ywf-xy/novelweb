@@ -1,6 +1,5 @@
 package cn.xy;
 
-import cn.xy.novelwebproject.utils.JDBCUtils;
 import org.junit.Test;
 
 import java.io.*;
@@ -38,7 +37,7 @@ public class CatlogTest {
 										}
 
 										//4、将内容写入数据库
-										boolean flag = JDBCUtils.InsertCatlog(txt,catlogname,novelname);
+										boolean flag = false;//JDBCUtils.InsertCatlog(txt,catlogname,novelname);
 										if (!flag)break;
 								}
 						}catch (Exception e){

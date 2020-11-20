@@ -22,6 +22,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("novel")
@@ -645,5 +646,14 @@ public class NovelController {
 				}
 				logger.info("voteTicket:"+msg);
 				return msg;
+		}
+
+
+		@ResponseBody
+		@RequestMapping("getranklist")
+		public Object getRankListData(){
+				Map<String,List<Novel>> map = novelService.getRankList();
+
+				return map;
 		}
 }

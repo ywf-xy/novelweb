@@ -10,12 +10,12 @@
 		      type="image/x-icon"/>
 		<link rel="stylesheet" type="text/css" href="static/css/base.css"/>
 		<link rel="stylesheet" type="text/css" href="static/css/rank.css"/>
-		<script src="${pageContext.request.contextPath}/static/js/rank.js" type="text/javascript"
-		        charset="utf-8"></script>
 		<script src="${pageContext.request.contextPath}/static/js/jquery-3.4.1.js" type="text/javascript"
 		        charset="utf-8"></script>
 		<script src="${pageContext.request.contextPath}/static/js/base.js" type="text/javascript"
 		        charset="UTF-8"></script>
+		<script src="${pageContext.request.contextPath}/static/js/rank.js" type="text/javascript"
+				charset="utf-8"></script>
 </head>
 <body>
 <div class="Header">
@@ -98,32 +98,10 @@
 				<div class="rank_box">
 						<div class="rank_tittle">
 								总点击榜
-								<span class="more"><a href="">更多</a></span>
+								 
 						</div>
 						<div class="topten_box">
-								<ul>
-										<li><b>1</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>2</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>3</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>4</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>5</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>6</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>7</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>8</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>9</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>10</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-								</ul>
-						</div>
-				</div>
-		</div>
-		<div class="topten">
-				<div class="rank_box">
-						<div class="rank_tittle">
-								月点击榜
-								<span class="more"><a href="">更多</a></span>
-						</div>
-						<div class="topten_box">
-								<ul>
+								<ul id="totalhits">
 										<li><b>1</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
 										<li><b>2</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
 										<li><b>3</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
@@ -139,150 +117,14 @@
 				</div>
 		</div>
 
-		<div class="topten">
-				<div class="rank_box">
-						<div class="rank_tittle">
-								周点击榜
-								<span class="more"><a href="">更多</a></span>
-						</div>
-						<div class="topten_box">
-								<ul>
-										<li><b>1</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>2</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>3</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>4</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>5</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>6</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>7</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>8</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>9</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>10</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-								</ul>
-						</div>
-				</div>
-		</div>
-
-		<div class="topten">
-				<div class="rank_box">
-						<div class="rank_tittle">
-								日点击榜
-								<span class="more"><a href="">更多</a></span>
-						</div>
-						<div class="topten_box">
-								<ul>
-										<li><b>1</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>2</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>3</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>4</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>5</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>6</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>7</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>8</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>9</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>10</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-								</ul>
-						</div>
-				</div>
-		</div>
 		<div class="topten">
 				<div class="rank_box">
 						<div class="rank_tittle">
 								总推荐榜
-								<span class="more"><a href="">更多</a></span>
+								 
 						</div>
 						<div class="topten_box">
-								<ul>
-										<li><b>1</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>2</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>3</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>4</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>5</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>6</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>7</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>8</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>9</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>10</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-								</ul>
-						</div>
-				</div>
-		</div>
-
-		<div class="topten">
-				<div class="rank_box">
-						<div class="rank_tittle">
-								月推荐榜
-								<span class="more"><a href="">更多</a></span>
-						</div>
-						<div class="topten_box">
-								<ul>
-										<li><b>1</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>2</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>3</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>4</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>5</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>6</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>7</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>8</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>9</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>10</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-								</ul>
-						</div>
-				</div>
-		</div>
-
-		<div class="topten">
-				<div class="rank_box">
-						<div class="rank_tittle">
-								周推荐榜
-								<span class="more"><a href="">更多</a></span>
-						</div>
-						<div class="topten_box">
-								<ul>
-										<li><b>1</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>2</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>3</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>4</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>5</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>6</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>7</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>8</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>9</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>10</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-								</ul>
-						</div>
-				</div>
-		</div>
-		<div class="topten">
-				<div class="rank_box">
-						<div class="rank_tittle">
-								日推荐榜
-								<span class="more"><a href="">更多</a></span>
-						</div>
-						<div class="topten_box">
-								<ul>
-										<li><b>1</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>2</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>3</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>4</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>5</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>6</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>7</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>8</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>9</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-										<li><b>10</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
-								</ul>
-						</div>
-				</div>
-		</div>
-
-		<div class="topten">
-				<div class="rank_box">
-						<div class="rank_tittle">
-								总收藏榜
-								<span class="more"><a href="">更多</a></span>
-						</div>
-						<div class="topten_box">
-								<ul>
+								<ul id="monthlytickets">
 										<li><b>1</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
 										<li><b>2</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
 										<li><b>3</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
@@ -302,10 +144,10 @@
 				<div class="rank_box">
 						<div class="rank_tittle">
 								总字数榜
-								<span class="more"><a href="">更多</a></span>
+								 
 						</div>
 						<div class="topten_box">
-								<ul>
+								<ul id="bookwords">
 										<li><b>1</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
 										<li><b>2</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
 										<li><b>3</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
@@ -320,14 +162,15 @@
 						</div>
 				</div>
 		</div>
+
 		<div class="topten">
 				<div class="rank_box">
 						<div class="rank_tittle">
 								最近更新
-								<span class="more"><a href="">更多</a></span>
+								 
 						</div>
 						<div class="topten_box">
-								<ul>
+								<ul id="updatetime">
 										<li><b>1</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
 										<li><b>2</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
 										<li><b>3</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
@@ -347,10 +190,9 @@
 				<div class="rank_box">
 						<div class="rank_tittle">
 								总下载榜
-								<span class="more"><a href="">更多</a></span>
 						</div>
 						<div class="topten_box">
-								<ul>
+								<ul id="downloads">
 										<li><b>1</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
 										<li><b>2</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
 										<li><b>3</b>.&nbsp;<a href="">斗破苍穹</a><span>(天蚕土豆)</span></li>
