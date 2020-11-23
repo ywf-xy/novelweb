@@ -81,15 +81,9 @@
 
 		<select id="getClassiFicationList" parameterType="HashMap" resultMap="BaseResultMap">
 				SELECT novel.book_name,novel.book_words,novel.book_author,novel.update_time,novel.book_state FROM novel
-				<if test="book_type!=''">
-						INNER JOIN novel_type ON novel_type.novel_name = novel.book_type
-				</if>
 				<where>
-						<if test="book_type!=''">
-								novel_type.type=#{book_type}
-						</if>
 						<if test="book_state!=''">
-								and novel.book_state=#{book_state}
+							 novel.book_state=#{book_state}
 						</if>
 						<if test='wordgt!="-1"'>
 								and novel.book_words >= #{wordgt}
@@ -106,15 +100,9 @@
 		</select>
 		<select id="getClassiFicationPageSize" parameterType="HashMap" resultType="int">
 				SELECT count(book_name) FROM novel
-				<if test="book_type!=''">
-						INNER JOIN novel_type ON novel_type.novel_name = novel.book_type
-				</if>
 				<where>
-						<if test="book_type!=''">
-								novel_type.type=#{book_type}
-						</if>
 						<if test="book_state!=''">
-								and novel.book_state=#{book_state}
+								novel.book_state=#{book_state}
 						</if>
 						<if test='wordgt!="-1"'>
 								and novel.book_words >= #{wordgt}
@@ -199,5 +187,14 @@
 						</when>
 				</choose>
 				 DESC
+		</select>
+
+		<!--void updateNovelHit(Novel novel);-->
+		<update id="updateNovelHit" parameterType="cn.xy.novelwebproject.bean.Novel">
+				update novel set total_hits = #{total_hits} where book_name = #{book_name}
+		</update>
+		<!--int selectNovelHit(String novelName);-->
+		<select id="selectNovelHit" parameterType="String" resultType="int">
+				select total_hits from novel where book_name = #{novelName}
 		</select>
 </mapper>

@@ -12,7 +12,7 @@
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/kehuan.css"/>
 		<script src="${pageContext.request.contextPath}/static/js/jquery-3.4.1.js" type="text/javascript"
 		        charset="utf-8"></script>
-		<script src="${pageContext.request.contextPath}/static/js/kehuan.js" type="text/javascript"
+		<script src="/wfRead/static/js/kehuan.js" type="text/javascript"
 		        charset="UTF-8"></script>
 		<script src="${pageContext.request.contextPath}/static/js/base.js" type="text/javascript"
 		        charset="UTF-8"></script>

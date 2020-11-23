@@ -145,3 +145,7 @@ li .active_page{
 tbody tr{
     background-color: #51ccff;
 }
+table,tr,td{
+    border: 1px solid #00BFFF;
+    border-collapse: collapse;
+}

@@ -158,4 +158,18 @@ public class NovelServiceImpTest extends BaseTest {
 				}
 				logger.info("map="+map);
 		}
+
+		@Test
+		public void getClassiFicationList() {
+				HashMap<String, Object> map = new HashMap<>();
+				map.put("book_type", "");
+				map.put("book_state", "");
+				map.put("wordgt", 0);
+				map.put("wordet", -1);
+				map.put("sort", "");
+				map.put("curpage", 0);
+				List<Novel> list = novelMapper.getClassiFicationList(map);
+				logger.info("list.size="+list.size()+list.get(0).getBook_type());
+
+		}
 }

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
@@ -51,6 +52,7 @@ public class ReaderServiceImp implements ReaderService {
 				return reader;
 		}
 
+		@Transactional
 		@Override
 		public int SetUserHeadImg(String nick_name, String imgname) {
 				int i = 0;
@@ -79,6 +81,7 @@ public class ReaderServiceImp implements ReaderService {
 				return i;
 		}
 
+		@Transactional
 		@Override
 		public int UpdateReaderMsg(Reader reader) {
 				Jedis jedis = JedisUtils.getConnect();
@@ -150,6 +153,7 @@ public class ReaderServiceImp implements ReaderService {
 				return reader;
 		}
 
+		@Transactional
 		@Override
 		public int deletBookFromShelf(String nick_name, int id) {
 				Jedis jedis = JedisUtils.getConnect();
@@ -181,6 +185,7 @@ public class ReaderServiceImp implements ReaderService {
 				return result;
 		}
 
+		@Transactional
 		@Override
 		public boolean addBookMark(String nick_name, String book_name, String catlogname) {
 				Jedis jedis = JedisUtils.getConnect();

@@ -500,13 +500,27 @@ public class NovelServiceImp implements NovelService {
 				/*Jedis jedis = JedisUtils.getConnect();
 				List<Catalog> cataloglList = null;
 				String key = "get" + "" + "Catalogs";*/
-				return novelMapper.getClassiFicationList(map);
+				List<Novel> classiFicationList = null;
+				try {
+						classiFicationList = novelMapper.getClassiFicationList(map);
+						logger.info("listSize="+classiFicationList.size());
+				} catch (Exception e) {
+						logger.error("错误消息：{}",e.getMessage(),e);
+				}
+				logger.info("getClassiFicationList   novelList="+classiFicationList);
+				return classiFicationList;
 
 		}
 
 		@Override
 		public Novel getNovelMsg (String book_name) {
-				return novelMapper.getNovelMsg(book_name);
+				Novel msg = null;
+				try {
+						msg = novelMapper.getNovelMsg(book_name);
+				} catch (Exception e) {
+						logger.error("错误消息：{}",e.getMessage(),e);
+				}
+				return msg;
 		}
 
 		@Override

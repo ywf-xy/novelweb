@@ -149,7 +149,7 @@
 				</div>
 				<div class="fliter_result">
 						<span>搜索条件：&nbsp;</span><span id="results">全部</span>
-						<span id="cleanfilter" style="color: orangered;font-weight: bold;margin-left: 10px">x</span>
+						<span id="cleanfilter" style="color: orangered;font-weight: bold;margin-left: 10px">清空过滤条件</span>
 				</div>
 		</div>
 

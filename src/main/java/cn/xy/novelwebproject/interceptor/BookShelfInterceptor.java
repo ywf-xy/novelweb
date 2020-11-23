@@ -1,6 +1,5 @@
 package cn.xy.novelwebproject.interceptor;
 
-import cn.xy.novelwebproject.bean.Author;
 import cn.xy.novelwebproject.bean.Reader;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,10 +11,12 @@ public class BookShelfInterceptor implements HandlerInterceptor {
 		@Override
 		public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 				Reader reader = (Reader) request.getSession().getAttribute("user_reader");
-				Author author = (Author) request.getSession().getAttribute("user_auth");
+
 				boolean flag = false;
-				if (reader!=null&&reader.getNick_name()!=null&&!"".equals(reader.getNick_name())){
+				if (reader != null && reader.getNick_name() != null && !"".equals(reader.getNick_name())) {
 						flag = true;
+				} else {
+						request.getRequestDispatcher("/").forward(request, response);
 				}
 				return flag;
 		}

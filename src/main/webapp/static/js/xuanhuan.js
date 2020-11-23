@@ -87,7 +87,7 @@ $(function () {
 		})
 		//选择页面
 		$("#1th_page").click(function () {
-				if ($(this)[0].className == "active_page") {
+				if ($(this)[0].className == "active_page"||$(this).text()>$(".all_page").text()) {
 						return;
 				}
 
@@ -110,7 +110,7 @@ $(function () {
 				loadPageData(index, 0);
 		})
 		$("#2th_page").click(function () {
-				if ($(this)[0].className == "active_page") {
+				if ($(this)[0].className == "active_page"||$(this).text()>$(".all_page").text()) {
 						return;
 				}
 				var index = $(this).text();
@@ -132,7 +132,7 @@ $(function () {
 				loadPageData(index, 0);
 		})
 		$("#3th_page").click(function () {
-				if ($(this)[0].className == "active_page") {
+				if ($(this)[0].className == "active_page"||$(this).text()>$(".all_page").text()) {
 						return;
 				}
 				var index = $(this).text();
@@ -154,7 +154,7 @@ $(function () {
 				loadPageData(index, 0);
 		})
 		$("#4th_page").click(function () {
-				if ($(this)[0].className == "active_page") {
+				if ($(this)[0].className == "active_page"||$(this).text()>$(".all_page").text()) {
 						return;
 				}
 				var index = $(this).text();
@@ -176,7 +176,7 @@ $(function () {
 				loadPageData(index, 0);
 		})
 		$("#5th_page").click(function () {
-				if ($(this)[0].className == "active_page") {
+				if ($(this)[0].className == "active_page"||$(this).text()>$(".all_page").text()) {
 						return;
 				}
 				var index = $(this).text();
@@ -241,6 +241,9 @@ $(function () {
 
 		//加载第x页数据
 		function loadPageData(paenum, flag) {
+				if ($(this).text()>$(".all_page").text()){
+						return ;
+				}
 				$.post("novel/xuanhuan",
 					"page=" + paenum + "&pagesize=20&flag=" + flag,
 					function (data) {
@@ -293,6 +296,7 @@ $(function () {
 									alert(data.message);
 							}
 					}, "json");
+					$('body,html').animate({scrollTop: 0},500);
 		}
 
 		loadPageData(1, 1);

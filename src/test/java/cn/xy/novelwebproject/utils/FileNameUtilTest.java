@@ -29,7 +29,7 @@ public class FileNameUtilTest extends BaseTest {
 				l.info("[code->replace]="+code);
 				String decodeUnicode = null;
 				try {
-						System.out.println(URLEncoder.encode("一念永恒"));
+						//System.out.println(URLEncoder.encode("一念永恒"));
 						decodeUnicode = FileNameUtil.getURLDecoderString(code);
 
 				} catch (Exception e) {

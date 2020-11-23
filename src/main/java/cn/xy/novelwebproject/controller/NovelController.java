@@ -426,8 +426,8 @@ public class NovelController {
 
 		@ResponseBody
 		@RequestMapping("classification")
-		public Msg getClassiFicationData(HttpServletRequest request) {
-				Msg msg = new Msg(true);
+		public Object getClassiFicationData(HttpServletRequest request) {
+				Msg<Object> msg = new Msg<>(true);
 				String book_type = request.getParameter("type");
 				//System.out.println("type"+book_type);
 				String book_state = request.getParameter("state");
@@ -453,18 +453,32 @@ public class NovelController {
 				}
 
 				HashMap<String, Object> map = new HashMap<>();
-				map.put("book_type", book_type);
 				map.put("book_state", book_state);
 				map.put("wordgt", gt);
 				map.put("wordet", et);
 				map.put("sort", sort);
 				int allpage = (novelService.getClassiFicationPageSize(map) + 10 - 1) / 10;
-				//System.out.println(allpage);
+				logger.info("getClassiFicationData allpage="+allpage);
 				int curpage = ((pagenum - 1) * 10);
 				map.put("curpage", curpage);
 				try {
 						List<Novel> list = novelService.getClassiFicationList(map);
-						int len = list.size();
+						//如果类型为全部，就查询小说的所有类型，否则就将传入的类型作为小说类型
+						if ("".equals(book_type)) {
+								List<Novel> allSelectList = new ArrayList<>();
+								for (Novel value : list) {
+										Novel novel = novelService.getNovelMsg(value.getBook_name());
+										allSelectList.add(novel);
+								}
+								list = allSelectList;
+						}else {
+								ArrayList<String> types = new ArrayList<>();
+								types.add(book_type);
+								for (Novel novel : list) {
+										novel.setBook_type(types);
+								}
+						}
+						logger.info(" list="+list.size()+" "+list.get(0).getBook_type());
 						msg.setData(list);
 						msg.setMessage(String.valueOf(allpage));
 				} catch (Exception e) {
@@ -472,13 +486,13 @@ public class NovelController {
 						msg.setFlag(false);
 						msg.setMessage("加载数据出错！请与管理员联系！");
 				}
-				logger.info("getClassiFicationData:" + msg);
+				logger.info("getClassiFicationData: msg=" + msg);
 				return msg;
 		}
 
 		@ResponseBody
 		@RequestMapping("loadbookmsg")
-		public Msg loadBookMsg(HttpServletRequest request) {
+		public Object loadBookMsg(HttpServletRequest request) {
 				Msg msg = new Msg(true);
 				String bookname = request.getParameter("bookname");
 				try {
@@ -612,6 +626,9 @@ public class NovelController {
 				}
 		}
 
+		/**
+		 * 投票
+		 * */
 		@ResponseBody
 		@RequestMapping("voteticket")
 		public Msg voteTicket(HttpServletRequest request) {
@@ -648,7 +665,9 @@ public class NovelController {
 				return msg;
 		}
 
-
+		/**
+		 * 获取排行榜页面榜单数据
+		* */
 		@ResponseBody
 		@RequestMapping("getranklist")
 		public Object getRankListData(){

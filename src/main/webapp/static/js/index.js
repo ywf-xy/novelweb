@@ -123,7 +123,9 @@ function editorpush() {
 					if (data.flag) {
 							var booklist = data.data;
 							var links = $(".wrap_12_mian a");
+							//console.log(booklist)
 							for (var i = 0; i < 4; i++) {
+
 									$("#recommend_" + (i + 1) + " a").text(booklist[i].book_name);
 									links[i].href = "/wfRead/novel/book/" + booklist[i].book_name;
 									var texts = booklist[i].book_intro.replace(" ", "");
@@ -155,8 +157,10 @@ function gethomepagelist() {
 			function (data) {
 					if (data.flag) {
 							var booklist = data.data;
+							//console.log(booklist[0])
 							for (var i = 0; i < 80; i++) {
-									$(".list_bookname a").eq(i).text(booklist[i].book_name);
+									//console.log(i+"="+booklist[i].book_name)
+									$(".list_bookname a")[i].text=booklist[i].book_name;
 									$(".list_bookname a")[i].href = "/wfRead/novel/book/" + booklist[i].book_name;
 							}
 					}

@@ -1,4 +1,5 @@
 $(function () {
+		$('#firstpage').on("click",goToHeadPage);
 		$(".fllist-item dd").click(function () {
 				var text = $(this).find('span').text();
 				var dl = $(this).parent();
@@ -12,8 +13,6 @@ $(function () {
 				}
 				//刷新过滤结果
 				refreshdata();
-				//查询数据
-				findData();
 		});
 
 		function refreshdata() {
@@ -39,7 +38,10 @@ $(function () {
 						$('#results').attr("style", 'color:black');
 						$('#results').text("全部");
 				}
+
+				//查询数据
 				findData();
+				goToHeadPage();
 		}
 
 		//清空过滤条件
@@ -52,7 +54,7 @@ $(function () {
 				refreshdata();
 		});
 		//跳转首页
-		$('#firstpage').click(function () {
+		function goToHeadPage() {
 				if ($('.current_page').val() != 1) {
 						$('.active_page')[0].className = "stay_page";
 						$('.current_page').val(1);
@@ -64,7 +66,7 @@ $(function () {
 						//加载首页数据
 						loadPageData(1);
 				}
-		})
+		}
 
 		//跳转尾页
 		$("#lastpage").click(function () {
@@ -320,6 +322,7 @@ $(function () {
 							$(".all_page").text(allpage);
 							var data = data.data;
 							$("tbody").empty();
+
 							for (var i = 0; i < data.length; i++) {
 									var booknmae = data[i].book_name;
 									var words = data[i].book_words;
@@ -330,6 +333,10 @@ $(function () {
 									var date = myDate.getDate(); //获取当前日
 									var updatetime = year + "-" + mon + "-" + date;
 									var state = data[i].book_state;
+									booktype = data[i].book_type[0];
+									/*for (var n in data[i].book_type){
+											console.log(i +" ="+data[i].book_type[n]);
+									}*/
 									var temp = "<tr class=\"bg1\">\n" +
 										"                    <td class=\"td1\">" + parseInt(i + 1) + "</td>\n" +
 										"                    <td class=\"td2\">" + booktype + "</td>\n" +

@@ -123,7 +123,7 @@ function upLoadImg() {
 						alert(data.message);
 						if (data.flag) {
 								$("#tabTarget2 img").attr("src", "/" + urls[0]);
-								$("#headimage").attr("src","/" + urls[0])
+								$(".headimage").attr("src","/" + urls[0])
 						}
 				}
 		});

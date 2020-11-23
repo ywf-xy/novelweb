@@ -81,4 +81,7 @@ public interface NovelMapper {
 		//获取榜单列表小说
 		List<Novel> getRankList(String type);
 
+		//更新小说点击量
+		int selectNovelHit(String novelName);
+		void updateNovelHit(Novel novel);
 }

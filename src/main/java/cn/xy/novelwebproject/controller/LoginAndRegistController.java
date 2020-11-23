@@ -56,6 +56,8 @@ public class LoginAndRegistController {
 				session.removeAttribute("user_auth");
 
 				String url = request.getHeader("Referer").replace("http://localhost:8080/wfRead/", "");
+				//url = url.replace(url.substring(0,url.lastIndexOf("wfRead/")),"").replace("wfRead/","");
+				logger.info("LoginOut url="+url);
 				return "redirect:/" + url;
 		}
 

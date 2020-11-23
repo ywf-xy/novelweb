@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.Jedis;
 
 import java.text.SimpleDateFormat;
@@ -63,6 +65,7 @@ public class AuthServiceImpl implements AuthService {
 				return author;
 		}
 
+		@Transactional
 		@Override
 		public boolean updatePassword(String nickName, String oldNwd, String newNwd) {
 				boolean flag = false;
@@ -99,6 +102,7 @@ public class AuthServiceImpl implements AuthService {
 				return flag;
 		}
 
+		@Transactional
 		@Override
 		public int setUserHeadImg(String username, String fileName) {
 				boolean flag = false;
@@ -158,6 +162,7 @@ public class AuthServiceImpl implements AuthService {
 				return author;
 		}
 
+		@Transactional
 		@Override
 		public boolean updateAuthWork(String bookName, String bookIntro, String bookStatus) {
 				boolean result = false;
@@ -169,6 +174,7 @@ public class AuthServiceImpl implements AuthService {
 				return result;
 		}
 
+		@Transactional
 		@Override
 		public boolean addNovel(Novel novel) {
 				boolean flag = false;
@@ -202,6 +208,7 @@ public class AuthServiceImpl implements AuthService {
 				return flag;
 		}
 
+		@Transactional
 		@Override
 		public boolean addType(List<Noveltype> types) {
 				boolean flag = false;
@@ -213,6 +220,7 @@ public class AuthServiceImpl implements AuthService {
 				return flag;
 		}
 
+		@Transactional
 		@Override
 		public void addAuhtorWork(String book_author, String book_name, Date date) {
 				try {
@@ -224,6 +232,7 @@ public class AuthServiceImpl implements AuthService {
 				}
 		}
 
+		@Transactional
 		@Override
 		public boolean addCatalogContent(String bookName, String catalogName, String content) {
 				boolean flag = false;
@@ -253,6 +262,7 @@ public class AuthServiceImpl implements AuthService {
 				return flag;
 		}
 
+		@Transactional
 		@Override
 		public boolean addCatalog(String bookName, String catalogName, Date date) {
 				boolean flag = false;
@@ -273,6 +283,7 @@ public class AuthServiceImpl implements AuthService {
 				return flag;
 		}
 
+		@Transactional
 		@Override
 		public void updateWorkWords(Novel novel) {
 				//1、获取小说字数
@@ -301,6 +312,7 @@ public class AuthServiceImpl implements AuthService {
 				return list;
 		}
 
+		@Transactional
 		@Override
 		public boolean updateCatalog(String novelName, String catalogName) {
 				boolean flag = false;
@@ -312,6 +324,7 @@ public class AuthServiceImpl implements AuthService {
 				return flag;
 		}
 
+		@Transactional
 		@Override
 		public boolean updateCatalogContent(String novelName, String catalogName, String content) {
 				boolean flag = false;

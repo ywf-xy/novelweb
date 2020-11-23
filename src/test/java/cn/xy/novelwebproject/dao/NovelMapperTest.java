@@ -23,4 +23,16 @@ public class NovelMapperTest extends BaseTest {
 				l.info("list="+rankList);
 				rankList.forEach(n->l.info(" novel="+n));
 		}
+
+		@Test
+		public void updateNovelHit() {
+				String novelName = "马气大陆";
+				int hit = 361;
+				hit += novelMapper.selectNovelHit(novelName);
+				l.info("novel  hits="+hit);
+				Novel novel = new Novel();
+				novel.setTotal_hits(hit);
+				novel.setBook_name(novelName);
+				novelMapper.updateNovelHit(novel);
+		}
 }
