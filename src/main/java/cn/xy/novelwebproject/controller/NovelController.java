@@ -3,12 +3,14 @@ package cn.xy.novelwebproject.controller;
 import cn.xy.novelwebproject.bean.*;
 import cn.xy.novelwebproject.service.NovelService;
 import cn.xy.novelwebproject.service.ReaderServiceImp;
+import cn.xy.novelwebproject.utils.JedisUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,10 +21,8 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 @RequestMapping("novel")
@@ -458,7 +458,7 @@ public class NovelController {
 				map.put("wordet", et);
 				map.put("sort", sort);
 				int allpage = (novelService.getClassiFicationPageSize(map) + 10 - 1) / 10;
-				logger.info("getClassiFicationData allpage="+allpage);
+				logger.info("getClassiFicationData allpage=" + allpage);
 				int curpage = ((pagenum - 1) * 10);
 				map.put("curpage", curpage);
 				try {
@@ -471,14 +471,14 @@ public class NovelController {
 										allSelectList.add(novel);
 								}
 								list = allSelectList;
-						}else {
+						} else {
 								ArrayList<String> types = new ArrayList<>();
 								types.add(book_type);
 								for (Novel novel : list) {
 										novel.setBook_type(types);
 								}
 						}
-						logger.info(" list="+list.size()+" "+list.get(0).getBook_type());
+						logger.info(" list=" + list.size() + " " + list.get(0).getBook_type());
 						msg.setData(list);
 						msg.setMessage(String.valueOf(allpage));
 				} catch (Exception e) {
@@ -508,7 +508,7 @@ public class NovelController {
 		/**
 		 * 获取小说章节列表
 		 * 参数：bookname
-		* */
+		 */
 		@ResponseBody
 		@RequestMapping("loadbookcatlog")
 		public Msg loadBookCatlog(HttpServletRequest request) {
@@ -521,7 +521,7 @@ public class NovelController {
 				} catch (Exception e) {
 						logger.error("错误消息：{}", e.getMessage(), e);
 				}
-				logger.info("loadBookCatlog:"+msg);
+				logger.info("loadBookCatlog:" + msg);
 				return msg;
 		}
 
@@ -535,39 +535,56 @@ public class NovelController {
 						pageQuery.setType(type);
 						pageQuery.setPagesize(10);
 						List<Novel> list = novelService.getDownloadsList(pageQuery);
-						logger.info("getDownloadRank:"+list);
+						logger.info("getDownloadRank:" + list);
 						msg.setData(list);
 				} catch (Exception e) {
 						logger.error("错误消息：{}", e.getMessage(), e);
 						msg.setFlag(false);
 						msg.setMessage(e.getMessage());
 				}
-				logger.info("getDownloadRank:"+msg);
+				logger.info("getDownloadRank:" + msg);
 				return msg;
 		}
 
 		/**
-		* 获取章节内容
-		* */
+		 * 获取章节内容
+		 */
 		@ResponseBody
 		@RequestMapping("readbycatlog")
-		public Msg readCatlog(HttpServletRequest request) {
-				Msg msg = new Msg(false);
+		public Object readCatlog(HttpServletRequest request) {
+				Msg<String> msg = new Msg<>(false);
+
 				//1、获取参数
 				String novelname = request.getParameter("novelname");
 				String catlogname = request.getParameter("catlogname");
-
+				Reader reader = (Reader) request.getSession().getAttribute("user_reader");
+				Jedis jedis = JedisUtils.getConnect();
 				try {
 						//2、根据参数从数据库查询章节内容
 						String data = novelService.getNovelCatlog(novelname, catlogname);
-						logger.info("readCatlog catalog="+data);
+						logger.info("readCatlog catalog=" + data);
 						msg.setData(data);
 						msg.setFlag(true);
+						if (reader != null) {
+								String key = "history:" + reader.getNick_name();
+								String url = "http://localhost:8080/wfRead/read/" + novelname + "/" + catlogname;
+								String readTime = new SimpleDateFormat("yyyy-MM-dd HH").format(new Date());
+								String record = "{" +
+									"\"novelname\": \"" + novelname + "\"," +
+									"\"url\": \"" + url + "\"," +
+									"\"catalogname\": \"" + catlogname + "\"," +
+									"\"readtime\": \"" + readTime + "\"" +
+									"}";
+								logger.info("record:" + record);
+								jedis.hset(key, novelname, record);
+						}
 				} catch (Exception e) {
 						logger.error("错误消息：{}", e.getMessage(), e);
 						msg.setMessage("小说章节加载出错，请与管理员联系！");
+				} finally {
+						JedisUtils.close(jedis);
 				}
-				logger.info("readCatlog:"+msg);
+				logger.info("readCatlog:" + msg);
 				return msg;
 		}
 
@@ -628,7 +645,7 @@ public class NovelController {
 
 		/**
 		 * 投票
-		 * */
+		 */
 		@ResponseBody
 		@RequestMapping("voteticket")
 		public Msg voteTicket(HttpServletRequest request) {
@@ -661,18 +678,17 @@ public class NovelController {
 						msg.setFlag(false);
 						msg.setMessage("服务器出了点问题，投票失败！");
 				}
-				logger.info("voteTicket:"+msg);
+				logger.info("voteTicket:" + msg);
 				return msg;
 		}
 
 		/**
 		 * 获取排行榜页面榜单数据
-		* */
+		 */
 		@ResponseBody
 		@RequestMapping("getranklist")
-		public Object getRankListData(){
-				Map<String,List<Novel>> map = novelService.getRankList();
-
+		public Object getRankListData() {
+				Map<String, List<Novel>> map = novelService.getRankList();
 				return map;
 		}
 }

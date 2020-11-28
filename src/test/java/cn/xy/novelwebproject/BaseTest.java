@@ -13,8 +13,8 @@ import redis.clients.jedis.JedisPool;
 @ContextConfiguration(locations = {"classpath:applicationContext-test.xml"})
 public class BaseTest {
 		@Test
-		public void test() {
+		public void test() throws InterruptedException {
 
-				System.out.println("test");
+
 		}
 }

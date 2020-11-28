@@ -90,7 +90,7 @@
 <!----主体-->
 <div id="main">
 		<div id="tips_head" align="center">
-				<span>您的书架可收藏${user_reader.vip==0?10:ser_reader.vip*10}本，已收藏${bookshelfs.size()}本。 </span>
+				<span>您的书架可收藏${user_reader.vip==0?10:user_reader.vip*10}本，已收藏${bookshelfs.size()}本。 </span>
 		</div>
 		<br/>
 		<hr style="width: 800px;"/>
@@ -115,7 +115,7 @@
 								<td><a target="_blank"
 								       href="/wfRead/read/${item.novel_name.book_name}/${item.bookmark}">${item.bookmark}</a>
 								</td>
-								<td><fmt:formatDate value="${item.novel_name.update_time}" type="both"/></td>
+								<td><fmt:formatDate value="${item.novel_name.update_time}" type="both" pattern="yyyy-MM-dd"/></td>
 								<td>
 										<button name="${item.id}" class="deletebtn">删除</button>
 								</td>

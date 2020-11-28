@@ -236,6 +236,7 @@ table,table tr th, table tr td { border:1px solid #0094ff; }
 	border-collapse: collapse;
 	border: 1px solid ;
 	width: 100%;
+	font-size: 20px;
 }
 .record_list thead td{
 	text-align: center;
@@ -246,8 +247,24 @@ tr{
 td{
 	text-align: left;
 }
-.record_list tr td{
-	width: 40%;
+.record_list tr td:first-child{
+	width:9%;
+	text-align: center;
+	border-collapse: collapse;
+}
+.record_list tr td:nth-child(2){
+	width: 25%;
+	text-align: center;
+	border-collapse: collapse;
+}
+.record_list tr td:nth-child(3){
+	text-align: center;
+	width:44%;
+	border-collapse: collapse;
+}
+.record_list tr td:nth-child(4){
+	width: 22%;
+	text-align: center;
 	border-collapse: collapse;
 }
 .group3{

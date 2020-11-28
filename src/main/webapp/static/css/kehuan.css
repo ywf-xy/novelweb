@@ -115,44 +115,6 @@ body{
     WIDTH: 100%;
     HEIGHT: 2px;
 }
-.page_nav{
-    width: 100%;
-    float: left;
-}
-.page_nav_content{
-    overflow: hidden;
-}
-.page_nav_list{
-    margin-left: 90.5px;
-    width: auto;
-    float: left;
-}
-.page_nav_list li{
-    display: inline-block;
-    padding: 2px 8px;
-    border: 1px solid #c5ddf5;
-}
-.page_nav_list li a{
-    cursor: pointer;
-}
-li .active_page{
-    color: #51ccff;
-}
-.page_opt{
-    float: left;
-    margin-left: 5px;
-    margin-bottom: 16px;
-    margin-top: 16px;
-    padding-top: 2px;
-}
-.current_page{
-    width: 50px;
-    text-align: center;
-}
-.all_page{
-    width: 50px;
-    text-align: center;
-}
 .rank_tittle{
     background: url(../picture/rank_headbg.jpg) no-repeat center;
     background-size:cover;

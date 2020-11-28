@@ -5,6 +5,9 @@ import cn.xy.novelwebproject.bean.Msg;
 import cn.xy.novelwebproject.bean.Reader;
 import cn.xy.novelwebproject.service.ReaderService;
 import cn.xy.novelwebproject.service.ReaderServiceImp;
+import cn.xy.novelwebproject.utils.JedisUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +37,7 @@ public class ReaderController {
 		@Autowired
 		private ReaderService readerService;
 		private Logger logger = LoggerFactory.getLogger(ReaderServiceImp.class);
-		
+
 		@RequestMapping("getusermsg")
 		public String getReaderAllMsg(HttpServletRequest request) {
 				//从session获取用户名
@@ -294,5 +298,54 @@ public class ReaderController {
 				}
 				logger.info("addBookMark:"+msg);
 				return msg;
+		}
+
+		/**
+		 * 获取阅读记录
+		* */
+		@RequestMapping("userrecord")
+		@ResponseBody
+		public Object getReadRecord(String username,Integer currentPage,Integer pageSize){
+				Jedis jedis = JedisUtils.getConnect();
+				Map<String, String> map = null;
+				List<String> list = null;
+				if (currentPage == null) {
+						currentPage = 1;
+				}
+				if (pageSize == null) {
+						pageSize = 10;
+				}
+
+				logger.info("getReadRecord currentPage="+currentPage+"   pageSize="+pageSize);
+				if (username!=null&&!"".equals(username)){
+						String key = "history:"+username;
+						if (!jedis.exists(key)){
+								return null;
+						}else {
+								map = jedis.hgetAll(key);
+								Collection<String> values = map.values();
+								list = new ArrayList<>(values);
+						}
+				}
+				PageHelper.startPage(currentPage, pageSize);
+				PageInfo<String> pi = new PageInfo<>();
+
+				pi.setTotal(list.size()); // 总量
+				int size = list.size()-pageSize*currentPage<=0?list.size()-(pageSize*(currentPage-1)):pageSize;
+				pi.setSize(size);//设置当前页数据量
+				pi.setPageSize(pageSize);// 每页条数
+				pi.setPrePage(currentPage - 1 == 0 ? 1 : currentPage - 1); // 上一页
+
+				int pageNums = list.size() % pageSize == 0 ? list.size() / pageSize : Double.valueOf(list.size() / pageSize).intValue() + 1; // 总页数
+				pi.setPageNum(currentPage); // 当前页
+				pi.setPages(pageNums); // 总页数
+				pi.setNextPage(pageNums == currentPage ? pageNums : currentPage + 1); // 下一页
+
+				//获取list指定区间数据
+				list = list.subList((currentPage-1)*pageSize,(currentPage-1)*pageSize+size);
+
+				pi.setList(list);
+				logger.info("getReadRecord pageInfo:"+pi);
+				return pi;
 		}
 }

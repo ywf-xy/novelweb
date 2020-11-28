@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -10,6 +9,7 @@
 		      type="image/x-icon"/>
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/base.css"/>
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/kehuan.css"/>
+		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/utils/list_bar.css"/>
 		<script src="${pageContext.request.contextPath}/static/js/jquery-3.4.1.js" type="text/javascript"
 		        charset="utf-8"></script>
 		<script src="/wfRead/static/js/kehuan.js" type="text/javascript"

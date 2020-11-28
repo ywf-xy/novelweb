@@ -1,0 +1,80 @@
+.box-tools{
+    width: 480px;
+    float: right;
+}
+.pagination{
+    display: inline-block;
+    margin-left: 0px;
+    border-radius: 4px;
+    margin-bottom: 0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+#content_list{
+    display: contents;
+}
+.pagination li{
+    display: inline;
+    line-height: 20px;
+    color: #0088cc;
+}
+.pagination li a{
+    padding: 11px 3px;
+    font-size: 17.5px;
+    float: left;
+    line-height: 20px;
+    text-decoration: none;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-left-width: 0;
+}
+.pull-left{
+    width: 290px;
+    float: left;
+    height: 40px;
+    line-height: 20px;
+    margin-top: 10px;
+    text-align: right;
+    font-size: 20px;
+}
+.paginate_button a{
+    width: 46px;
+}
+
+.page_nav{
+    width: 100%;
+    float: left;
+}
+.page_nav_content{
+    overflow: hidden;
+}
+.page_nav_list{
+    margin-left: 90.5px;
+    width: auto;
+    float: left;
+}
+.page_nav_list li{
+    display: inline-block;
+    padding: 2px 8px;
+    border: 1px solid #c5ddf5;
+}
+.page_nav_list li a{
+    cursor: pointer;
+}
+li .active_page{
+    color: #51ccff;
+}
+.page_opt{
+    float: left;
+    margin-left: 5px;
+    margin-bottom: 16px;
+    margin-top: 16px;
+    padding-top: 2px;
+}
+.current_page{
+    width: 50px;
+    text-align: center;
+}
+.all_page{
+    width: 50px;
+    text-align: center;
+}

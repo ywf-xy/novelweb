@@ -14,6 +14,7 @@ ul{
 	float: left;
 	overflow: hidden;
 	background-color:#e9faff ;
+    min-height: 520px;
 }
 .box_con{
 	width: 980px;
@@ -112,4 +113,7 @@ ul{
     border-bottom: 1px solid dodgerblue;
     margin-top: 1px;
     float: left;
+}
+#content{
+    min-height: 250px;
 }
